@@ -81,17 +81,15 @@ export PATH=$HOME/:$PATH
 mkdir out
 
 ARGS='
--C $(pwd) O=$(pwd)/out
-CC=$HOME/Toolchains_by_Google/clang-10.0/bin/clang
-CROSS_COMPILE=$HOME/Toolchains_by_Google/aarch64-4.9/bin/aarch64-linux-android-
+CC=/home/ravindu/Desktop/toolchain/google/clang-10.0/bin/clang
+CROSS_COMPILE=/home/ravindu/Desktop/toolchain/google/aarch64-4.9/bin/aarch64-linux-android-
 CLANG_TRIPLE=aarch64-linux-gnu-
 ARCH=arm64
 '
-
-make ${ARGS} clean && make ${ARGS} mrproper #To clean the source before compiling
-make ${ARGS} YOUR_DEFCONFIG
-make ${ARGS} menuconfig #To edit our kernel configuration as we want in a GUI way
-make ${ARGS} -j16 #to compile the kernel
+make -C $(pwd) O=$(pwd)/out ${ARGS} clean && make ${ARGS} mrproper
+make -C $(pwd) O=$(pwd)/out ${ARGS} a52q_eur_open_defconfig
+make -C $(pwd) O=$(pwd)/out ${ARGS} menuconfig
+make -C $(pwd) O=$(pwd)/out ${ARGS} -j16
 ```
 - **❗If your Device is Samsung Exynos, It does't supports the compiling kernel in a separate directory. So, the code must be like this :**
 ```
