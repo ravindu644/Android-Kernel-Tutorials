@@ -59,6 +59,9 @@ git clone https://github.com/ravindu644/Toolchains_by_Google.git
 cd ~
 git clone https://github.com/ravindu644/Toolchains_for_Snapdragon.git
 ```
+- Or, If you prefer Proton clang to compile the kernel (Qualcomm and Mediatek), Jump to this Guide : [Click here](additional-guides/proton.md)
+<hr>
+
 **Notes : (Samsung exynos specific)** If your device is exynos, Open the **"README_Kernel.txt"** and download the toolchains by Googling the values for "```CC```" and "```CROSS_COMPILE```". You can find them easily from the Google Opensource or github.
 - For an Example :
   <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/c06fdc3f-536b-47b8-927f-f3ce23b43890" width="75%">
