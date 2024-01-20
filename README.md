@@ -3,7 +3,7 @@
 ---
 
 **What You'll Need:**
-A Working 🧠, PC/RDP with any Linux GUI distro, Knowledge of basic commands in Linux.
+A Working 🧠, PC/RDP with any Linux GUI distro, Knowledge of basic commands in Linux, Understanding of English.
 
 #### Additional Notes:
 
