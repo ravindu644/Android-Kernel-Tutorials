@@ -17,12 +17,12 @@ sudo apt install default-jdk git-core gnupg flex bison gperf build-essential zip
 <br>❗The video Guide for this tutorial can be found here : Open in YouTube </h3>
 <br>
 ### Quick Links :
-01. ✅ [Downloading Part. (Only for samsung)](https://github.com/ravindu644/APatch/blob/guides/docs/guides/kernel_compilation/README.md#--downloading-part-only-for-samsung)
-02. ✅ [Compiling Part (Universal for any device).](https://github.com/ravindu644/APatch/blob/guides/docs/guides/kernel_compilation/README.md#--compiling-part-universal-for-any-device)
-03. ✅ [(❗ Samsung Specific) How to disable kernel securities from the menuconfig..?](https://github.com/ravindu644/APatch/blob/guides/docs/guides/kernel_compilation/README.md#--samsung-specific-how-to-disable-kernel-securities-from-the-menuconfig)
-04. ✅ [How to make your kernel supports with APatch..?](https://github.com/ravindu644/APatch/blob/guides/docs/guides/kernel_compilation/README.md#-how-to-make-your-kernel-supports-with-apatch)
-05. ✅ [Compilation Process.](https://github.com/ravindu644/APatch/blob/guides/docs/guides/kernel_compilation/README.md#-compilation-process)
-06. ✅ [(FINAL) How to put the compiled kernel, inside our boot.img..?](https://github.com/ravindu644/APatch/blob/guides/docs/guides/kernel_compilation/README.md#-final-how-to-put-the-compiled-kernel-inside-our-bootimg)
+01. ✅ [Downloading Part. (Only for samsung)](https://github.com/ravindu644/Android-Kernel-Tutorials#--downloading-part-only-for-samsung)
+02. ✅ [Compiling Part (Universal for any device).](https://github.com/ravindu644/Android-Kernel-Tutorials#--compiling-part-universal-for-any-device)
+03. ✅ [(❗ Samsung Specific) How to disable kernel securities from the menuconfig..?](https://github.com/ravindu644/Android-Kernel-Tutorials#--samsung-specific-how-to-disable-kernel-securities-from-the-menuconfig)
+04. ✅ [How to make your kernel supports with APatch..?](https://github.com/ravindu644/Android-Kernel-Tutorials#-how-to-make-your-kernel-supports-with-apatch)
+05. ✅ [Compilation Process.](https://github.com/ravindu644/Android-Kernel-Tutorials#-compilation-process)
+06. ✅ [(FINAL) How to put the compiled kernel, inside our boot.img..?](https://github.com/ravindu644/Android-Kernel-Tutorials#-final-how-to-put-the-compiled-kernel-inside-our-bootimg)
 
 <hr>
 <h2> ✅ Downloading Part. (Only for samsung)</h2>
