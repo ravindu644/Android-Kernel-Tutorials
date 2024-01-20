@@ -54,6 +54,11 @@ tar xvf Kernel.tar.gz; rm Kernel.tar.gz
 cd ~
 git clone https://github.com/ravindu644/Toolchains_by_Google.git
 ```
+- Or, If you prefer Qualcomm's own compilers rather than Google's, you can clone them using this command :
+```
+cd ~
+git clone https://github.com/ravindu644/Toolchains_for_Snapdragon.git
+```
 **Notes : (Samsung exynos specific)** If your device is exynos, Open the **"README_Kernel.txt"** and download the toolchains by Googling the values for "```CC```" and "```CROSS_COMPILE```". You can find them easily from the Google Opensource or github.
 - For an Example :
   <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/c06fdc3f-536b-47b8-927f-f3ce23b43890" width="75%">
@@ -129,8 +134,9 @@ make ${ARGS} -j16 #to compile the kernel
 ### Our build script must looks like this, after making the changes: (This is an example.)
   <img src="https://github.com/ravindu644/APatch/assets/126038496/c0533f93-867f-4d21-8782-8b33b904d68f" width="80%">
   
-### 03. Use this commit to fix "symbol versioning failure for gsi_write_channel_scratch" error. (it's an universal error for all the snapdragon kernel sources)
-- https://github.com/ravindu644/android_kernel_samsung_sm_a525f/commit/0cc860c380b3b35a5cd4db039b8c3fd03db7c771
+### 03.❗ Bug fixing in the Kernel Source.  (These are the universal errors for all the snapdragon kernel sources)
+- To fix the "symbol versioning failure for gsi_write_channel_scratch" error : [Click here](https://github.com/ravindu644/android_kernel_samsung_sm_a525f/commit/0cc860c380b3b35a5cd4db039b8c3fd03db7c771)
+- Also, you will faced an error called ```scripts/gcc-version.sh: line 25: aarch64-linux-gnu-gcc: command not found``` if you used the Google's compilers, You can fix them too using this commit : [Click here](https://android.googlesource.com/kernel/msm/+/9b3a54e388fae0fcc5ea64a4c612936baae44fce%5E%21/)
 
 ## Now we finished setting up the basic configurations for kernel compilation.
 
