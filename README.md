@@ -45,7 +45,7 @@ tar xvf Kernel.tar.gz; rm Kernel.tar.gz
 <h2> ✅ Compiling Part (Universal for any device).</h2>
 <hr>
 
-### 01. After downloadidng or cloning the Kernel Source, We must make a Script to compile our kernel.
+### 01. After downloading or cloning the Kernel Source, We must make a Script to compile our kernel.
 
 - Before making a build script, we must download compilers to build the kernel.
 - if you own a **Snapdragon/Mediatek device**, I recommend you to use Google's Compilers.
