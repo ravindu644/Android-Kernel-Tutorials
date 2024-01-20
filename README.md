@@ -93,7 +93,7 @@ make ${ARGS} YOUR_DEFCONFIG
 make ${ARGS} menuconfig #To edit our kernel configuration as we want in a GUI way
 make ${ARGS} -j16 #to compile the kernel
 ```
-- **❗If your Device is Samsung Exynos, It don't supports the compiling kernel in a separate directory. So, the code must be like this :**
+- **❗If your Device is Samsung Exynos, It does't supports the compiling kernel in a separate directory. So, the code must be like this :**
 ```
 #!/bin/bash
 clear
