@@ -62,7 +62,33 @@ git clone https://github.com/ravindu644/Toolchains_by_Google.git
 ```
 touch build.sh
 ```
-- Open the newly created ```build.sh``` and make that file looks like this : (Edit the variables as you like)
+- Open the newly created ```build.sh``` and make that file looks like this : **(⚠️ This code is only for Snapdragon and Mediatek devices and not for Exynos)**
+- **The reason for that is**, Snapdragon and Mediatek kernel sources only supported to compile to a seperated directory called "out".
+- Here's the code : ⬇️
+```
+#!/bin/bash
+clear
+export ARCH=arm64
+export PLATFORM_VERSION=13
+export ANDROID_MAJOR_VERSION=t
+ln -s /usr/bin/python2.7 $HOME/python
+export PATH=$HOME/:$PATH
+mkdir out
+
+ARGS='
+-C $(pwd) O=$(pwd)/out
+CC=$HOME/Toolchains_by_Google/clang-10.0/bin/clang
+CROSS_COMPILE=$HOME/Toolchains_by_Google/aarch64-4.9/bin/aarch64-linux-android-
+CLANG_TRIPLE=aarch64-linux-gnu-
+ARCH=arm64
+'
+
+make ${ARGS} clean && make ${ARGS} mrproper #To clean the source before compiling
+make ${ARGS} YOUR_DEFCONFIG
+make ${ARGS} menuconfig #To edit our kernel configuration as we want in a GUI way
+make ${ARGS} -j16 #to compile the kernel
+```
+- **❗If your Device is Samsung Exynos, It don't supports the compiling kernel in a separate directory. So, the code must be like this :**
 ```
 #!/bin/bash
 clear
