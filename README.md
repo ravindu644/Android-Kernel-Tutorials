@@ -89,10 +89,10 @@ CROSS_COMPILE=$HOME/Toolchains_for_Snapdragon/aarch64-linux-android-4.9/bin/aarc
 CLANG_TRIPLE=aarch64-linux-gnu-
 ARCH=arm64
 '
-make -C $(pwd) O=$(pwd)/out ${ARGS} clean && make ${ARGS} mrproper
-make -C $(pwd) O=$(pwd)/out ${ARGS} a52q_eur_open_defconfig
-make -C $(pwd) O=$(pwd)/out ${ARGS} menuconfig
-make -C $(pwd) O=$(pwd)/out ${ARGS} -j16
+make -C $(pwd) O=$(pwd)/out ${ARGS} clean && make -C $(pwd) O=$(pwd)/out ${ARGS} mrproper #to clean the source
+make -C $(pwd) O=$(pwd)/out ${ARGS} a52q_eur_open_defconfig #making your current kernel config
+make -C $(pwd) O=$(pwd)/out ${ARGS} menuconfig #editing the kernel config via gui
+make -C $(pwd) O=$(pwd)/out ${ARGS} -j16 #to compile the kernel
 ```
 - **❗If your Device is Samsung Exynos, It does't supports the compiling kernel in a separate directory. So, the code must be like this :**
 ```
@@ -111,9 +111,9 @@ CLANG_TRIPLE=aarch64-linux-gnu-
 ARCH=arm64
 '
 
-make ${ARGS} clean && make ${ARGS} mrproper #To clean the source before compiling
-make ${ARGS} YOUR_DEFCONFIG
-make ${ARGS} menuconfig #To edit our kernel configuration as we want in a GUI way
+make ${ARGS} clean && make ${ARGS} mrproper #to clean the source
+make ${ARGS} YOUR_DEFCONFIG #making your current kernel config
+make ${ARGS} menuconfig #editing the kernel config via gui
 make ${ARGS} -j16 #to compile the kernel
 ```
 <hr>
