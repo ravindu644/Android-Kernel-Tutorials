@@ -84,8 +84,8 @@ export PATH=$HOME/:$PATH
 mkdir out
 
 ARGS='
-CC=/home/ravindu/Desktop/toolchain/google/clang-10.0/bin/clang
-CROSS_COMPILE=/home/ravindu/Desktop/toolchain/google/aarch64-4.9/bin/aarch64-linux-android-
+CC=$HOME/Toolchains_for_Snapdragon/llvm-arm-toolchain-ship-10.0/bin/clang
+CROSS_COMPILE=$HOME/Toolchains_for_Snapdragon/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 CLANG_TRIPLE=aarch64-linux-gnu-
 ARCH=arm64
 '
@@ -105,8 +105,8 @@ ln -s /usr/bin/python2.7 $HOME/python
 export PATH=$HOME/:$PATH
 
 ARGS='
-CC=$HOME/Toolchains_by_Google/clang-10.0/bin/clang
-CROSS_COMPILE=$HOME/Toolchains_by_Google/aarch64-4.9/bin/aarch64-linux-android-
+CC=$HOME/path/to/clang/bin/clang
+CROSS_COMPILE=$HOME/path/to/gcc/bin/aarch64-linux-android-
 CLANG_TRIPLE=aarch64-linux-gnu-
 ARCH=arm64
 '
