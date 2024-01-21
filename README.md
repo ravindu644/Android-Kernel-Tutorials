@@ -187,8 +187,8 @@ make ${ARGS} -j16 #to compile the kernel
 ### 03. ```→ General setup → Configure standard kernel features (expert users)``` => Enable everything except "```sgetmask/ssetmask syscalls support``` and ```Sysctl syscall support```"
 - Image : <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/8927d898-d3ef-471a-8f68-bbe418068565" width="75%">
 ### 04. ```→ Enable loadable module support``` => Enable "```Forced module loading```", "```Module unloading```", "```Forced module unloading```", "```Module versioning support```" and disable others.
-- Image : <br><br><img src="https://github.com/ravindu644/Android-Kernel-Tutorials/assets/126038496/865ddeca-88de-484d-8f99-922b439e0e7c" width="75%">
-**Additional Notes :** To force load the vendor/system modules in some devices, use this commit (⚠️ This fixes various hardware related issues after installing a custom kernel) - [Click here](https://github.com/rama982/kernel_common/commit/d5e8b83f0c5eee4e2f8c6d9888cc56d03f2615fb)
+- Image : <br><br><img src="https://github.com/ravindu644/Android-Kernel-Tutorials/assets/126038496/865ddeca-88de-484d-8f99-922b439e0e7c" width="75%"><br><br>
+**❗Additional Notes :** To force load the vendor/system modules in some devices, use this commit (⚠️ This fixes various hardware related issues after installing a custom kernel) - [Click here](https://github.com/rama982/kernel_common/commit/d5e8b83f0c5eee4e2f8c6d9888cc56d03f2615fb)
 
 ### 05. ```→ Boot options``` => enable "```Build a concatenated Image.gz/dtb by default```" and "```Kernel compression method (Build compressed kernel image)```"  ---> "```(X) Build compressed kernel image```"
 - Image : <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/3c7704a7-ea16-4bee-a0bf-6ecd0424f2b7" width="75%">
