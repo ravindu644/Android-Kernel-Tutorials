@@ -84,13 +84,13 @@ export PATH=$HOME/:$PATH
 mkdir out
 
 ARGS='
-CC=$HOME/Toolchains_for_Snapdragon/llvm-arm-toolchain-ship-10.0/bin/clang
-CROSS_COMPILE=$HOME/Toolchains_for_Snapdragon/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+CC=$HOME/Toolchains_by_Google/clang-10.0/bin/clang
+CROSS_COMPILE=$HOME/Toolchains_by_Google/aarch64-4.9/bin/aarch64-linux-android-
 CLANG_TRIPLE=aarch64-linux-gnu-
 ARCH=arm64
 '
 make -C $(pwd) O=$(pwd)/out ${ARGS} clean && make -C $(pwd) O=$(pwd)/out ${ARGS} mrproper #to clean the source
-make -C $(pwd) O=$(pwd)/out ${ARGS} a52q_eur_open_defconfig #making your current kernel config
+make -C $(pwd) O=$(pwd)/out ${ARGS} YOUR_DEFCONFIG #making your current kernel config
 make -C $(pwd) O=$(pwd)/out ${ARGS} menuconfig #editing the kernel config via gui
 make -C $(pwd) O=$(pwd)/out ${ARGS} -j16 #to compile the kernel
 ```
@@ -202,7 +202,7 @@ make ${ARGS} -j16 #to compile the kernel
 ### 07. Exit and Save the config.
 - When you see "```configuration written```", stop the compilation process with ```Ctrl+C``` and replace the content of ".config" with your desired defconfig.
 ### 08. Compile using ```./build.sh``` --> Skip the menuconfig and wait until the compilation finishes..!
-- ℹ️ **The compiled kernel** will be located at arch/arm64/boot.
+- ℹ️ **The compiled kernel** will be located at out/arch/arm64/boot.
 <hr>
 
 #### Notes:
@@ -224,8 +224,8 @@ make ${ARGS} -j16 #to compile the kernel
 # Notes :
 - If your split_img has a boot.img-dtb + Uncompressed Kernel => Use "Image".
 - If your split_img has a boot.img-dtb + GZIP compressed Kernel => Use "Image.gz".
-- If your split_img don't has a boot.img-dtb + uncompressed Kernel => Use "Image.gz-dtb".
-- If your split_img don't has a boot.img-dtb + GZIP compressed Kernel => Use "Image.gz-dtb.gz".
+- If your split_img don't has a boot.img-dtb + uncompressed Kernel => Use "Image-dtb". (if your out/arm64/boot folder don't have such a file, use Image instead)
+- If your split_img don't has a boot.img-dtb + GZIP compressed Kernel => Use "Image.gz-dtb".
 <hr>
 
 ### 03. Choose the required kernel as I mentioned above > Rename it to "```boot.img-kernel```" and copy and replace it with the ```boot.img-kernel```, which is in the split_img folder.
