@@ -32,10 +32,15 @@ OBJDUMP=llvm-objdump
 STRIP=llvm-strip
 ARCH=arm64
 "
-make -j8 -C $(pwd) O=$(pwd)/out ${ARGS} clean && make -j8 -C $(pwd) O=$(pwd)/out ${ARGS} mrproper
-make -j8 -C $(pwd) O=$(pwd)/out ${ARGS} YOUR_DEFCONFIG
-make -j8 -C $(pwd) O=$(pwd)/out ${ARGS} menuconfig
-make -j8 -C $(pwd) O=$(pwd)/out ${ARGS}
+make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS} clean && make -j8 -C $(pwd) O=$(pwd)/out ${ARGS} mrproper
+make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS} YOUR_DEFCONFIG
+make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS} menuconfig
+make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS}
+
+#to copy all the kernel modules (.ko) to "modules" folder.
+mkdir -p modules
+find . -type f -name "*.ko" -exec cp -n {} modules \;
+echo "Module files copied to the 'modules' folder."
 ```
 <hr>
 
