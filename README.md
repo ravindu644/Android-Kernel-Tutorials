@@ -92,7 +92,12 @@ ARCH=arm64
 make -C $(pwd) O=$(pwd)/out ${ARGS} clean && make -C $(pwd) O=$(pwd)/out ${ARGS} mrproper #to clean the source
 make -C $(pwd) O=$(pwd)/out ${ARGS} YOUR_DEFCONFIG #making your current kernel config
 make -C $(pwd) O=$(pwd)/out ${ARGS} menuconfig #editing the kernel config via gui
-make -C $(pwd) O=$(pwd)/out ${ARGS} -j16 #to compile the kernel
+make -C $(pwd) O=$(pwd)/out ${ARGS} -j$(nproc) #to compile the kernel
+
+#to copy all the kernel modules (.ko) to "modules" folder.
+mkdir -p modules
+find . -type f -name "*.ko" -exec cp -n {} modules \;
+echo "Module files copied to the 'modules' folder."
 ```
 - **❗If your Device is Samsung Exynos, It does't supports the compiling kernel in a separate directory. So, the code must be like this :**
 ```
@@ -114,7 +119,12 @@ ARCH=arm64
 make ${ARGS} clean && make ${ARGS} mrproper #to clean the source
 make ${ARGS} YOUR_DEFCONFIG #making your current kernel config
 make ${ARGS} menuconfig #editing the kernel config via gui
-make ${ARGS} -j16 #to compile the kernel
+make ${ARGS} -j$(nproc) #to compile the kernel
+
+#to copy all the kernel modules (.ko) to "modules" folder.
+mkdir -p modules
+find . -type f -name "*.ko" -exec cp -n {} modules \;
+echo "Module files copied to the 'modules' folder."
 ```
 <hr>
 
