@@ -33,7 +33,7 @@ sudo apt install default-jdk git-core gnupg flex bison gperf build-essential zip
 
 ### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command.
 ```
-tar xvf Kernel.tar.gz; rm Kernel.tar.gz
+tar -xvf Kernel.tar.gz; rm Kernel.tar.gz
 ```
 #### Additional note : If your Kernel source's folders are locked like this, you can change the entire folder's permissions to read and write.
 - Problem : <br><img src="https://github.com/ravindu644/APatch/assets/126038496/11565943-f329-4782-b7e9-0f0d0b8ee2fd" width="55%">
