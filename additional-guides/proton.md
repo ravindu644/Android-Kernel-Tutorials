@@ -43,6 +43,7 @@ OBJSIZE=llvm-size
 STRIP=llvm-strip
 LLVM_AR=llvm-ar
 LLVM_DIS=llvm-dis
+CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 "
 make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS} clean && make -j8 -C $(pwd) O=$(pwd)/out ${ARGS} mrproper
 make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS} YOUR_DEFCONFIG
