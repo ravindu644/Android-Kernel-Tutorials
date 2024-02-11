@@ -20,12 +20,12 @@ chmod +x  build_proton.sh
 ```
 ### 03. Open ```build_proton.sh``` and enter this code :
 ```
+#!/bin/bash
 export ARCH=arm64
 export PLATFORM_VERSION=13
 export ANDROID_MAJOR_VERSION=t
-export PATH="$HOME/proton-clang/bin:$PATH" #path to proton
 ln -s /usr/bin/python2.7 $HOME/python
-export PATH=$HOME/:$HOME/toolchain/proton-clang-12/bin:$PATH
+export PATH=$HOME/:$HOME/proton-clang/bin:$PATH #path to proton
 mkdir out
 clear
 
