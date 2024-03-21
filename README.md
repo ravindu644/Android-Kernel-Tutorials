@@ -1,4 +1,8 @@
-# How to Compile the Kernel for APatch for Unsupported Devices..?
+<h1> How to Compile the Kernel for <s>APatch</s> for Unsupported Devices..? </h1>
+
+```
+Screw APatch..🤡 Learn something new from here..❤️
+```
 
 ---
 
