@@ -1,3 +1,7 @@
+```
+Note : This guide is outdated af. I'm planning to write a new guide at the end of the year 2024.
+```
+
 <h1> How to Compile the Kernel for <s>APatch</s> for Unsupported Devices..? </h1>
 
 ```
