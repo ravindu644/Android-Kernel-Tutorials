@@ -4,11 +4,15 @@
 
 01. **Linux 4.9:** [proton-12](https://github.com/ravindu644/proton-12.git), [linaro-aarch64-7.5](https://kali.download/nethunter-images/toolchains/linaro-aarch64-7.5.tar.xz)
 
+    - Tested on Linux 4.9.227 - 4.9.309
+
     - Usage: [here](https://github.com/ravindu644/kernel_samsung_a01/blob/0239d1e7970a506f0e57e2e6bd416a666ab46d9d/build.sh#L11)
 
 02. **Linux 4.14:**
 
-    - **One UI with Knox (S10/N10 series):** [clang-4639204-cfp-jopp](https://github.com/ravindu644/samsung_exynos9820_stock/tree/stable/toolchain/clang/host/linux-x86/clang-4639204-cfp-jopp), [gcc-cfp-jopp-only/aarch64-linux-android-4.9](https://github.com/ravindu644/samsung_exynos9820_stock/tree/stable/toolchain/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9)
+    - **One UI with Knox:** [clang-4639204-cfp-jopp](https://github.com/ravindu644/samsung_exynos9820_stock/tree/stable/toolchain/clang/host/linux-x86/clang-4639204-cfp-jopp), [gcc-cfp-jopp-only/aarch64-linux-android-4.9](https://github.com/ravindu644/samsung_exynos9820_stock/tree/stable/toolchain/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9)
+
+        - Tested on Linux 4.14.113
 
         - Usage: [here](https://github.com/ravindu644/samsung_exynos9820_stock/blob/b5e453e4ae7bd58ad5a92d2077dee7a15d72134c/build.sh#L60)
 
@@ -16,4 +20,16 @@
 
     - **AOSP Based Kernels (lineage):** [neutron-clang](https://github.com/Neutron-Toolchains/antman), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
 
+        - Tested on Linux 4.14.355
+
         - Usage: [here](https://github.com/ravindu644/android_kernel_aosp_exynos9820/blob/36bb690483a22463d2d77e0431a1f19663c5a53e/build.sh#L46)
+
+03. **Linux 4.19:**
+
+    1. Tested on Linux 4.19.191: [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz), [clang-r383902](https://android.googlesource.com/platform//prebuilts/clang/host/linux-x86/+archive/3857008389202edac32d57008bb8c99d2c957f9d/clang-r383902.tar.gz)
+    
+        - Usage: [here](https://github.com/ravindu644/A346E_5G_Kernel/blob/1b05453c4d2d2b03634cd64e7c81eb5aa2b7512f/build_kernel.sh#L17)
+
+    2. Tested on Linux 4.19.198: [clang-r353983c](https://github.com/ravindu644/android_kernel_a047f_eur/tree/sus/toolchain/clang/host/linux-x86/clang-r353983c), [aarch64-linux-android-4.9](https://github.com/ravindu644/android_kernel_a047f_eur/tree/sus/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9)
+
+        - Usage: [here](https://github.com/ravindu644/android_kernel_a047f_eur/blob/45ba5ede76bb5ba920445e410ba62344b1e9d878/build.sh#L17)
