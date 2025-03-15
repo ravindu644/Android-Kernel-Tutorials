@@ -54,16 +54,20 @@ chmod +755 -R /path/to/extracted/kernel/
 <hr>
 
 - **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos.
+
 <h2> ✅ Compiling Part (Universal for any device).</h2>
-<hr>
 
-### 01. After downloading or cloning the Kernel Source, We must make a Script to compile our kernel.
+### 01. After downloading or cloning the Kernel Source, we must have a build script to compile our kernel.
 
-- Before making a build script, we must download compilers to build the kernel.
+- Before creating a build script, we must determine the compatible compilers we will use to build our kernel.
 
-- You can find full information about **finding the correct compiler for your kernel version** from [here](./toolchains/) (based on my experience btw)
+- Run ```make kernelversion``` inside the kernel root to check your kernel version.
 
-- After that, go to [build_scripts](./build_scripts/), choose the right script, download it, and put it inside your kernel's root directory.
+- You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
+
+- Next, go to [build_scripts](./build_scripts/), choose the appropriate script, download it, and place it inside your kernel's root directory.
+
+- Keep in mind that **you don't need to manually download any of these** since my build scripts handle everything for you :)
 
 - **❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, [edit your build script like this](./patches/001.nuke_out.patch)**
 
