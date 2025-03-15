@@ -133,15 +133,25 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <hr>
 
-### 04. Now, grant the executable permissions to ```build.sh``` using this command.
+### 03. Now, grant the executable permissions to ```build_xxxx.sh``` using this command.
   ```
-  chmod +x build.sh
+  chmod +x build_xxxx.sh
   ```
-### 05. Finally, run the build script using this command :
+### 04. Finally, run the build script using this command :
   ```
-./build.sh
+./build_xxxx.sh
 ```
-## After a couple of seconds, the "menuconfig" should appear.
+
+<img src="./screenshots/8.png">
+
+- When you run the script for the first time, it will begin to install all the necessary dependencies and start downloading the required toolchains, depending on your kernel version.
+
+- Make sure not to interrupt the first run. If it gets interrupted somehow, delete the `toolchains` folder from "~/" and try again: ```rm -rf ~/toolchains```
+
+<img src="./screenshots/9.png">
+
+## After the initial run is completed, the kernel should start building, and the "menuconfig" should appear.
+
 - Additional notes : Press space bar to enable/disable or enable as a module <M>.
 <hr>
 
