@@ -161,6 +161,8 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ## After the initial run is completed, the kernel should start building, and the "menuconfig" should appear.
 
+<img src="./screenshots/10.png">
+
 - Additional notes : Press space bar to enable/disable or enable as a module <M>.
 <hr>
 
