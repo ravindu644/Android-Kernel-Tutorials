@@ -67,6 +67,15 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos.
 
+## ✅ Understanding the ```Kernel root```
+
+<img src="./screenshots/6.png">
+
+- As you can see in the above screenshot, it's the Linux kernel source code.
+- It must have those folders, **highlighted in blue in the terminal.**
+- **In GKI kernels,** the kernel root is located in a folder named "common".
+
+
 <h2> ✅ Compiling Part (Universal for any device).</h2>
 
 ### 01. After downloading or cloning the Kernel Source, we must have a build script to compile our kernel.
