@@ -40,7 +40,7 @@ libelf-dev pahole libssl-dev -y
 <hr>
 
 ### 01. Download the kernel source from the [Samsung Opensource]( https://opensource.samsung.com/main).
-<img src="https://github.com/ravindu644/APatch/assets/126038496/aad04d45-e1b3-4baf-a8e0-2ef27d7dae55" width="45%">
+<img src="./screenshots/1.png" width="45%">
 
 ### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command.
 ```
