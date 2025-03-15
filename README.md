@@ -118,8 +118,17 @@ chmod +755 -R /path/to/extracted/kernel/
 <hr>
 
 ### Notes :
-- Replace ```your_defconfig``` to your current defconfig which is located in ```arch/arm64/configs```
-- In GKI kernels, it is ```gki_defconfig```
+- Replace `your_defconfig` to your current defconfig which is located in `arch/arm64/configs` In GKI kernels, it's normally `gki_defconfig`
+
+- But just in case, make sure to check `arch/arm64/configs` or `arch/arm64/configs/vendor`
+
+- If your defconfig is located in the `arch/arm64/configs` directory, just replace `your_defconfig` with the name of your defconfig.
+
+- If your defconfig is located in the `arch/arm64/configs/vendor` directory, replace `your_defconfig` like this:
+  
+  - `vendor/name_of_the_defconfig`
+  - Example patch: [here](./patches/005.edit-defconfig.patch)
+
 
 ### 02. Edit the Makefile.
 
