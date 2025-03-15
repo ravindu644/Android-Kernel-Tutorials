@@ -44,11 +44,15 @@ libelf-dev pahole libssl-dev -y
 
 ### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command.
 ```
-tar -xvf Kernel.tar.gz; rm Kernel.tar.gz
+tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 ```
-#### Additional note : If your Kernel source's folders are locked like this, you can change the entire folder's permissions to read and write.
-- Problem : <br><img src="https://github.com/ravindu644/APatch/assets/126038496/11565943-f329-4782-b7e9-0f0d0b8ee2fd" width="55%">
-- Solution : <br><img src="https://github.com/ravindu644/APatch/assets/126038496/8d975f38-ea65-458c-b0f3-0544c3b4303b" width="45%">
+**Note:** It's a good idea to give the entire kernel directory 755 permissions to avoid any issues when editing files and upstreaming the kernel.
+
+**Do it this way:**
+
+```
+chmod +755 -R /path/to/extracted/kernel/
+```
 
 <hr>
 
