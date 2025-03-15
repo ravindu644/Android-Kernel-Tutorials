@@ -133,16 +133,6 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <hr>
 
-### Our build script must looks like this, after making the changes: (This is an example.)
-  <img src="https://github.com/ravindu644/APatch/assets/126038496/c0533f93-867f-4d21-8782-8b33b904d68f" width="80%">
-  
-### 03.❗ Bug fixing in the Kernel Source.  (These are the universal errors for all the snapdragon kernel sources)
-- To fix the "symbol versioning failure for gsi_write_channel_scratch" error : [Click here](https://github.com/ravindu644/android_kernel_samsung_sm_a525f/commit/0cc860c380b3b35a5cd4db039b8c3fd03db7c771)
-- Also, you will faced an error called ```scripts/gcc-version.sh: line 25: aarch64-linux-gnu-gcc: command not found``` if you used the Google's compilers, You can fix them too using this commit : [Click here](https://android.googlesource.com/kernel/msm/+/9b3a54e388fae0fcc5ea64a4c612936baae44fce%5E%21/)
-- To force load the vendor modules in some devices (Universal) ⚠️ (This fixes various hardware related issues after installing a custom kernel) - [Click here](https://github.com/rama982/kernel_common/commit/d5e8b83f0c5eee4e2f8c6d9888cc56d03f2615fb)
-
-## Now we finished setting up the basic configurations for kernel compilation.
-
 ### 04. Now, grant the executable permissions to ```build.sh``` using this command.
   ```
   chmod +x build.sh
