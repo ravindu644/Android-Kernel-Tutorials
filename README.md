@@ -109,6 +109,8 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - Next, go to [build_scripts](./build_scripts/), choose the appropriate script, download it, and place it inside your kernel's root directory.
 
+<img src="./screenshots/7.png">
+
 - Keep in mind that **you don't need to manually download any of these** since my build scripts handle everything for you :)
 
 - **❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, [edit your build script like this](./patches/001.nuke_out.patch)**
@@ -117,6 +119,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ### Notes :
 - Replace ```your_defconfig``` to your current defconfig which is located in ```arch/arm64/configs```
+- In GKI kernels, it is ```gki_defconfig```
 
 ### 02. Edit the Makefile.
 
