@@ -1,0 +1,19 @@
+commit 8bb6d7bde85a90ef18b7605c55b2c1f6e0b7cdcb
+Author: Ravindu Deshan <Droidcasts@protonmail.com>
+Date:   Sun Aug 4 19:06:55 2024 +0000
+
+    fix -fstack-protector-strong not supported by compiler
+
+diff --git a/Makefile b/Makefile
+index e8d4a4d52..8463c2517 100755
+--- a/Makefile
++++ b/Makefile
+@@ -803,7 +803,7 @@ ifdef CONFIG_CC_STACKPROTECTOR_REGULAR
+   stackp-flag := -fstack-protector
+   stackp-name := REGULAR
+ else
+-ifdef CONFIG_CC_STACKPROTECTOR_STRONG
++ifdef CONFIG_CC_STACKPROTECTOR_NONE
+   stackp-flag := -fstack-protector-strong
+   stackp-name := STRONG
+ else
