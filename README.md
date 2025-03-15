@@ -75,6 +75,21 @@ chmod +755 -R /path/to/extracted/kernel/
 - It must have those folders, **highlighted in blue in the terminal.**
 - **In GKI kernels,** the kernel root is located in a folder named "common".
 
+## ✅ Understanding ```non-GKI``` & ```GKI kernels```
+```
++-------------------------------------+
+|       Android Kernel Versions       |
++-------------------------------------+
+|       non-GKI       |      GKI      |
++---------------------+---------------+
+|         3.10        |      5.4      |
+|         3.18        |      5.10     |
+|         4.4         |      5.15     |
+|         4.9         |      6.1      |
+|         4.14        |               |
+|         4.19        |               |
++---------------------+---------------+
+```
 
 <h2> ✅ Compiling Part (Universal for any device).</h2>
 
