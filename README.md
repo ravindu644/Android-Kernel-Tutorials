@@ -75,6 +75,10 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - Run ```make kernelversion``` inside the kernel root to check your kernel version.
 
+<img src="./screenshots/5.png">
+
+- In my case, the kernel version is **5.4**
+
 - You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
 
 - Next, go to [build_scripts](./build_scripts/), choose the appropriate script, download it, and place it inside your kernel's root directory.
