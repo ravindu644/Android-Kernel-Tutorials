@@ -70,18 +70,19 @@ chmod +755 -R /path/to/extracted/kernel/
 <hr>
 
 ### Notes :
-- Edit the ```PLATFORM_VERSION``` value to your Android version.
-- Edit the ```ANDROID_MAJOR_VERSION``` value to your Android version's codename.
-- Edit ```CC``` value with the path to the clang's \[bin folder]/clang.
-- Edit ```CROSS_COMPILE``` value with the path to the GCC's \[bin folder]/aarch64-linux-android-
-- Replace ```YOUR_DEFCONFIG``` to your current defconfig which is located in arch/arm64/configs.
+- Replace ```your_defconfig``` to your current defconfig which is located in ```arch/arm64/configs```
+
 ### 02. Edit the Makefile.
-- if you found these variables : ```CROSS_COMPILE```, ```REAL_CC``` or ```CC```, ```CFP_CC``` in your "makefile" ; remove them from the "Makefile"
-- search "wrapper" in your makefile. If there's a line related to a python file, remove that entire line/function too.
+
+- If you find these variables: ```REAL_CC``` or ```CFP_CC``` in your "Makefile", remove them from the "Makefile", then Search for "wrapper" in your Makefile. If there's a line related to a Python file, remove that entire line/function as well.
+
+    - Example patch of removing the wrapper: [click here](./patches/004.remove_gcc%20wrapper.patch)
+
 - Search ```CONFIG_CC_STACKPROTECTOR_STRONG``` and replace it with ```CONFIG_CC_STACKPROTECTOR_NONE```
 
-<hr>
+    - Example patch of fix -fstack-protector-strong not supported by compiler: [click here](./patches/003.fix_fstack-protector-strong-not-supported-by-compiler.patch)
 
+<hr>
 
 ### Our build script must looks like this, after making the changes: (This is an example.)
   <img src="https://github.com/ravindu644/APatch/assets/126038496/c0533f93-867f-4d21-8782-8b33b904d68f" width="80%">
