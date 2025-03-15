@@ -63,66 +63,50 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - You can find full information about **finding the correct compiler for your kernel version** from [here](./toolchains/) (based on my experience btw)
 
-- After that, Open the terminal from your Kernel source's folder and create a new file called ```build.sh``` using this command :
-```
-touch build.sh
-```
-- Open the newly created ```build.sh``` and make that file looks like this : **(⚠️ This code is only for Snapdragon and Mediatek devices and not for Exynos)**
-- **The reason for that is**, Snapdragon and Mediatek kernel sources only supported to compile to a seperated directory called "out".
-- Here's the code : ⬇️
-```
-#!/bin/bash
-clear
-export ARCH=arm64
-export PLATFORM_VERSION=13
-export ANDROID_MAJOR_VERSION=t
-ln -s /usr/bin/python2.7 $HOME/python
-export PATH=$HOME/:$PATH
-mkdir out
+- After that, go to [build_scripts](./build_scripts/), choose the right script, download it, and put it inside your kernel's root directory.
 
-ARGS='
-CC=$HOME/Toolchains_by_Google/clang-10.0/bin/clang
-CROSS_COMPILE=$HOME/Toolchains_by_Google/aarch64-4.9/bin/aarch64-linux-android-
-CLANG_TRIPLE=aarch64-linux-gnu-
-ARCH=arm64
-'
-make -C $(pwd) O=$(pwd)/out ${ARGS} clean && make -C $(pwd) O=$(pwd)/out ${ARGS} mrproper #to clean the source
-make -C $(pwd) O=$(pwd)/out ${ARGS} YOUR_DEFCONFIG #making your current kernel config
-make -C $(pwd) O=$(pwd)/out ${ARGS} menuconfig #editing the kernel config via gui
-make -C $(pwd) O=$(pwd)/out ${ARGS} -j$(nproc) #to compile the kernel
+- **❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separate directory. So, edit your build script like this:**
 
-#to copy all the kernel modules (.ko) to "modules" folder.
-mkdir -p modules
-find . -type f -name "*.ko" -exec cp -n {} modules \;
-echo "Module files copied to the 'modules' folder."
+```diff
+commit 8e4d926fd0621f40b10c504ab2681416a61d9ad1
+Author: Ravindu Deshan <droidcasts@protonmail.com>
+Date:   Sat Mar 15 14:28:53 2025 +0530
+
+    nuke out
+
+diff --git a/build_5.15.sh b/build_5.15.sh
+index 765c697..e230740 100755
+--- a/build_5.15.sh
++++ b/build_5.15.sh
+@@ -15,7 +15,7 @@ if [ ! -f ".requirements" ]; then
+ fi
+ 
+ # Create necessary directories
+-mkdir -p "${RDIR}/out" "${RDIR}/build" "${HOME}/toolchains"
++mkdir -p "${RDIR}/build" "${HOME}/toolchains"
+ 
+ #init neutron-clang
+ if [ ! -d "${HOME}/toolchains/neutron-clang" ]; then
+@@ -45,8 +45,6 @@ export BUILD_CC="${HOME}/toolchains/neutron-clang/bin/clang"
+ 
+ # Build options for the kernel
+ export BUILD_OPTIONS="
+--C ${RDIR} \
+-O=${RDIR}/out \
+ -j$(nproc) \
+ ARCH=arm64 \
+ CROSS_COMPILE=${BUILD_CROSS_COMPILE} \
+@@ -76,7 +74,7 @@ build_kernel(){
+     make ${BUILD_OPTIONS} Image || exit 1
+ 
+     # Copy the built kernel to the build directory
+-    cp "${RDIR}/out/arch/arm64/boot/Image" "${RDIR}/build"
++    cp "${RDIR}/arch/arm64/boot/Image" "${RDIR}/build"
+ 
+     echo -e "\n[INFO]: BUILD FINISHED..!"
+ }
 ```
-- **❗If your Device is Samsung Exynos, It does't supports the compiling kernel in a separate directory. So, the code must be like this :**
-```
-#!/bin/bash
-clear
-export ARCH=arm64
-export PLATFORM_VERSION=13
-export ANDROID_MAJOR_VERSION=t
-ln -s /usr/bin/python2.7 $HOME/python
-export PATH=$HOME/:$PATH
 
-ARGS='
-CC=$HOME/path/to/clang/bin/clang
-CROSS_COMPILE=$HOME/path/to/gcc/bin/aarch64-linux-android-
-CLANG_TRIPLE=aarch64-linux-gnu-
-ARCH=arm64
-'
-
-make ${ARGS} clean && make ${ARGS} mrproper #to clean the source
-make ${ARGS} YOUR_DEFCONFIG #making your current kernel config
-make ${ARGS} menuconfig #editing the kernel config via gui
-make ${ARGS} -j$(nproc) #to compile the kernel
-
-#to copy all the kernel modules (.ko) to "modules" folder.
-mkdir -p modules
-find . -type f -name "*.ko" -exec cp -n {} modules \;
-echo "Module files copied to the 'modules' folder."
-```
 <hr>
 
 ### Notes :
