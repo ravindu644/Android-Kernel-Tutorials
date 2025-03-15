@@ -30,6 +30,11 @@
     
         - Usage: [here](https://github.com/ravindu644/A346E_5G_Kernel/blob/1b05453c4d2d2b03634cd64e7c81eb5aa2b7512f/build_kernel.sh#L17)
 
-    2. Tested on Linux 4.19.198: [clang-r353983c](https://github.com/ravindu644/android_kernel_a047f_eur/tree/sus/toolchain/clang/host/linux-x86/clang-r353983c), [aarch64-linux-android-4.9](https://github.com/ravindu644/android_kernel_a047f_eur/tree/sus/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9)
+    2. Tested on Linux 4.19.198: [clang-r353983c](https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/emu-29.0-release/clang-r353983c.tar.gz), [aarch64-linux-android-4.9](https://github.com/ravindu644/android_kernel_a047f_eur/tree/sus/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9)
 
         - Usage: [here](https://github.com/ravindu644/android_kernel_a047f_eur/blob/45ba5ede76bb5ba920445e410ba62344b1e9d878/build.sh#L17)
+
+04. **Linux 5.10:** [clang-r416183b](https://android.googlesource.com/platform//prebuilts/clang/host/linux-x86/+archive/b669748458572622ed716407611633c5415da25c/clang-r416183b.tar.gz), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
+
+    - Tested on 5.10.198
+    - Usage: [here](https://github.com/ravindu644/android_kernel_s23fe/blob/6413302587aa865a16bc04a9a835479ce3a4beee/build_kernel.sh#L15)
