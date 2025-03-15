@@ -42,13 +42,22 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 ```
 tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 ```
-**Note:** It's a good idea to give the entire kernel directory 755 permissions to avoid any issues when editing files and upstreaming the kernel.
+
+<img src="./screenshots/2.png">
+
+**Note:** It's a good idea to give the entire kernel directory 755 permissions to remove those 🔒 from the files and folders, preventing any issues when editing files and upstreaming the kernel.
 
 **Do it this way:**
 
 ```
 chmod +755 -R /path/to/extracted/kernel/
 ```
+
+**Before:**
+<img src="./screenshots/3.png">
+
+**After:**
+<img src="./screenshots/4.png">
 
 **The following video demonstrates all the steps mentioned above:** 
 
