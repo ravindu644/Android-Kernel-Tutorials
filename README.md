@@ -63,25 +63,10 @@ chmod +755 -R /path/to/extracted/kernel/
 ### 01. After downloading or cloning the Kernel Source, We must make a Script to compile our kernel.
 
 - Before making a build script, we must download compilers to build the kernel.
-- if you own a **Snapdragon/Mediatek device**, I recommend you to use Google's Compilers.
-- You can clone them using this command : **(❗only for every Snapdragon/Mediatek devices from any OEM)**
-```
-cd ~
-git clone https://github.com/ravindu644/Toolchains_by_Google.git
-```
-- Or, If you prefer Qualcomm's own compilers rather than Google's, you can clone them using this command :
-```
-cd ~
-git clone https://github.com/ravindu644/Toolchains_for_Snapdragon.git
-```
-- Or, If you prefer Proton clang to compile the kernel (Qualcomm and Mediatek), Jump to this Guide : [Click here](additional-guides/proton.md)
-<hr>
 
-**Notes : (Samsung exynos specific)** If your device is exynos, Open the **"README_Kernel.txt"** and download the toolchains by Googling the values for "```CC```" and "```CROSS_COMPILE```". You can find them easily from the Google Opensource or github.
-- For an Example :
-  <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/c06fdc3f-536b-47b8-927f-f3ce23b43890" width="75%">
+- You can find full information about **finding the correct compiler for your kernel version** from [here](./toolchains/) (based on my experience btw)
 
-- Now, Open the terminal from your Kernel source's folder and create a new file called ```build.sh``` using this command :
+- After that, Open the terminal from your Kernel source's folder and create a new file called ```build.sh``` using this command :
 ```
 touch build.sh
 ```
