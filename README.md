@@ -25,12 +25,14 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 <br>
 
 ### Quick Links :
-01. ✅ [Downloading Part. (Only for samsung)](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--downloading-part-only-for-samsung)
-02. ✅ [Compiling Part (Universal for any device).](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--compiling-part-universal-for-any-device)
-03. ✅ [(❗ Samsung Specific) How to disable kernel securities from the menuconfig..?](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--samsung-specific-how-to-disable-kernel-securities-from-the-menuconfig)
-04. ✅ [How to make your kernel supports with APatch..?](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-how-to-make-your-kernel-supports-with-apatch)
-05. ✅ [Compilation Process.](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-compilation-process)
-06. ✅ [(FINAL) How to put the compiled kernel, inside our boot.img..?](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-final-how-to-put-the-compiled-kernel-inside-our-bootimg)
+01. ✅ [Downloading Part (Only for samsung)](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--downloading-part-only-for-samsung)
+02. ✅ [Understanding the Kernel root](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-the-kernel-root)
+03. ✅ [Understanding non-GKI & GKI kernels](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-non-gki--gki-kernels)
+04. ✅ [Compiling Part (Universal for any device).](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--compiling-part-universal-for-any-device)
+05. ✅ [(❗ Samsung Specific) How to disable kernel securities from the menuconfig..?](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--samsung-specific-how-to-disable-kernel-securities-from-the-menuconfig)
+06. ✅ [How to make your kernel supports with APatch..?](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-how-to-make-your-kernel-supports-with-apatch)
+07. ✅ [Compilation Process.](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-compilation-process)
+08. ✅ [(FINAL) How to put the compiled kernel, inside our boot.img..?](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-final-how-to-put-the-compiled-kernel-inside-our-bootimg)
 
 <hr>
 <h2> ✅ Downloading Part. (Only for samsung)</h2>
@@ -101,7 +103,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <img src="./screenshots/5.png">
 
-- In my case, the kernel version is **5.4**
+- In my case, the kernel version is **5.4,** which is [GKI](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-non-gki--gki-kernels).
 
 - You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
 
