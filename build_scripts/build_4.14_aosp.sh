@@ -44,7 +44,7 @@ export BUILD_CROSS_COMPILE="${HOME}/toolchains/gcc/arm-gnu-toolchain-14.2.rel1-x
 export BUILD_CC="${HOME}/toolchains/neutron-clang/bin/clang"
 
 # Build options for the kernel
-export ARGS="
+export BUILD_OPTIONS="
 -C ${RDIR} \
 O=${RDIR}/out \
 -j$(nproc) \
@@ -52,6 +52,17 @@ ARCH=arm64 \
 CROSS_COMPILE=${BUILD_CROSS_COMPILE} \
 CC=${BUILD_CC} \
 CLANG_TRIPLE=aarch64-linux-gnu- \
+LLVM=1 \
+LLVM_IAS=1 \
+AR=${HOME}/toolchains/neutron-clang/bin/llvm-ar \
+NM=${HOME}/toolchains/neutron-clang/bin/llvm-nm \
+LD=${HOME}/toolchains/neutron-clang/bin/ld.lld \
+STRIP=${HOME}/toolchains/neutron-clang/bin/llvm-strip \
+OBJCOPY=${HOME}/toolchains/neutron-clang/bin/llvm-objcopy \
+OBJDUMP=${HOME}/toolchains/neutron-clang/bin/llvm-objdump \
+READELF=${HOME}/toolchains/neutron-clang/bin/llvm-readelf \
+HOSTCC=${HOME}/toolchains/neutron-clang/bin/clang \
+HOSTCXX=${HOME}/toolchains/neutron-clang/bin/clang++ \
 "
 
 build_kernel(){
