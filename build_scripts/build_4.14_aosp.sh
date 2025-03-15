@@ -18,33 +18,38 @@ fi
 # Create necessary directories
 mkdir -p "${RDIR}/out" "${RDIR}/build" "${HOME}/toolchains"
 
-# Clone proton clang 12 if not already done
-if [ ! -d "${HOME}/toolchains/proton-12" ]; then
-    git clone --depth=1 https://github.com/ravindu644/proton-12.git "${HOME}/toolchains/proton-12" 
+#init neutron-clang
+if [ ! -d "${HOME}/toolchains/neutron-clang" ]; then
+    echo -e "\n[INFO] Cloning Neutron-Clang Toolchain\n"
+    mkdir -p "${HOME}/toolchains/neutron-clang" && cd "${HOME}/toolchains/neutron-clang"
+    curl -LO "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman" && chmod +x antman
+    bash antman -S && bash antman --patch=glibc
+    cd "${RDIR}"
 fi
 
-# Download and extract Linaro 7.5 if not already done
-if [ ! -d "${HOME}/toolchains/aarch64-linaro-7.5" ]; then
-    cd "${HOME}/toolchains" && wget https://kali.download/nethunter-images/toolchains/linaro-aarch64-7.5.tar.xz
-    tar -xvf linaro-aarch64-7.5.tar.xz && rm linaro-aarch64-7.5.tar.xz
+#init arm gnu toolchain
+if [ ! -d "${HOME}/toolchains/gcc" ]; then
+    echo -e "\n[INFO] Cloning ARM GNU Toolchain\n"
+    mkdir -p "${HOME}/toolchains/gcc" && cd "${HOME}/toolchains/gcc"
+    curl -LO "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz"
+    tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz
     cd "${RDIR}"
 fi
 
 # Export toolchain paths
-export PATH="${PATH}:${HOME}/toolchains/proton-12/bin"
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/toolchains/proton-12/lib"
+export PATH="${PATH}:${HOME}/toolchains/neutron-clang/bin"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/toolchains/neutron-clang/lib"
 
 # Set cross-compile environment variables
-export BUILD_CROSS_COMPILE="${HOME}/toolchains/aarch64-linaro-7.5/bin/aarch64-linux-gnu-"
-export BUILD_CC="${HOME}/toolchains/proton-12/bin/clang"
+export BUILD_CROSS_COMPILE="${HOME}/toolchains/gcc/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-"
+export BUILD_CC="${HOME}/toolchains/neutron-clang/bin/clang"
 
 # Build options for the kernel
-export BUILD_OPTIONS="
--j$(nproc) \
+export ARGS="
 -C ${RDIR} \
 O=${RDIR}/out \
+-j$(nproc) \
 ARCH=arm64 \
-DTC_EXT=${RDIR}/tools/dtc \
 CROSS_COMPILE=${BUILD_CROSS_COMPILE} \
 CC=${BUILD_CC} \
 CLANG_TRIPLE=aarch64-linux-gnu- \
