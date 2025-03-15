@@ -11,7 +11,7 @@ A Working 🧠, PC/RDP with any Linux GUI distro, Knowledge of basic commands in
 
 #### Additional Notes:
 
-- If you're feeling a bit lazy to install a Linux distro, you can also use [Gitpod](https://gitpod.io/workspaces). Keep in mind, though, it might be more challenging.
+- If you're feeling a bit lazy to install a Linux distro, you can also use [Gitpod](https://gitpod.io/workspaces). Keep in mind, though, it might be more challenging for noobs who don't know how to use a command line interface.
 - Mediatek users, read [this](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main/toolchains#additional-notes).
 - If you have a **GKI Samsung kernel**, you should use the "common" kernel for building your kernel, and the build steps are the same as for a non-GKI kernel. [Refer to this for an idea](https://github.com/ravindu644/android_kernel_m145f_common).
 	
