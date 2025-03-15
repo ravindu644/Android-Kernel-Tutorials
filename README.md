@@ -34,7 +34,6 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 
 <hr>
 <h2> ✅ Downloading Part. (Only for samsung)</h2>
-<hr>
 
 ### 01. Download the kernel source from the [Samsung Opensource]( https://opensource.samsung.com/main).
 <img src="./screenshots/1.png">
@@ -50,6 +49,12 @@ tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 ```
 chmod +755 -R /path/to/extracted/kernel/
 ```
+
+**The following video demonstrates all the steps mentioned above:**
+
+<video controls width="600">
+  <source src="./videos/1.mp4" type="video/mp4">
+</video>
 
 <hr>
 
