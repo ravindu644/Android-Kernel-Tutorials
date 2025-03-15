@@ -24,8 +24,9 @@ python3 make sudo gcc g++ bc grep tofrodos python3-markdown libxml2-utils xsltpr
 zlib1g-dev python-is-python3 libc6-dev libtinfo6 make repo cpio kmod openssl \
 libelf-dev pahole libssl-dev -y
 ```
-<br>❗The video Guide for this tutorial can be found here : Open in YouTube </h3>
+<br>❗The video Guide for this tutorial can be found here : Open in <a href="https://t.me/SamsungTweaks/137">Telegram</a> </h3>
 <br>
+
 ### Quick Links :
 01. ✅ [Downloading Part. (Only for samsung)](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--downloading-part-only-for-samsung)
 02. ✅ [Compiling Part (Universal for any device).](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--compiling-part-universal-for-any-device)
