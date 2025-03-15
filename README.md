@@ -12,7 +12,7 @@ A Working 🧠, PC/RDP with any Linux GUI distro, Knowledge of basic commands in
 #### Additional Notes:
 
 - If you're feeling a bit lazy to install a Linux distro, you can also use [Gitpod](https://gitpod.io/workspaces). Keep in mind, though, it might be more challenging.
-- I'm not sure compiled kernels will work on MediaTek devices because their kernel sources are missing some drivers for MTK.
+- Mediatek users, read [this](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main/toolchains#additional-notes).
 - Also, if you have a most recent Samsung device, building should be hard because of the new GKI kernels.
 	
 ### Requirements for compiling kernels : (Paste this in terminal.)
