@@ -52,7 +52,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 **The following video demonstrates all the steps mentioned above:** 
 
-[🎥 Extracting Samsung's Kernel.tar.gz & granting required permissions](./videos/1.mp4)
+[🎥 Extracting Samsung's Kernel.tar.gz & granting required permissions](https://www.youtube.com/watch?v=QLymPkTpC2Y)
 
 <hr>
 
