@@ -6,8 +6,7 @@ Screw APatch..🤡 Learn something new from here..❤️
 
 ---
 
-**What You'll Need:**
-A Working 🧠, PC/RDP with any Linux GUI distro, Knowledge of basic commands in Linux, Understanding of English.
+**What You'll Need:** A working 🧠, PC/RDP/Server with any Ubuntu/Debian-based distro, knowledge of basic commands in Linux, and Bash/Shell script knowledge, along with an understanding of English.
 
 #### Additional Notes:
 
