@@ -14,7 +14,6 @@ if [ ! -f ".requirements" ]; then
         make repo cpio kmod openssl libelf-dev pahole libssl-dev --fix-missing && wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb && sudo dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb && touch .requirements
 fi
 
-
 # Create necessary directories
 mkdir -p "${RDIR}/out" "${RDIR}/build" "${HOME}/toolchains"
 
