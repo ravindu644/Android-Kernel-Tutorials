@@ -50,11 +50,9 @@ tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 chmod +755 -R /path/to/extracted/kernel/
 ```
 
-**The following video demonstrates all the steps mentioned above:**
+**The following video demonstrates all the steps mentioned above:** 
 
-<video controls width="600">
-  <source src="https://github.com/ravindu644/Android-Kernel-Tutorials/raw/refs/heads/main/videos/1.mp4" type="video/mp4">
-</video>
+[🎥 Extracting Samsung's Kernel.tar.gz & granting required permissions](./videos/1.mp4)
 
 <hr>
 
