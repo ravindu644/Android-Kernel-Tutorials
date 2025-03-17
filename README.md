@@ -266,4 +266,4 @@ tar cvf "DEVICE NAME (APatch Support).tar" boot.img
 - Proof : <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/f0dd204d-e398-4ce1-9897-96e6a51b5673" width="75%">
 <hr>
 
-## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks) and [@APatchChannel](https://t.me/APatchChannel) | Sharing this without proper credit is not allowed..❗
+## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
