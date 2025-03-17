@@ -48,12 +48,12 @@
 
 - to-do
 
-#### 5. **GKI 1.0 Kernels (Linux 5.10):** [clang-r416183b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r416183b.tar.gz), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
+#### 5. Linux 5.10:** [clang-r416183b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r416183b.tar.gz), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
 
 - Tested on Linux 5.10.198
 - Usage: [here](https://github.com/ravindu644/android_kernel_s23fe/blob/6413302587aa865a16bc04a9a835479ce3a4beee/build_kernel.sh#L15)
 
-#### 6. **GKI 2.0 Kernels (Linux 5.15, Linux 6.1 etc):** [neutron-clang](https://github.com/Neutron-Toolchains/antman), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
+#### 6. **Other GKI 2.0 Kernels (Linux 5.15, Linux 6.1 etc):** [neutron-clang](https://github.com/Neutron-Toolchains/antman), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
 
 - Tested on Linux 5.15.123 - 5.15.149
 - Usage: [here](https://github.com/ravindu644/android_kernel_m145f_common/blob/c3a3a4ab9df28005200fa516f1a8ed9913bf50d6/build.sh#L27)
