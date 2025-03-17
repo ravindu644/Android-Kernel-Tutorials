@@ -60,4 +60,6 @@
 
 #### **Additional Notes:** 
 
-- In MediaTek Kernels, you must use *arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu* toolchain alongside a proper Clang compiler to make the kernel boot :)
+- In MediaTek Kernels, you must use [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz) toolchain alongside a proper Clang compiler to make the kernel boot :)
+
+    - Reference: [here](https://github.com/ravindu644/android_kernel_a042f/blob/a04e/build_kernel.sh)
