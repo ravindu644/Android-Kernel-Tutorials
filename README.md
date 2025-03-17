@@ -77,7 +77,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos.
 
-## ✅ Understanding ```non-GKI``` & ```GKI kernels```
+## ✅ Understanding `non-GKI`, `qGKI` & `GKI kernels`
 ```
 +--------------------------------------------------------------+
 |                   Android Kernel Versions                    |
