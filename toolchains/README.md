@@ -22,16 +22,18 @@
 
 #### 2. **Linux 4.14:**
 
-1. Tested on 4.14.113 [One UI with Knox]: [clang-4639204-cfp-jopp](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-4639204-cfp-jopp.tar.gz), [gcc-cfp-jopp-only/aarch64-linux-android-4.9](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/gcc-cfp-jopp-only.tar.gz)
+1. **Common 4.14 (For other devices like realme):** to-do
 
-    - Tested on Linux 4.14.113
+2. **Samsung with Knox:** [clang-4639204-cfp-jopp](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-4639204-cfp-jopp.tar.gz), [gcc-cfp-jopp-only/aarch64-linux-android-4.9](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/gcc-cfp-jopp-only.tar.gz)
+
+    - Tested on Linux 4.14.113 (Galaxy S10x)
     - Usage: [here](https://github.com/ravindu644/samsung_exynos9820_stock/blob/b5e453e4ae7bd58ad5a92d2077dee7a15d72134c/build.sh#L60)
 
-2. **Common 4.14:** [clang-4639204](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-4639204.tar.gz), [aarch64-linux-android-4.9](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/aarch64-linux-android-4.9.tar.gz)
+3. **Samsung without Knox:** [clang-4639204](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-4639204.tar.gz), [aarch64-linux-android-4.9](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/aarch64-linux-android-4.9.tar.gz)
 
-    - Tested on Linux 4.14.113
+    - Tested on Linux 4.14.113 (Galaxy M21)
 
-3. **AOSP Based Kernels (lineage):** [neutron-clang](https://github.com/Neutron-Toolchains/antman), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
+4. **AOSP Based Kernels (lineage):** [neutron-clang](https://github.com/Neutron-Toolchains/antman), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
 
     - Tested on Linux 4.14.355
     - Usage: [here](https://github.com/ravindu644/android_kernel_aosp_exynos9820/blob/36bb690483a22463d2d77e0431a1f19663c5a53e/build.sh#L46)
