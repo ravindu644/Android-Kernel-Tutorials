@@ -73,20 +73,20 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos.
 
-## ✅ Understanding `non-GKI`, `qGKI` & `GKI kernels`
+## ✅ Understanding `non-GKI` & `GKI kernels`
 ```
-+--------------------------------------------------------------+
-|                 Android LTS Kernel Versions                  |
-+--------------------------------------------------------------+
-|       non-GKI       |      qGKI      |  GKI 1.0  |  GKI 2.0  |
-+---------------------+----------------+-----------+-----------+
-|         3.10        |      5.4       |   5.10    |   5.15    |
-|         3.18        |                |   4.19    |   6.1     |
-|         4.4         |                |           |           |
-|         4.9         |                |           |           |
-|         4.14        |                |           |           |
-|         4.19        |                |           |           |
-+---------------------+----------------+-----------+-----------+
++--------------------------------------------------+
+|          Android LTS Kernel Versions             |
++--------------------------------------------------+
+|       non-GKI       |     GKI 1.0    |  GKI 2.0  |
++---------------------+----------------+-----------+
+|         3.10        |       5.4      |   5.10    |
+|         3.18        |                |   5.15    |
+|         4.4         |                |   6.1     |
+|         4.9         |                |   6.6     |
+|         4.14        |                |           |
+|         4.19        |                |           |
++---------------------+----------------+-----------+
 ```
 #### Explanation:
 
@@ -94,25 +94,22 @@ chmod +755 -R /path/to/extracted/kernel/
    - Includes older and heavily customized kernels used in Android devices before the GKI initiative.
    - Versions like **3.10**, **3.18**, **4.4**, **4.9**, **4.14**, and **4.19** are the most common (LTS Kernels).
    - These kernels are **device-specific** and often modified by OEMs (eg: Samsung).
+   - These kernels are deprecated in Android Common Kernel repository.
 
-2. **qGKI (Qualcomm GKI)**:
-   - Qualcomm's implementation of GKI, starting with kernel version **5.4**.
-   - Used in Qualcomm-based devices that adopt GKI but with Qualcomm-specific modifications.
+2. **GKI 1.0**:
+   - Google's first iteration of the Generic Kernel Image, starting with kernel version **5.4**.
+   - **Note:** Some people says that **4.19** is also considered a **GKI 1.0** kernel, as it was used as a transitional kernel in early GKI implementations. But it didn't clear, and more context needed.
+   - A few variants exist for certain SoC, like qGKI (Qualcomm GKI), and mGKI (Mediatek GKI), which is included with some features from that SoC.
 
-3. **GKI 1.0**:
-   - Google's first iteration of the Generic Kernel Image, starting with kernel version **5.10**.
-   - **Note:** In some devices, **4.19** is also considered a **GKI 1.0** kernel, as it was used as a transitional kernel in early GKI implementations.
-
-4. **GKI 2.0**:
-   - Google's second iteration of the Generic Kernel Image, starting with kernel version **5.15**.
-   - Includes newer LTS kernels like **6.1**.
+3. **GKI 2.0**:
+   - Google's second iteration of the Generic Kernel Image, starting with kernel version **5.10**.
+   - Includes newer LTS kernels like **6.6**.
 
 ---
 
 ### Notes:
 - **LTS = Long-Term Support**: These kernels are stable, well-maintained, and receive long-term updates.
 - **GKI = Generic Kernel Image**: A unified kernel framework introduced by Google to standardize the kernel across Android devices.
-- **4.19** is primarily a **non-GKI** kernel but is also used in some **GKI 1.0** implementations as a transitional kernel.
 
 ## ✅ Understanding the ```Kernel root```
 
