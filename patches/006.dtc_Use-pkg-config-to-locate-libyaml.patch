@@ -1,0 +1,43 @@
+commit 17f6647a567d3396064acd9b4e28d70f261cd7ff
+Author: Pavel Modilaynen <pavel.modilaynen@axis.com>
+Date:   Fri Jul 12 13:52:19 2019 +0200
+
+    dtc: Use pkg-config to locate libyaml
+    
+    Using Makefile's wildcard with absolute path to detect
+    the presence of libyaml results in false-positive
+    detection when cross-compiling e.g. in yocto environment.
+    The latter results in build error:
+    | scripts/dtc/yamltree.o: In function `yaml_propval_int':
+    | yamltree.c: undefined reference to `yaml_sequence_start_event_initialize'
+    | yamltree.c: undefined reference to `yaml_emitter_emit'
+    | yamltree.c: undefined reference to `yaml_scalar_event_initialize'
+    ...
+    Use pkg-config to locate libyaml to address this scenario.
+    
+    Signed-off-by: Pavel Modilaynen <pavel.modilaynen@axis.com>
+    [robh: silence stderr]
+    Signed-off-by: Rob Herring <robh@kernel.org>
+
+diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
+index 81c6f5132f12..5dcf10508763 100644
+--- a/scripts/dtc/Makefile
++++ b/scripts/dtc/Makefile
+@@ -11,11 +11,15 @@ dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
+ # Source files need to get at the userspace version of libfdt_env.h to compile
+ HOST_EXTRACFLAGS := -I$(src)/libfdt
+ 
+-ifeq ($(wildcard /usr/include/yaml.h),)
++ifeq ($(shell pkg-config --exists yaml-0.1 2>/dev/null && echo yes),)
++ifneq ($(CHECK_DTBS),)
++$(error dtc needs libyaml for DT schema validation support. \
++	Install the necessary libyaml development package.)
++endif
+ HOST_EXTRACFLAGS += -DNO_YAML
+ else
+ dtc-objs	+= yamltree.o
+-HOSTLDLIBS_dtc	:= -lyaml
++HOSTLDLIBS_dtc	:= $(shell pkg-config yaml-0.1 --libs)
+ endif
+ 
+ # Generated files need one more search path to include headers in source tree
