@@ -1,5 +1,9 @@
 # Toolchains I've Used to Compile Kernels for Various Devices
 
+### How to unpack ?:
+ - Unpack a tar.xz file: `tar -xvf filename.tar.xz`
+ - Unpack a tar.gz file: `tar -xzvf filename.tar.gz`
+
 #### 1. **Linux 4.9:** 
 
 1. Tested on 4.9.227-309: [proton-12](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/proton-12.tar.gz), [linaro-aarch64-7.5](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/linaro-aarch64-7.5.tar.xz)
