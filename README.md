@@ -103,7 +103,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 3. **GKI 2.0**:
    - Google's second iteration of the Generic Kernel Image, starting with kernel version **5.10**.
-   - Includes newer LTS kernels like **6.6**.
+   - Includes newer LTS kernel like **6.6**.
 
 ---
 
@@ -131,7 +131,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <img src="./screenshots/5.png">
 
-- In my case, the kernel version is **5.4,** which is [qGKI](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-non-gki-qgki--gki-kernels).
+- In my case, the kernel version is **5.4,** with qualcomm chipset, which is [qGKI](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-non-gki-qgki--gki-kernels).
 
 - You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
 
