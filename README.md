@@ -178,6 +178,8 @@ chmod +755 -R /path/to/extracted/kernel/
 - Additional notes : Press space bar to enable/disable or enable as a module <M>.
 <hr>
 
+## 👇👇👇 outdated guide from here \ 2025.03.17 
+
 ## ✅ (❗ Samsung Specific) How to disable kernel securities from the menuconfig..?
 <hr>
 
