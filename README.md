@@ -20,11 +20,7 @@
 
 - You can also use [Gitpod](https://gitpod.io/workspaces) if you don't want to install a Linux distro.  
   - Keep in mind, though, that it might be more challenging for beginners who are not familiar with the command-line interface.  
-  - Access the terminal from Gitpod and its GUI using [ravindu644/LinuxRDP](https://github.com/ravindu644/LinuxRDP).  
-
-- Mediatek users, read [this](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main/toolchains#additional-notes).
-
-- If you have a **GKI Samsung kernel**, you should use the "common" kernel for building your kernel, and the build steps are the same as for a non-GKI kernel. [Refer to this repo for an idea](https://github.com/ravindu644/android_kernel_m145f_common).
+  - Access the terminal from Gitpod and its GUI using [ravindu644/LinuxRDP](https://github.com/ravindu644/LinuxRDP).
 	
 ### Requirements for compiling kernels : (Paste this in terminal.)
  ```
@@ -81,14 +77,6 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos.
 
-## ✅ Understanding the ```Kernel root```
-
-<img src="./screenshots/6.png">
-
-- As you can see in the above screenshot, it's the Linux kernel source code.
-- It must have those folders, **highlighted in blue in the terminal.**
-- **In GKI kernels,** the kernel root is located in a folder named "common".
-
 ## ✅ Understanding ```non-GKI``` & ```GKI kernels```
 ```
 +-------------------------------------+
@@ -105,6 +93,16 @@ chmod +755 -R /path/to/extracted/kernel/
 +---------------------+---------------+
 ```
 
+## ✅ Understanding the ```Kernel root```
+
+<img src="./screenshots/6.png">
+
+- As you can see in the above screenshot, it's the Linux kernel source code.
+- It must have those folders, **highlighted in blue in the terminal.**
+- **In GKI kernels,** the kernel root is located in a folder named "common".
+
+- If you have a **GKI Samsung kernel**, you should use the "common" kernel instead of "msm-kernel" for building your kernel, and the build steps are the same as for a non-GKI kernel. [Refer to this repo for an idea](https://github.com/ravindu644/android_kernel_m145f_common).
+
 <h2> ✅ Compiling Part (Universal for any device).</h2>
 
 ### 01. After downloading or cloning the Kernel Source, we must have a build script to compile our kernel.
@@ -118,6 +116,8 @@ chmod +755 -R /path/to/extracted/kernel/
 - In my case, the kernel version is **5.4,** which is [GKI](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-non-gki--gki-kernels).
 
 - You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
+
+  - **❗Mediatek users,** read [this](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main/toolchains#additional-notes).
 
 - Next, go to [build_scripts](./build_scripts/), choose the appropriate script, download it, and place it inside your kernel's root directory.
 
