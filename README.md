@@ -22,7 +22,7 @@
   - Keep in mind, though, that it might be more challenging for beginners who are not familiar with the command-line interface.  
   - Access the terminal from Gitpod and its GUI using [ravindu644/LinuxRDP](https://github.com/ravindu644/LinuxRDP).
 	
-### Requirements for compiling kernels : (Paste this in terminal.)
+### Dependencies for compiling kernels : (Paste this in terminal.)
  ```
 sudo apt update && sudo apt install -y git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full android-sdk-libsparse-utils erofs-utils \
 default-jdk git gnupg flex bison gperf build-essential zip curl libc6-dev libncurses-dev libx11-dev libreadline-dev libgl1 libgl1-mesa-dev \
