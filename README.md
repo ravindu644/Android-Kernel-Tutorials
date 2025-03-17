@@ -198,10 +198,17 @@ chmod +755 -R /path/to/extracted/kernel/
 <img src="./screenshots/10.png">
 
 - **Additional notes:**
-    - Press space bar to enable/disable or enable as a module \<M>.
     - You can completely ignore anything displayed as `warning:`
       - Eg: `warning: ignoring unsupported character '`
 <hr>
+
+## ✅ Customizing the Kernel, Enabling Drivers, and More (Temporary Method)
+- Once the *menuconfig* appears, you can navigate through it and customize the Kernel in a graphical way as needed.
+
+- **As an example,** we can customize **the Kernel name, enable new drivers, enable new file systems, disable security features,** and more :)
+
+#### You can navigate the *menuconfig* using the arrow keys (← → ↑ ↓) on your keyboard and press the spacebar to enable/disable or enable as a module `<M>`.  
+
 
 ## 👇👇👇 outdated guide from here \ 2025.03.17 
 
