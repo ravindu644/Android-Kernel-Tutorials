@@ -80,20 +80,43 @@ chmod +755 -R /path/to/extracted/kernel/
 ## ✅ Understanding `non-GKI`, `qGKI` & `GKI kernels`
 ```
 +--------------------------------------------------------------+
-|                   Android Kernel Versions                    |
+|                 Android LTS Kernel Versions                  |
 +--------------------------------------------------------------+
 |       non-GKI       |      qGKI      |  GKI 1.0  |  GKI 2.0  |
 +---------------------+----------------+-----------+-----------+
-|         3.10        |                |           |           |
-|         3.18        |                |           |           |
+|         3.10        |      5.4       |   5.10    |   5.15    |
+|         3.18        |                |   4.19    |   6.1     |
 |         4.4         |                |           |           |
 |         4.9         |                |           |           |
 |         4.14        |                |           |           |
 |         4.19        |                |           |           |
-|                     |      5.4       |    5.10   |    5.15   |
-|                     |                |           |    6.1    |
 +---------------------+----------------+-----------+-----------+
 ```
+#### Explanation:
+
+1. **non-GKI**:
+   - Includes older and heavily customized kernels used in Android devices before the GKI initiative.
+   - Versions like **3.10**, **3.18**, **4.4**, **4.9**, **4.14**, and **4.19** are the most common (LTS Kernels).
+   - These kernels are **device-specific** and often modified by OEMs (eg: Samsung).
+
+2. **qGKI (Qualcomm GKI)**:
+   - Qualcomm's implementation of GKI, starting with kernel version **5.4**.
+   - Used in Qualcomm-based devices that adopt GKI but with Qualcomm-specific modifications.
+
+3. **GKI 1.0**:
+   - Google's first iteration of the Generic Kernel Image, starting with kernel version **5.10**.
+   - **Note:** In some devices, **4.19** is also considered a **GKI 1.0** kernel, as it was used as a transitional kernel in early GKI implementations.
+
+4. **GKI 2.0**:
+   - Google's second iteration of the Generic Kernel Image, starting with kernel version **5.15**.
+   - Includes newer LTS kernels like **6.1**.
+
+---
+
+### Notes:
+- **LTS = Long-Term Support**: These kernels are stable, well-maintained, and receive long-term updates.
+- **GKI = Generic Kernel Image**: A unified kernel framework introduced by Google to standardize the kernel across Android devices.
+- **4.19** is primarily a **non-GKI** kernel but is also used in some **GKI 1.0** implementations as a transitional kernel.
 
 ## ✅ Understanding the ```Kernel root```
 
