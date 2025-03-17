@@ -1,9 +1,20 @@
 # Toolchains I've Used to Compile Kernels for Various Devices
 
-#### 1. **Linux 4.9:** [proton-12](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/proton-12.tar.gz), [linaro-aarch64-7.5](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/linaro-aarch64-7.5.tar.xz)
+#### 1. **Linux 4.9:** 
 
-- Tested on Linux 4.9.227 - 4.9.309
-- Usage: [here](https://github.com/ravindu644/kernel_samsung_a01/blob/0239d1e7970a506f0e57e2e6bd416a666ab46d9d/build.sh#L11)
+1. Tested on 4.9.227-309: [proton-12](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/proton-12.tar.gz), [linaro-aarch64-7.5](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/linaro-aarch64-7.5.tar.xz)
+
+    - Usage: [here](https://github.com/ravindu644/kernel_samsung_a01/blob/0239d1e7970a506f0e57e2e6bd416a666ab46d9d/build.sh#L11)
+
+2. Tested on 4.9.227: [clang-r416183b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r416183b.tar.gz)
+
+    - Additinal notes:
+
+      ```bash
+      CROSS_COMPILE=/path/to/clang/host/linux-x86/clang-r416183b/bin/aarch64-linux-gnu- # check the location of toolchain
+
+      CC=/path/to/clang/host/linux-x86/clang-r416183b/bin/clang # check the location of toolchain
+      ```
 
 #### 2. **Linux 4.14:**
 
