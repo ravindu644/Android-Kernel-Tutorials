@@ -1,18 +1,29 @@
-<h1> How to Compile the Kernel for <s>APatch</s> for Unsupported Devices..? </h1>
+## A Beginner-Friendly Guide to Compiling Your First Android Kernel..!  
 
-```
-Screw APatch..🤡 Learn something new from here..❤️
-```
+**What You'll Learn:**  
 
----
+- Downloading the kernel source for your device (Samsung only)
+- Understanding the kernel root & choosing the right compilers for compilation
+- Customizing the kernel
+- Implementing KernelSU (to-do)
+- Creating a signed boot image from the compiled kernel
 
-**What You'll Need:** A working 🧠, PC/RDP/Server with any Ubuntu/Debian-based distro, knowledge of basic commands in Linux, and Bash/Shell script knowledge, along with an understanding of English.
+**What You'll Need:** 
+- A working 🧠
+- Ubuntu/Debian based PC/Server
+- Knowledge of basic commands in Linux, and Bash/Shell script knowledge
+- Understanding of English.
+- Patience
 
 #### Additional Notes:
 
-- If you're feeling a bit lazy to install a Linux distro, you can also use [Gitpod](https://gitpod.io/workspaces). Keep in mind, though, it might be more challenging for noobs who don't know how to use a command line interface.
+- You can also use [Gitpod](https://gitpod.io/workspaces) if you don't want to install a Linux distro.  
+  - Keep in mind, though, that it might be more challenging for beginners who are not familiar with the command-line interface.  
+  - Access the terminal from Gitpod and its GUI using [ravindu644/LinuxRDP](https://github.com/ravindu644/LinuxRDP).  
+
 - Mediatek users, read [this](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main/toolchains#additional-notes).
-- If you have a **GKI Samsung kernel**, you should use the "common" kernel for building your kernel, and the build steps are the same as for a non-GKI kernel. [Refer to this for an idea](https://github.com/ravindu644/android_kernel_m145f_common).
+
+- If you have a **GKI Samsung kernel**, you should use the "common" kernel for building your kernel, and the build steps are the same as for a non-GKI kernel. [Refer to this repo for an idea](https://github.com/ravindu644/android_kernel_m145f_common).
 	
 ### Requirements for compiling kernels : (Paste this in terminal.)
  ```
