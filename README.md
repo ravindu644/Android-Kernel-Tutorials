@@ -5,6 +5,7 @@
 - Downloading the kernel source for your device (Samsung only)
 - Understanding the kernel root & choosing the right compilers for compilation
 - Customizing the kernel
+- Remove Samsung's anti-root protections.  
 - Implementing KernelSU (to-do)
 - Creating a signed boot image from the compiled kernel
 
