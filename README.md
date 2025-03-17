@@ -99,7 +99,7 @@ chmod +755 -R /path/to/extracted/kernel/
 2. **GKI 1.0**:
    - Google's first iteration of the Generic Kernel Image, starting with kernel version **5.4**.
    - **Note:** Some people says that **4.19** is also considered a **GKI 1.0** kernel, as it was used as a transitional kernel in early GKI implementations. But it didn't clear, and more context needed.
-   - A few variants exist for certain SoC, like qGKI (Qualcomm GKI), and mGKI (Mediatek GKI), which is included with some features from that SoC.
+   - A few variants exist for certain SoC, like qGKI (Qualcomm GKI), and mGKI (Mediatek GKI), and was included with some features from that SoC.
 
 3. **GKI 2.0**:
    - Google's second iteration of the Generic Kernel Image, starting with kernel version **5.10**.
