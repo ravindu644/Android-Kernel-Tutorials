@@ -2,7 +2,7 @@
 
 ### How to unpack ?:
  - Unpack a tar.xz file: `tar -xvf filename.tar.xz`
- - Unpack a tar.gz file: `tar -xzvf filename.tar.gz`
+ - Unpack a tar.gz file: `tar -xvf filename.tar.gz`
 
 #### 1. **Linux 4.9:** 
 
