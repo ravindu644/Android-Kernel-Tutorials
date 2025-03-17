@@ -44,9 +44,9 @@
 2. Tested on Linux 4.19.198: [clang-r353983c](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r353983c.tar.gz), [aarch64-linux-android-4.9](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/aarch64-linux-android-4.9.tar.gz)
    - Usage: [here](https://github.com/ravindu644/android_kernel_a047f_eur/blob/45ba5ede76bb5ba920445e410ba62344b1e9d878/build.sh#L17)
 
-#### 4. qGKI Kernels (Linux 5.4):
+#### 4. Linux 5.4 qGKI: [llvm-arm-toolchain-ship-10.0.9](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/llvm-arm-toolchain-ship-10.0.9.tar.gz), [aarch64-linux-android-4.9-Linux-5.4](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/aarch64-linux-android-4.9-Linux-5.4.tar.gz)
 
-- to-do
+- Tested on Linux 5.4.249
 
 #### 5. Linux 5.10: [clang-r416183b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r416183b.tar.gz), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
 
