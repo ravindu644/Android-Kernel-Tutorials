@@ -205,46 +205,6 @@ chmod +755 -R /path/to/extracted/kernel/
 
 Outdated, don't read. [Moved to here](./samsung-rkp/README.md)
 
-## ✅ Compilation Process.
-<hr>
-
-### 07. Exit and Save the config.
-- When you see "```configuration written```", stop the compilation process with ```Ctrl+C``` and replace the content of ".config" with your desired defconfig.
-### 08. Compile using ```./build.sh``` --> Skip the menuconfig and wait until the compilation finishes..!
-- ℹ️ **The compiled kernel** will be located at out/arch/arm64/boot.
-<hr>
-
-#### Notes:
-
-- If you encounter errors during the compilation process, it's advisable to search for these errors on GitHub and find a solution.
-  
----
-
-## ✅ (FINAL) How to put the compiled kernel, inside our boot.img..?
-<hr>
-
-### 01. Extract the boot.img from the stock ROM/ROM ZIP.  If you are a Samsung user, I prefer https://github.com/ravindu644/Scamsung to do this online.
-	- Use exact build number to download the firmware.
-### 02. Unpack the boot.img using AIK-Linux which can be found in here : https://github.com/ravindu644/AIK-Linux
-- Image : <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/d5fee81a-6768-4848-a4a6-37fec6cb355f" width="70%"><hr>
-## How to check "Which kernel format should I use"..?
-- Kernel without GZIP compression : <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/cb1d0ff3-32cb-4d98-9892-5a00d1922680" width="70%">
-- Kernel <b>with</b> GZIP compression : <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/30ee541e-211c-4a84-971b-f67299ee8793" width="70%"><br><br>
-# Notes :
-- If your split_img has a boot.img-dtb + Uncompressed Kernel => Use "Image".
-- If your split_img has a boot.img-dtb + GZIP compressed Kernel => Use "Image.gz".
-- If your split_img don't has a boot.img-dtb + uncompressed Kernel => Use "Image-dtb". (if your out/arm64/boot folder don't have such a file, use Image instead)
-- If your split_img don't has a boot.img-dtb + GZIP compressed Kernel => Use "Image.gz-dtb".
-<hr>
-
-### 03. Choose the required kernel as I mentioned above > Rename it to "```boot.img-kernel```" and copy and replace it with the ```boot.img-kernel```, which is in the split_img folder.
-### 04. Repack --> rename "image-new.img" to "boot.img" and make a tar file using this command :
-```
-tar cvf "DEVICE NAME (APatch Support).tar" boot.img
-```
-### 05. Flash it using Fastboot/ODIN..!
-### 06. DONE..!
-- Proof : <br><br><img src="https://github.com/ravindu644/APatch/assets/126038496/f0dd204d-e398-4ce1-9897-96e6a51b5673" width="75%">
-<hr>
+Writing in Progress....
 
 ## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
