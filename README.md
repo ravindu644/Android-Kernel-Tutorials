@@ -192,11 +192,18 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <img src="./screenshots/9.png">
 
-## After the initial run is completed, the kernel should start building, and the "menuconfig" should appear.
+### After the initial run is completed, the kernel should start building, 
+
+<img src="./screenshots/11.png">
+
+### and the "menuconfig" should appear.
 
 <img src="./screenshots/10.png">
 
-- Additional notes : Press space bar to enable/disable or enable as a module <M>.
+- **Additional notes:**
+    - Press space bar to enable/disable or enable as a module \<M>.
+    - You can completely ignore anything displayed as `warning:`
+      - Eg: `warning: ignoring unsupported character '`
 <hr>
 
 ## 👇👇👇 outdated guide from here \ 2025.03.17 
