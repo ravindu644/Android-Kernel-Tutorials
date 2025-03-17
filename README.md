@@ -123,7 +123,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <h2> ✅ Compiling Part (Universal for any device).</h2>
 
-### 01. After downloading or cloning the Kernel Source, we must have a build script to compile our kernel.
+### 01. After downloading or cloning the Kernel Source, we should have a build script to compile our kernel.
 
 - Before creating a build script, we must determine the compatible compilers we will use to build our kernel.
 
