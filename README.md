@@ -239,6 +239,22 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <img src="./gif/2.gif">
 
+### 3. Enabling more CPU Governors
+
+- **CPU governors control how the processor adjusts its speed.**
+-  You can choose between performance-focused governors (like "performance" for max speed) or battery-saving ones (like "powersave").
+
+**Enabling more CPU Governors:**
+
+- Located in: `CPU Power Management  ---> CPU Frequency scaling  ---> `
+
+<img src="./gif/3.gif">
+
+**Changing the Default CPU Governor:**
+
+- Located in: `CPU Power Management  ---> CPU Frequency scaling  ---> Default CPUFreq governor (performance)  --->`
+
+<img src="./gif/4.gif">
 
 Writing in Progress....
 
