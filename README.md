@@ -178,11 +178,11 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - **If we didn't export those variables correctly,** the kernel failed to build in my case.
 
-- Don't worry, they usually mention these required variables in their `README_Kernel.txt` or their own `build_kernel.sh`.  
+- Don't worry, they usually mention these required variables in their `README_Kernel.txt` or their own `build_kernel.sh`
 
   <img src="./screenshots/16.png">
 
-**Refer to this patch to properly integrate such variables into our build script:** [here](./patches/007.Define-OEM-Variables.patch)
+**Refer to this example patch to properly integrate such variables into our build script:** [here](./patches/007.Define-OEM-Variables.patch)
 
 **Note:** Just don't overthink it, even if they use values like 12 and S for Platform and Android versions, even if you have a higher Android version.
 
