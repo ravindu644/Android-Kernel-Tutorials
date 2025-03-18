@@ -214,7 +214,7 @@ chmod +755 -R /path/to/extracted/kernel/
       - Eg: `warning: ignoring unsupported character '`
 <hr>
 
-## ✅ Customizing the Kernel, Enabling Drivers, Enabling new File Systems and More (Temporary Method)
+## ✅ Customizing the Kernel (Temporary Method)
 - Once the *menuconfig* appears, you can navigate through it and customize the Kernel in a graphical way as needed.
 
 - **As an example,** we can customize **the Kernel name, enable new drivers, enable new file systems, disable security features,** and more :)
