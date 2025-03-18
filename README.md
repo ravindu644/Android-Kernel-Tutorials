@@ -169,8 +169,24 @@ chmod +755 -R /path/to/extracted/kernel/
 
   <img src="./screenshots/12.png">
 
-- **❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, [edit your build script like this](./patches/001.nuke_out.patch)**  
+**❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, [edit your build script like this](./patches/001.nuke_out.patch)**  
 
+---
+#### ⚠️ [IMPORTANT] : *If your device is Samsung, it usually uses some device-specific variables in "some" kernels lower than GKI 2.0 standards.*
+
+- **As an example,** in the Galaxy S23 FE kernel source code, we can see they used variables called `TARGET_SOC=s5e9925`, `PLATFORM_VERSION=12`, and `ANDROID_MAJOR_VERSION=s`
+
+- **If we didn't export those variables correctly,** the kernel failed to build in my case.
+
+- Don't worry, they usually mention these required variables in their `README_Kernel.txt` or their own `build_kernel.sh`.  
+
+  <img src="./screenshots/16.png">
+
+**Refer to this patch to properly integrate such variables into our build script:** [here](./patches/007.Define-OEM-Variables.patch)
+
+**Note:** Just don't overthink it, even if they use values like 12 and S for Platform and Android versions, even if you have a higher Android version.
+
+---
 
 ### 03. Edit the Makefile.
 
