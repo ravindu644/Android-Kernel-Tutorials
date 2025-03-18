@@ -2,6 +2,9 @@
 
 echo -e "\n[INFO]: BUILD STARTED..!\n"
 
+#init submodules
+git submodule init && git submodule update
+
 export RDIR="$(pwd)"
 export ARCH=arm64
 export KBUILD_BUILD_USER="@ravindu644"
