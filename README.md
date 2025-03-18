@@ -256,6 +256,14 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <img src="./gif/4.gif">
 
+### 3. Enabling more IO Schedulers
+
+- **IO schedulers control how your system handles reading and writing data to storage.**
+- Different schedulers can make your system faster or help it run smoother, depending on what you're doing (like gaming, browsing, or saving battery).
+- Located in: `IO Schedulers  --->`
+
+<img src="./screenshots/15.png">
+
 Writing in Progress....
 
 ## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
