@@ -29,7 +29,7 @@ default-jdk git gnupg flex bison gperf build-essential zip curl libc6-dev libncu
 python3 make sudo gcc g++ bc grep tofrodos python3-markdown libxml2-utils xsltproc zlib1g-dev python-is-python3 libc6-dev libtinfo6 \
 make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd --fix-missing && wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb && sudo dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb
 ```
-<br>❗The video Guide for this tutorial can be found here : Open in <a href="https://t.me/SamsungTweaks/137">Telegram</a> </h3>
+<br>❗The video Guide for this tutorial can be found here (outdated): Open in <a href="https://t.me/SamsungTweaks/137">Telegram</a> </h3>
 <br>
 
 ### Quick Links :
@@ -39,13 +39,15 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 04. ✅ [Compiling Part (Universal for any device).](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--compiling-part-universal-for-any-device)
 
 <hr>
-<h2> ✅ Downloading Part. (Only for samsung)</h2>
+<h2> ✅ Downloading Part (Only for samsung)</h2>
 
-#### 01. Download the kernel source from here: [Samsung Opensource]( https://opensource.samsung.com/main).
+#### 01. Download the kernel source from here: [Samsung Opensource]( https://opensource.samsung.com/main)
+
 <img src="./screenshots/1.png">
 
 #### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command:
-```
+
+```bash
 tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 ```
 
@@ -143,11 +145,12 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <img src="./screenshots/7.png">
 
-- **❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, [edit your build script like this](./patches/001.nuke_out.patch)**
-
 <hr>
 
-### Notes :
+### 02. Edit the Build script:
+
+**Open the build script in a text editor and make these changes:**  
+
 - Replace `your_defconfig` to your current defconfig which is located in `arch/arm64/configs` In GKI kernels, it's normally `gki_defconfig`
 
 - But just in case, make sure to check `arch/arm64/configs` or `arch/arm64/configs/vendor`
@@ -159,8 +162,12 @@ chmod +755 -R /path/to/extracted/kernel/
   - `vendor/name_of_the_defconfig`
   - Example patch: [here](./patches/005.edit-defconfig.patch)
 
+  <img src="./screenshots/12.png">
 
-### 02. Edit the Makefile.
+- **❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, [edit your build script like this](./patches/001.nuke_out.patch)**  
+
+
+### 03. Edit the Makefile.
 
 - If you find these variables: ```REAL_CC``` or ```CFP_CC``` in your "Makefile", remove them from the "Makefile", then Search for "wrapper" in your Makefile. If there's a line related to a Python file, remove that entire line/function as well.
 
