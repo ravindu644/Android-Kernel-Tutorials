@@ -219,14 +219,14 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - **As an example,** we can customize **the Kernel name, enable new drivers, enable new file systems, disable security features,** and more :)
 
-#### You can navigate the *menuconfig* using the arrow keys (← → ↑ ↓) on your keyboard and press the spacebar to enable/disable or enable as a module `<M>`.  
+#### You can navigate the *menuconfig* using the arrow keys (← → ↑ ↓) on your keyboard and press the spacebar to enable/disable or enable as a module `<M>`.
 
+### 1. Changing the Kernel name.
 
-## 👇👇👇 outdated guide from here \ 2025.03.17 
+- Located in: `General setup  ---> Local version - append to kernel release`
 
-## ✅ (❗ Samsung Specific) How to disable kernel securities from the menuconfig..?
+<img src="./gif/1.gif">
 
-Outdated, don't read. [Moved to here](./samsung-rkp/README.md)
 
 Writing in Progress....
 
