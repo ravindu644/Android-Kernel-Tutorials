@@ -73,7 +73,12 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <hr>
 
-- **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos.
+- **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos and clone them using this template:
+
+    ```bash
+    git clone https://github.com/username/repository.git -b branch_name
+    ```
+  <img src="./screenshots/13.png">
 
 ## ✅ Understanding `non-GKI` & `GKI kernels`
 ```
