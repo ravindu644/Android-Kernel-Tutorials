@@ -214,18 +214,24 @@ chmod +755 -R /path/to/extracted/kernel/
       - Eg: `warning: ignoring unsupported character '`
 <hr>
 
-## ✅ Customizing the Kernel, Enabling Drivers, and More (Temporary Method)
+## ✅ Customizing the Kernel, Enabling Drivers, Enabling new File Systems and More (Temporary Method)
 - Once the *menuconfig* appears, you can navigate through it and customize the Kernel in a graphical way as needed.
 
 - **As an example,** we can customize **the Kernel name, enable new drivers, enable new file systems, disable security features,** and more :)
 
-#### You can navigate the *menuconfig* using the arrow keys (← → ↑ ↓) on your keyboard and press the spacebar to enable/disable or enable as a module `<M>`.
+#### You can navigate the *menuconfig* using the arrow keys (← → ↑ ↓) on your keyboard and press `y` to enable, `n` to disable or `m` to enable as a module `<M>`.
 
 ### 1. Changing the Kernel name.
 
 - Located in: `General setup  ---> Local version - append to kernel release`
 
 <img src="./gif/1.gif">
+
+### 2. Enabling BTRFS support.
+
+- Located in: `File systems  ---> < > Btrfs filesystem support`
+
+<img src="./gif/2.gif">
 
 
 Writing in Progress....
