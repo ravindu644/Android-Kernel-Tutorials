@@ -223,11 +223,17 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ### 1. Changing the Kernel name.
 
+- I guess no explanation is needed for this:
+
+    <img src="./screenshots/14.png" width="60%">
+
 - Located in: `General setup  ---> Local version - append to kernel release`
 
 <img src="./gif/1.gif">
 
 ### 2. Enabling BTRFS support.
+
+- Btrfs is a modern Linux filesystem with copy-on-write, snapshots, and built-in RAID, ideal for reliability and scalability.
 
 - Located in: `File systems  ---> < > Btrfs filesystem support`
 
