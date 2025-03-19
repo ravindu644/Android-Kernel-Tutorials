@@ -274,13 +274,26 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <img src="./gif/4.gif">
 
-### 3. Enabling more IO Schedulers
+### 4. Enabling more IO Schedulers
 
 - **IO schedulers control how your system handles reading and writing data to storage.**
 - Different schedulers can make your system faster or help it run smoother, depending on what you're doing (like gaming, browsing, or saving battery).
 - Located in: `IO Schedulers  --->`
 
 <img src="./screenshots/15.png">
+
+### The problem with menuconfig is that you have to do this every time you run the build script.
+
+- All the changes you've made using menuconfig are saved in a temporary hidden file called `.config` inside the `out` directory.
+
+  <img src="./screenshots/18.png">
+
+- and it resets every time you run the build script.
+
+  <img src="./screenshots/17.png">
+
+- So, we need a permanent method to save our changes, right?  
+
 
 Writing in Progress....
 
