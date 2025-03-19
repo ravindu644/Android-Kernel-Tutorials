@@ -33,13 +33,15 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 <br>
 
 ### Quick Links :
-01. ✅ [Downloading Part (Only for samsung)](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--downloading-part-only-for-samsung)
+01. ✅ [Downloading the kernel source code for your device](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--downloading-part-only-for-samsung)
 02. ✅ [Understanding the Kernel root](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-the-kernel-root)
 03. ✅ [Understanding non-GKI & GKI kernels](https://github.com/ravindu644/Android-Kernel-Tutorials#-understanding-non-gki--gki-kernels)
 04. ✅ [Compiling Part (Universal for any device).](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--compiling-part-universal-for-any-device)
 
 <hr>
-<h2> ✅ Downloading Part (Only for samsung)</h2>
+<h2> ✅ Downloading the kernel source code for your device</h2>
+
+- **⚠️ If your device is Samsung,**
 
 #### 01. Download the kernel source from here: [Samsung Opensource]( https://opensource.samsung.com/main)
 
