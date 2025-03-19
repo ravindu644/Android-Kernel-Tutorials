@@ -153,7 +153,9 @@ chmod +755 -R /path/to/extracted/kernel/
 
 **Open the build script in a text editor and make these changes:**  
 
-- Replace `your_defconfig` to your current defconfig which is located in `arch/arm64/configs` In GKI 2.0 kernels, it's normally `gki_defconfig`
+- Replace `your_defconfig` to your current defconfig which is located in `arch/arm64/configs`
+
+- In GKI 2.0 kernels, it's normally `gki_defconfig`
 
 - But just in case, make sure to check `arch/arm64/configs` or `arch/arm64/configs/vendor`
 
