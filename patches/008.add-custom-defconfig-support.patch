@@ -10,7 +10,7 @@ diff --git a/arch/arm64/configs/custom_defconfig b/arch/arm64/configs/custom_def
 new file mode 100755
 index 000000000..81e7c1840
 --- /dev/null
-+++ b/arch/arm64/configs/custom_defconfig
++++ b/arch/arm64/configs/custom.config
 @@ -0,0 +1,2 @@
 +# Add your changes here
 +
@@ -23,7 +23,7 @@ index bd263c377..a0be69d4a 100755
      # Make default configuration.
      # Replace 'your_defconfig' with the name of your kernel's defconfig
 -    make ${BUILD_OPTIONS} your_defconfig
-+    make ${BUILD_OPTIONS} your_defconfig custom_defconfig
++    make ${BUILD_OPTIONS} your_defconfig custom.config
  
      # Configure the kernel (GUI)
      make ${BUILD_OPTIONS} menuconfig

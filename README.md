@@ -296,15 +296,15 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ## ✅ Customizing the Kernel (Permanent Method)
 
-- In this method, **we are going to create a separate custom defconfig to store our changes** and **link it to our build script.** 
+- In this method, **we are going to create a separate `custom.config` to store our changes** and **link it to our build script.** 
 
-- After that, when we run the build script, **it will first use your OEM defconfig to generate the `.config` file, then merge the changes from our custom defconfig into `.config` again.** 
+- After that, when we run the build script, **it will first use your OEM defconfig to generate the `.config` file, then merge the changes from our `custom.config` into `.config` again.** 
 
 **Refer to these examples to get a basic idea:** [patch](./patches/008.add-custom-defconfig-support.patch), [commit](https://github.com/ravindu644/android_kernel_m145f_common/commit/c427dbebed22c5bb314b4c94c711deffe671b14c)
 
 ---
 
-### How to add changes to our `custom_defconfig` ?
+### 🤓 How to add changes to our `custom.config` ?
 
 - First, We have to find the exact **kernel configuration option** you want to **enable** or **disable**.
 
@@ -323,7 +323,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
     <img src="./screenshots/19.png">
 
-  - **Copy that name** and add it to your `custom_defconfig` with `=y` or `=n` to enable or disable it.
+  - **Copy that name** and add it to your `custom.config` with `=y` or `=n` to enable or disable it.
 
     <img src="./screenshots/20.png">
 
