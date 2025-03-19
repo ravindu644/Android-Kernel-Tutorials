@@ -8,8 +8,8 @@
 - Implementing KernelSU (to-do)
 - Creating a signed boot image from the compiled kernel
 
-**Dependencies:** 
-- A working brain
+**Requirements:**
+- A working 🧠
 - Ubuntu/Debian based PC/Server
 - Knowledge of basic commands in Linux, and Bash script knowledge
 - Patience
@@ -20,8 +20,11 @@
   - Keep in mind, though, that it might be more challenging for beginners who are not familiar with the command-line interface.  
   - Access the terminal from Gitpod and its GUI using [ravindu644/LinuxRDP](https://github.com/ravindu644/LinuxRDP).
 	
-### Dependencies for compiling kernels (Only works on Debian based distros)
- ```
+### 🛠 Install the dependencies for compiling kernels
+- Only works on Debian-based distros.
+- Paste the code below in your terminal to start installation:
+ 
+```bash
 sudo apt update && sudo apt install -y git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full android-sdk-libsparse-utils erofs-utils \
 default-jdk git gnupg flex bison gperf build-essential zip curl libc6-dev libncurses-dev libx11-dev libreadline-dev libgl1 libgl1-mesa-dev \
 python3 make sudo gcc g++ bc grep tofrodos python3-markdown libxml2-utils xsltproc zlib1g-dev python-is-python3 libc6-dev libtinfo6 \
