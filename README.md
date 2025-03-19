@@ -13,12 +13,6 @@
 - Ubuntu/Debian based PC/Server
 - Knowledge of basic commands in Linux, and Bash script knowledge
 - Patience
-
-#### Additional Notes:
-
-- You can also use [Gitpod](https://gitpod.io/workspaces) if you don't want to install a Linux distro.  
-  - Keep in mind, though, that it might be more challenging for beginners who are not familiar with the command-line interface.  
-  - Access the terminal from Gitpod and its GUI using [ravindu644/LinuxRDP](https://github.com/ravindu644/LinuxRDP).
 	
 ### 🛠 Install the dependencies for compiling kernels
 - Only works on Debian-based distros.
