@@ -31,7 +31,7 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 01. ✅ [Downloading the kernel source code for your device](https://github.com/ravindu644/Android-Kernel-Tutorials#--downloading-the-kernel-source-code-for-your-device)
 02. ✅ [Understanding the Kernel root](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-the-kernel-root)
 03. ✅ [Understanding non-GKI & GKI kernels](https://github.com/ravindu644/Android-Kernel-Tutorials#-understanding-non-gki--gki-kernels)
-04. ✅ [Compiling Part (Universal for any device).](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--compiling-part-universal-for-any-device)
+04. ✅ [Preparing for the Compilation](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#--compiling-part-universal-for-any-device)
 
 <hr>
 <h2> ✅ Downloading the kernel source code for your device</h2>
@@ -125,7 +125,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - If you have a **GKI Samsung kernel**, you should use the "common" kernel instead of "msm-kernel" for building your kernel, and the build steps are the same as for a non-GKI kernel. [Refer to this repo for an idea](https://github.com/ravindu644/android_kernel_m145f_common).
 
-<h2> ✅ Compiling Part (Universal for any device).</h2>
+<h2> ✅ Preparing for the Compilation</h2>
 
 ### 01. After downloading or cloning the Kernel Source, we should have a build script to compile our kernel.
 
