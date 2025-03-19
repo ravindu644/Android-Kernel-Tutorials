@@ -151,7 +151,11 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ### 02. Edit the Build script:
 
-**Open the build script in a text editor and make these changes:**  
+**💡 Better to Know:** A **defconfig** (default configuration) is like a preset settings file for the kernel.
+
+- It tells the build system which features to enable or disable. Instead of selecting options manually, defconfig saves all settings in one place.
+
+**So, Open the build script in a text editor and make these changes:**
 
 - Replace `your_defconfig` to your current defconfig which is located in `arch/arm64/configs`
 
