@@ -48,7 +48,7 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 #### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command and please do not use any apps to do this:
 
 ```bash
-tar -xvf Kernel.tar.gz; rm Kernel.tar.gz
+tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 ```
 
 <img src="./screenshots/2.png">
