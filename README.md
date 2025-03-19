@@ -306,7 +306,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ### How to add changes to our `custom_defconfig` ?
 
-- First, find the exact **kernel configuration option** you want to **enable** or **disable**.
+- First, We have to find the exact **kernel configuration option** you want to **enable** or **disable**.
 
 - Example **kernel configuration option**: `CONFIG_XXXX=y`
 
