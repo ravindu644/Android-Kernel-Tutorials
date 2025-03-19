@@ -294,6 +294,13 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - So, we need a permanent method to save our changes, right?  
 
+## ✅ Customizing the Kernel (Permanent Method)
+
+- In this method, **we are going to create a separate custom defconfig to store our changes** and **link it to our build script.** 
+
+- After that, when we run the build script, **it will first use your OEM defconfig to generate the `.config` file, then merge the changes from our custom defconfig into `.config` again.** 
+
+**Refer to these examples to get a basic idea:** [patch](./patches/008.add-custom-defconfig-support.patch), [commit](https://github.com/ravindu644/android_kernel_m145f_common/commit/c427dbebed22c5bb314b4c94c711deffe671b14c)
 
 Writing in Progress....
 
