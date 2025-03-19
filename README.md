@@ -53,7 +53,7 @@ tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 
 <img src="./screenshots/2.png">
 
-**Note:** You should change the extracted directory permission to fix read-only errors when editing stuffs.
+**Note:** It's a good idea to give the entire kernel directory 755 permission to remove those read-only error from files and folders, this prevents issues when editing files and upstreaming the kernel.
 
 **Run this command to fix it:**
 
