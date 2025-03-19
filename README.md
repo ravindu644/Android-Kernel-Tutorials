@@ -302,6 +302,32 @@ chmod +755 -R /path/to/extracted/kernel/
 
 **Refer to these examples to get a basic idea:** [patch](./patches/008.add-custom-defconfig-support.patch), [commit](https://github.com/ravindu644/android_kernel_m145f_common/commit/c427dbebed22c5bb314b4c94c711deffe671b14c)
 
+---
+
+### How to add changes to our `custom_defconfig` ?
+
+- First, find the exact **kernel configuration option** you want to **enable** or **disable**.
+
+- Example **kernel configuration option**: `CONFIG_XXXX=y`
+
+  - `CONFIG_XXXX`: The name of the kernel option or feature **( Must begin with `CONFIG_` )**
+  - `=y`: This means "yes" -> the option is enabled and will be included in the kernel.
+  - `=n`: This means "no" -> the option is disabled.
+
+- You can find the name of the **kernel configuration option** this way:
+
+  - Run the build script and wait until `menuconfig` appears.
+  - Navigate to the option/feature you want to enable.
+  - Press `shift + ?` on your keyboard, and an explanation about the option/feature will appear.
+  - You’ll see the name of the **kernel configuration option** in the top-left corner of the menuconfig.
+
+    <img src="./screenshots/19.png">
+
+  - **Copy that name** and add it to your `custom_defconfig` with `=y` or `=n` to enable or disable it.
+
+    <img src="./screenshots/20.png">
+
+
 Writing in Progress....
 
 ## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
