@@ -1,19 +1,17 @@
-## A Beginner-Friendly Guide to Compiling Your First Android Kernel..!  
+## A Beginner-Friendly Guide to Compile Your First Android Kernel!
 
 **What You'll Learn:**  
 
-- Downloading the kernel source for your device (Samsung only)
 - Understanding the kernel root & choosing the right compilers for compilation
 - Customizing the kernel
 - Remove Samsung's anti-root protections.  
 - Implementing KernelSU (to-do)
 - Creating a signed boot image from the compiled kernel
 
-**What You'll Need:** 
-- A working 🧠
+**Dependencies:** 
+- A working brain
 - Ubuntu/Debian based PC/Server
-- Knowledge of basic commands in Linux, and Bash/Shell script knowledge
-- Understanding of English.
+- Knowledge of basic commands in Linux, and Bash script knowledge
 - Patience
 
 #### Additional Notes:
@@ -22,7 +20,7 @@
   - Keep in mind, though, that it might be more challenging for beginners who are not familiar with the command-line interface.  
   - Access the terminal from Gitpod and its GUI using [ravindu644/LinuxRDP](https://github.com/ravindu644/LinuxRDP).
 	
-### Dependencies for compiling kernels : (Paste this in terminal.)
+### Dependencies for compiling kernels (Only works on Debian based distros)
  ```
 sudo apt update && sudo apt install -y git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full android-sdk-libsparse-utils erofs-utils \
 default-jdk git gnupg flex bison gperf build-essential zip curl libc6-dev libncurses-dev libx11-dev libreadline-dev libgl1 libgl1-mesa-dev \
@@ -47,7 +45,7 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 
 <img src="./screenshots/1.png">
 
-#### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command:
+#### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command and please do not use any apps to do this:
 
 ```bash
 tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
@@ -55,9 +53,9 @@ tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 
 <img src="./screenshots/2.png">
 
-**Note:** It's a good idea to give the entire kernel directory 755 permissions to remove those 🔒 from the files and folders, preventing any issues when editing files and upstreaming the kernel.
+**Note:** It's a good idea to give the entire kernel directory 755 permission to remove those read-only error from files and folders, this prevents issues when editing files and upstreaming the kernel.
 
-**Do it this way:**
+**Run this command to fix it:**
 
 ```
 chmod +755 -R /path/to/extracted/kernel/
@@ -106,8 +104,8 @@ chmod +755 -R /path/to/extracted/kernel/
    - These kernels are deprecated in Android Common Kernel repository.
 
 2. **GKI 1.0**:
-   - Google's first iteration of the Generic Kernel Image, starting with kernel version **5.4**.
-   - **Note:** Some people says that **4.19** is also considered a **GKI 1.0** kernel, as it was used as a transitional kernel in early GKI implementations. But it didn't clear, and more context needed.
+   - Google's first iteration of the Generic Kernel Image, starts from kernel version **5.4**.
+   - **Note:** Some people say that **4.19** is also considered a **GKI 1.0** kernel, as it was used as a transitional kernel in early GKI implementations. But it didn't clear, and more context needed.
    - A few variants exist for certain SoC, like qGKI (Qualcomm GKI), and mGKI (Mediatek GKI), and was included with some features from that SoC.
 
 3. **GKI 2.0**:
@@ -202,7 +200,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <hr>
 
-### 03. Now, grant the executable permissions to ```build_xxxx.sh``` using this command.
+### 03. Now, grant executable permissions to ```build_xxxx.sh``` using this command.
   ```
   chmod +x build_xxxx.sh
   ```
@@ -259,8 +257,9 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ### 3. Enabling more CPU Governors
 
-- **CPU governors control how the processor adjusts its speed.**
+- **CPU governors control how the processor adjusts it's speed.**
 -  You can choose between performance-focused governors (like "performance" for max speed) or battery-saving ones (like "powersave").
+-  Please note that this may impact your SoC’s lifespan if the device overheats while handling performance-intensive tasks.
 
 **Enabling more CPU Governors:**
 
@@ -328,6 +327,6 @@ chmod +755 -R /path/to/extracted/kernel/
     <img src="./screenshots/20.png">
 
 
-Writing in Progress....
+Stay updated with more information as we cover additional details in the future. <a href="https://t.me/SamsungTweaks">Join our Telegram channel for the latest updates.</a>
 
 ## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
