@@ -5,7 +5,7 @@ echo -e "\n[INFO]: BUILD STARTED..!\n"
 #init submodules
 git submodule init && git submodule update
 
-export RDIR="$(pwd)"
+export KERNEL_ROOT="$(pwd)"
 export ARCH=arm64
 export KBUILD_BUILD_USER="@ravindu644"
 
@@ -18,7 +18,7 @@ if [ ! -f ".requirements" ]; then
 fi
 
 # Create necessary directories
-mkdir -p "${RDIR}/out" "${RDIR}/build" "${HOME}/toolchains"
+mkdir -p "${KERNEL_ROOT}/out" "${KERNEL_ROOT}/build" "${HOME}/toolchains"
 
 # init clang-r383902b
 if [ ! -d "${HOME}/toolchains/clang-r383902b" ]; then
@@ -26,7 +26,7 @@ if [ ! -d "${HOME}/toolchains/clang-r383902b" ]; then
     mkdir -p "${HOME}/toolchains/clang-r383902b" && cd "${HOME}/toolchains/clang-r383902b"
     curl -LO "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/0e9e7035bf8ad42437c6156e5950eab13655b26c/clang-r383902b.tar.gz"
     tar -xf clang-r383902b.tar.gz && rm clang-r383902b.tar.gz
-    cd "${RDIR}"
+    cd "${KERNEL_ROOT}"
 fi
 
 # init arm gnu toolchain
@@ -35,7 +35,7 @@ if [ ! -d "${HOME}/toolchains/gcc" ]; then
     mkdir -p "${HOME}/toolchains/gcc" && cd "${HOME}/toolchains/gcc"
     curl -LO "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz"
     tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz
-    cd "${RDIR}"
+    cd "${KERNEL_ROOT}"
 fi
 
 # Export toolchain paths
@@ -49,8 +49,8 @@ export BUILD_CC="${HOME}/toolchains/clang-r383902b/bin/clang"
 # Build options for the kernel
 export BUILD_OPTIONS="
 HOSTLDLIBS="-lyaml"
--C ${RDIR} \
-O=${RDIR}/out \
+-C ${KERNEL_ROOT} \
+O=${KERNEL_ROOT}/out \
 -j$(nproc) \
 ARCH=arm64 \
 CROSS_COMPILE=${BUILD_CROSS_COMPILE} \
@@ -70,7 +70,7 @@ build_kernel(){
     make ${BUILD_OPTIONS} Image || exit 1
 
     # Copy the built kernel to the build directory
-    cp "${RDIR}/out/arch/arm64/boot/Image" "${RDIR}/build"
+    cp "${KERNEL_ROOT}/out/arch/arm64/boot/Image" "${KERNEL_ROOT}/build"
 
     echo -e "\n[INFO]: BUILD FINISHED..!"
 }

@@ -5,7 +5,7 @@ echo -e "\n[INFO]: BUILD STARTED..!\n"
 #init submodules
 git submodule init && git submodule update
 
-export RDIR="$(pwd)"
+export KERNEL_ROOT="$(pwd)"
 export ARCH=arm64
 export KBUILD_BUILD_USER="@ravindu644"
 
@@ -18,7 +18,7 @@ if [ ! -f ".requirements" ]; then
 fi
 
 # Create necessary directories
-mkdir -p "${RDIR}/out" "${RDIR}/build" "${HOME}/toolchains"
+mkdir -p "${KERNEL_ROOT}/out" "${KERNEL_ROOT}/build" "${HOME}/toolchains"
 
 #init neutron-clang
 if [ ! -d "${HOME}/toolchains/neutron-clang" ]; then
@@ -26,7 +26,7 @@ if [ ! -d "${HOME}/toolchains/neutron-clang" ]; then
     mkdir -p "${HOME}/toolchains/neutron-clang" && cd "${HOME}/toolchains/neutron-clang"
     curl -LO "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman" && chmod +x antman
     bash antman -S && bash antman --patch=glibc
-    cd "${RDIR}"
+    cd "${KERNEL_ROOT}"
 fi
 
 # Export toolchain paths
@@ -39,8 +39,8 @@ export BUILD_CC="${HOME}/toolchains/neutron-clang/bin/clang"
 
 # Build options for the kernel
 export BUILD_OPTIONS="
--C ${RDIR} \
-O=${RDIR}/out \
+-C ${KERNEL_ROOT} \
+O=${KERNEL_ROOT}/out \
 -j$(nproc) \
 ARCH=arm64 \
 CROSS_COMPILE=aarch64-linux-gnu- \
@@ -70,7 +70,7 @@ build_kernel(){
     make ${BUILD_OPTIONS} Image || exit 1
 
     # Copy the built kernel to the build directory
-    cp "${RDIR}/out/arch/arm64/boot/Image" "${RDIR}/build"
+    cp "${KERNEL_ROOT}/out/arch/arm64/boot/Image" "${KERNEL_ROOT}/build"
 
     echo -e "\n[INFO]: BUILD FINISHED..!"
 }

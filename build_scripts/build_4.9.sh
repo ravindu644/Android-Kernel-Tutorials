@@ -5,7 +5,7 @@ echo -e "\n[INFO]: BUILD STARTED..!\n"
 #init submodules
 git submodule init && git submodule update
 
-export RDIR="$(pwd)"
+export KERNEL_ROOT="$(pwd)"
 export ARCH=arm64
 export KBUILD_BUILD_USER="@ravindu644"
 
@@ -19,7 +19,7 @@ fi
 
 
 # Create necessary directories
-mkdir -p "${RDIR}/out" "${RDIR}/build" "${HOME}/toolchains"
+mkdir -p "${KERNEL_ROOT}/out" "${KERNEL_ROOT}/build" "${HOME}/toolchains"
 
 # Clone proton clang 12 if not already done
 if [ ! -d "${HOME}/toolchains/proton-12" ]; then
@@ -30,7 +30,7 @@ fi
 if [ ! -d "${HOME}/toolchains/aarch64-linaro-7.5" ]; then
     cd "${HOME}/toolchains" && wget https://kali.download/nethunter-images/toolchains/linaro-aarch64-7.5.tar.xz
     tar -xvf linaro-aarch64-7.5.tar.xz && rm linaro-aarch64-7.5.tar.xz
-    cd "${RDIR}"
+    cd "${KERNEL_ROOT}"
 fi
 
 # Export toolchain paths
@@ -44,10 +44,10 @@ export BUILD_CC="${HOME}/toolchains/proton-12/bin/clang"
 # Build options for the kernel
 export BUILD_OPTIONS="
 -j$(nproc) \
--C ${RDIR} \
-O=${RDIR}/out \
+-C ${KERNEL_ROOT} \
+O=${KERNEL_ROOT}/out \
 ARCH=arm64 \
-DTC_EXT=${RDIR}/tools/dtc \
+DTC_EXT=${KERNEL_ROOT}/tools/dtc \
 CROSS_COMPILE=${BUILD_CROSS_COMPILE} \
 CC=${BUILD_CC} \
 CLANG_TRIPLE=aarch64-linux-gnu- \
@@ -65,7 +65,7 @@ build_kernel(){
     make ${BUILD_OPTIONS} Image || exit 1
 
     # Copy the built kernel to the build directory
-    cp "${RDIR}/out/arch/arm64/boot/Image" "${RDIR}/build"
+    cp "${KERNEL_ROOT}/out/arch/arm64/boot/Image" "${KERNEL_ROOT}/build"
 
     echo -e "\n[INFO]: BUILD FINISHED..!"
 }
