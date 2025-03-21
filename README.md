@@ -197,10 +197,6 @@ chmod +755 -R /path/to/extracted/kernel/
 
     - Example patch of removing the wrapper: [click here](./patches/004.remove_gcc%20wrapper.patch)
 
-- Search ```CONFIG_CC_STACKPROTECTOR_STRONG``` and replace it with ```CONFIG_CC_STACKPROTECTOR_NONE```
-
-    - Example patch of fix -fstack-protector-strong not supported by compiler: [click here](./patches/003.fix_fstack-protector-strong-not-supported-by-compiler.patch)
-
 <hr>
 
 ### 03. Now, grant executable permissions to ```build_xxxx.sh``` using this command.
