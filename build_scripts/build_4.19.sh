@@ -29,12 +29,12 @@ if [ ! -d "${HOME}/toolchains/clang-r353983c" ]; then
     cd "${RDIR}"
 fi
 
-# init aarch64-linux-android-4.9
-if [ ! -d "${HOME}/toolchains/aarch64-linux-android-4.9" ]; then
-    echo -e "\n[INFO] Cloning aarch64-linux-android-4.9 toolchain...\n"
-    mkdir -p "${HOME}/toolchains/aarch64-linux-android-4.9" && cd "${HOME}/toolchains/aarch64-linux-android-4.9"
-    curl -LO "https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/aarch64-linux-android-4.9.tar.gz"
-    tar -xf aarch64-linux-android-4.9.tar.gz && rm aarch64-linux-android-4.9.tar.gz
+# init arm gnu toolchain
+if [ ! -d "${HOME}/toolchains/gcc" ]; then
+    echo -e "\n[INFO] Cloning ARM GNU Toolchain\n"
+    mkdir -p "${HOME}/toolchains/gcc" && cd "${HOME}/toolchains/gcc"
+    curl -LO "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz"
+    tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz
     cd "${RDIR}"
 fi
 
@@ -43,7 +43,7 @@ export PATH="${PATH}:${HOME}/toolchains/clang-r353983c/bin"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/toolchains/clang-r353983c/lib64"
 
 # Set cross-compile environment variables
-export BUILD_CROSS_COMPILE="${HOME}/toolchains/aarch64-linux-android-4.9/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
+export BUILD_CROSS_COMPILE="${HOME}/toolchains/gcc/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-"
 export BUILD_CC="${HOME}/toolchains/clang-r353983c/bin/clang"
 
 # Build options for the kernel
