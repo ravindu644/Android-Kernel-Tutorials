@@ -323,6 +323,6 @@ chmod +755 -R /path/to/extracted/kernel/
     <img src="./screenshots/20.png">
 
 
-Stay updated with more information as we cover additional details in the future. <a href="https://t.me/SamsungTweaks">Join our Telegram channel for the latest updates.</a>
+writing in progress..
 
 ## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
