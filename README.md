@@ -3,7 +3,7 @@
 **What You'll Learn:**  
 
 - Understanding the kernel root & choosing the right compilers for compilation
-- Customizing the kernel
+- Customizing the kernel and applying kernel patches.
 - Remove Samsung's anti-root protections.  
 - Implementing KernelSU (to-do)
 - Creating a signed boot image from the compiled kernel
@@ -50,7 +50,7 @@ tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 
 <img src="./screenshots/2.png">
 
-**Note:** It's a good idea to give the entire kernel directory 755 permission to remove those read-only error from files and folders, this prevents issues when editing files and upstreaming the kernel.
+**Note:** It's a good idea to give the entire kernel directory 755 permission to remove those read-only error from files and folders. This prevents issues when editing files and upstreaming the kernel.
 
 **Run this command to fix it:**
 
@@ -70,11 +70,8 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <hr>
 
-- **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos and clone them using this template:
+- **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos:
 
-    ```bash
-    git clone https://github.com/username/repository.git -b branch_name
-    ```
   <img src="./screenshots/13.png">
 
 ## ✅ Understanding `non-GKI` & `GKI kernels`
@@ -123,7 +120,7 @@ chmod +755 -R /path/to/extracted/kernel/
 - It must have those folders, **highlighted in blue in the terminal.**
 - **In GKI kernels,** the kernel root is located in a folder named "common".
 
-- If you have a **GKI Samsung kernel**, you should use the "common" kernel instead of "msm-kernel" for building your kernel, and the build steps are the same as for a non-GKI kernel. [Refer to this repo for an idea](https://github.com/ravindu644/android_kernel_m145f_common).
+- If you have a **GKI Samsung kernel**, you should use the "common" kernel instead of "msm-kernel" for the compilation.
 
 <h2> ✅ Preparing for the Compilation</h2>
 
@@ -139,8 +136,6 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
 
-  - **❗Mediatek users,** read [this](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main/toolchains#additional-notes).
-
 - Keep in mind that **you don't need to manually download any of these toolchains** since my build scripts handle everything for you :)  
 
 - Next, go to [build_scripts](./build_scripts/), choose the appropriate script, download it, and place it inside your kernel's root directory.
@@ -153,7 +148,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 **💡 Better to Know:** A **defconfig** (default configuration) is like a preset settings file for the kernel.
 
-- It tells the build system which features to enable or disable. Instead of selecting options manually, defconfig saves all settings in one place.
+- It tells the build system which features to enable or disable.
 
 **So, Open the build script in a text editor and make these changes:**
 
