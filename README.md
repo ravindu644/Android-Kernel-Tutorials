@@ -338,6 +338,12 @@ chmod +755 -R /path/to/extracted/kernel/
 
   <img src="./screenshots/22.png">
 
+## ✅ Fixing the Known compiling issues
+
+- **If you ever encounter any errors during your kernel compilation,** jump to [fixes](./fixes/) and see if your specific issue is mentioned there.
+
+**[Click here to learn about known issues and their fixes](./fixes/README.md)**
+
 writing in progress..
 
 ## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
