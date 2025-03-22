@@ -35,6 +35,7 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 05. ✅ [Customizing the Kernel (Temporary Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-temporary-method)
 06. ✅ [Customizing the Kernel (Permanent Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-permanent-method)
 07. ✅ [Compiling the Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-compiling-the-kernel)
+08. 🟥 [Fixing the Known compiling issues]()
 
 <hr>
 <h2> ✅ Downloading the kernel source code for your device</h2>
@@ -338,7 +339,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
   <img src="./screenshots/22.png">
 
-## ✅ Fixing the Known compiling issues
+## 🟥 Fixing the Known compiling issues
 
 - **If you ever encounter any errors during your kernel compilation,** jump to [fixes](./fixes/) and see if your specific issue is mentioned there.
 
