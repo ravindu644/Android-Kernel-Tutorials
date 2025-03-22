@@ -39,3 +39,23 @@
     8. Fix: `drivers/misc/tzdev/tz_deploy_tzar: fix startup.tzar inclusion`
 
         - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/429bce31c68e9a8d779c0c8a8303799fc11df1d6)
+
+    9. Fix: `ioctl_cfg80211.c: error: too many arguments to function call, expected 3, have 8`
+
+        - [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/a787bb1da52a27a61225acbc037c0dba65110a43)
+
+    10. Fix: `drivers/input/touchscreen/gt1151q_1695/gt1x_test.c: multiple definition of 'is_space'`
+
+        - [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/896574bace78ed509d9b7270c55a7c06c6f1e975)
+
+    11. Fix: ```yamltree.c:(.text+0xa41): undefined reference to `yaml_emitter_initialize'```
+
+        - [Commit](https://github.com/rsuntkOrgs/kernel_samsung_a03/commit/6addccd5a82d4dc1c31faee50175358cb3f347f5)
+
+    12. Fix: `as: unrecognized option '-EL'`
+
+        - [Commit](https://github.com/kdrag0n/proton_zf6/commit/6e87fec9a3df5)
+
+    13. Fix: `undefined reference to 'stpcpy'`
+
+        - [Commit](https://github.com/kdrag0n/proton_zf6/commit/cec73f0775526)
