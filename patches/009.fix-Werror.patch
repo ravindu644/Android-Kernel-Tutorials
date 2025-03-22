@@ -1,0 +1,41 @@
+commit fcf09061714cc438642509477a02ff2946bd4b97
+Author: Ravindu Deshan <droidcasts@protonmail.com>
+Date:   Sat Mar 22 13:56:26 2025 +0530
+
+    Makefile: disabled treating warnings as errors
+    
+    Signed-off-by: Ravindu Deshan <droidcasts@protonmail.com>
+
+diff --git a/Makefile b/Makefile
+index 6f8e18d17..80ca19c02 100755
+--- a/Makefile
++++ b/Makefile
+@@ -424,11 +424,9 @@ LINUXINCLUDE    := \
+ 		$(USERINCLUDE)
+ 
+ KBUILD_AFLAGS   := -D__ASSEMBLY__ -march=armv8-a+lse
+-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
++KBUILD_CFLAGS   := -Wall -Wundef -Wno-trigraphs \
+ 		   -fno-strict-aliasing -fno-common -fshort-wchar \
+-		   -Werror-implicit-function-declaration \
+ 		   -Wno-format-security \
+-		   -Werror \
+ 		   -Xassembler -march=armv8-a+lse \
+ 		   -std=gnu89
+ KBUILD_CPPFLAGS := -D__KERNEL__
+@@ -930,15 +928,9 @@ KBUILD_CFLAGS   += $(call cc-option,-fconserve-stack)
+ # disallow errors like 'EXPORT_GPL(foo);' with missing header
+ KBUILD_CFLAGS   += $(call cc-option,-Werror=implicit-int)
+ 
+-# require functions to have arguments in prototypes, not empty 'int foo()'
+-KBUILD_CFLAGS   += $(call cc-option,-Werror=strict-prototypes)
+-
+ # Prohibit date/time macros, which would make the build non-deterministic
+ KBUILD_CFLAGS   += $(call cc-option,-Werror=date-time)
+ 
+-# enforce correct pointer usage
+-KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
+-
+ # Require designated initializers for all marked structures
+ KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
+ 

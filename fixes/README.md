@@ -2,6 +2,8 @@
 
 - Feel free to contribute to this documentation by explaining the issue and linking the commit that helped you fix it.
 
+- **If the errors you are facing are related to `-Werror`, aka treating warnings as errors,** [you can use this patch](../patches/009.fix-Werror.patch) to disable treating warnings as errors, **even though it's not a good practice :)**
+
     1. Fix: `../scripts/gcc-version.sh: line 25: aarch64-linux-gnu-gcc: command not found`
 
         - [Patch](../patches/002.fix_aarch64-linux-gnu-gcc-command-not-found.patch), [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/c489c13c60b258dfdb4bb49711e691002cfcc8e3)
