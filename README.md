@@ -194,11 +194,11 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <hr>
 
-### 03. Now, grant executable permissions to ```build_xxxx.sh``` using this command.
+### 04. Now, grant executable permissions to ```build_xxxx.sh``` using this command.
   ```
   chmod +x build_xxxx.sh
   ```
-### 04. Finally, run the build script using this command :
+### 05. Finally, run the build script using this command :
   ```
 ./build_xxxx.sh
 ```
