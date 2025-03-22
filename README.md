@@ -34,6 +34,7 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 04. ✅ [Preparing for the Compilation](https://github.com/ravindu644/Android-Kernel-Tutorials#--preparing-for-the-compilation)
 05. ✅ [Customizing the Kernel (Temporary Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-temporary-method)
 06. ✅ [Customizing the Kernel (Permanent Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-permanent-method)
+07. ✅ Compiling the Kernel
 
 <hr>
 <h2> ✅ Downloading the kernel source code for your device</h2>
@@ -321,7 +322,21 @@ chmod +755 -R /path/to/extracted/kernel/
   - **Copy that name** and add it to your `custom.config` with `=y` or `=n` to enable or disable it.
 
     <img src="./screenshots/20.png">
+    
+## ✅ Compiling the Kernel
 
+- Once you've customized the kernel as you want, simply **exit menuconfig**.  
+- After exiting, the kernel will start compiling!
+
+<img src="./gif/5.gif">
+
+### 💡 If everything goes smoothly like this,
+
+  <img src="./screenshots/21.png">
+
+### you’ll find the built kernel `Image` inside the `build` folder in your kernel root!
+
+  <img src="./screenshots/22.png">
 
 writing in progress..
 
