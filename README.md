@@ -80,11 +80,19 @@ chmod +755 -R /path/to/extracted/kernel/
   <img src="./screenshots/13.png">
 
 ## ✅ Understanding `non-GKI` & `GKI kernels`
+
+### 01. GKI project introduction
+
+Generic Kernel Image, or GKI, is an Android's project that aims for reducing kernel fragmentation, (and also improving Android
+
+stability), by unifying kernel core and moving SoC and Board support out of the core kernel into loadable vendor modules.
+
+### 02. pre-GKI/non-GKI and GKI linux version table
 ```
 +--------------------------------------------------+
 |          Android LTS Kernel Versions             |
 +--------------------------------------------------+
-|       non-GKI       |     GKI 1.0    |  GKI 2.0  |
+|       pre-GKI       |     GKI 1.0    |  GKI 2.0  |
 +---------------------+----------------+-----------+
 |         3.10        |       5.4      |   5.10    |
 |         3.18        |                |   5.15    |
@@ -96,26 +104,31 @@ chmod +755 -R /path/to/extracted/kernel/
 ```
 #### Explanation:
 
-1. **non-GKI**:
-   - Includes older and heavily customized kernels used in Android devices before the GKI initiative.
-   - Versions like **3.10**, **3.18**, **4.4**, **4.9**, **4.14**, and **4.19** are the most common (LTS Kernels).
-   - These kernels are **device-specific** and often modified by OEMs (eg: Samsung).
-   - These kernels are deprecated in Android Common Kernel repository.
+1. **pre-GKI or non-GKI**:
+   - The oldest Android kernel branch, likely starts from Linux version 2.x.
+   - These kernels are **device-specific** because its often heavily modified to accommodate SoCs and OEMs needs.
+   - Starting to get deprecated in ACK, since `linux-4.19.y` branch already reaching EoL (End of Life) state, with last Linux 4.19.325
 
-2. **GKI 1.0**:
-   - Google's first iteration of the Generic Kernel Image, starts from kernel version **5.4**.
-   - **Note:** Some people say that **4.19** is also considered a **GKI 1.0** kernel, as it was used as a transitional kernel in early GKI implementations. But it didn't clear, and more context needed.
-   - A few variants exist for certain SoC, like qGKI (Qualcomm GKI), and mGKI (Mediatek GKI), and was included with some features from that SoC.
+3. **GKI 1.0**:
+   - Android's first generation of the Generic Kernel Image, starts and also ends from kernel version **5.4**.
+   - The first generation of GKI is not yet matured as second generation of GKI.
+   - These kernels are considered as **device-specific**, but more commonized, depends on how OEMs and SoCs Manufacturer treat them.
+   - A few variants exist for certain SoC, like qGKI (Qualcomm GKI), and mGKI (Mediatek GKI) because has been modified to accommodate SoCs manufacturer needs.
 
-3. **GKI 2.0**:
-   - Google's second iteration of the Generic Kernel Image, starting with kernel version **5.10**.
-   - Includes newer LTS kernel like **6.6**.
+4. **GKI 2.0**:
+   - Android's second generation of the Generic Kernel Image, starting with kernel version **5.10**.
+   - In this second generation, GKI project starting to get matured properly.
+   - This kernel is considered as "universal", since you can boot a GKI kernels that builded with Google's GKI kernel source on **some** devices, if correct and match.
 
 ---
 
 ### Notes:
 - **LTS = Long-Term Support**: These kernels are stable, well-maintained, and receive long-term updates.
 - **GKI = Generic Kernel Image**: A unified kernel framework introduced by Google to standardize the kernel across Android devices.
+- **SoC = System on Chip**
+- **ACK = Android Common Kernel**: An Android's linux LTS kernel branch, modified to accommodate Android needs.
+- OEMs like Samsung may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken Sdcard and broken Audio stuff. So use
+  their GKI kernel source instead if possible.
 
 ## ✅ Understanding the ```Kernel root```
 
@@ -207,6 +220,14 @@ chmod +755 -R /path/to/extracted/kernel/
   ```
 ./build_xxxx.sh
 ```
+> [!NOTE]
+> GKI 2.0 kernel with branch `android14-5.15`, `android14-6.1`, and `android15-6.6` may require [bazel](https://bazel.build) to build!
+>
+> Common command/known command:
+>
+> `chmod +x tools/bazel && tools/bazel build --config=fast //common:kernel_aarch64_dist`
+> 
+> Please read Google's build instructions or OEM's instructions if exist.
 
 <img src="./screenshots/8.png">
 
