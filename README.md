@@ -83,11 +83,9 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ### 01. GKI project introduction
 
-Generic Kernel Image, or GKI, is an Android's project that aims for reducing kernel fragmentation, (and also improving Android
+- **Generic Kernel Image,** or **GKI,** is an Android's project that aims for reducing kernel fragmentation, (and also improving Android stability), **by unifying kernel core and moving SoC and Board support out of the core kernel into loadable vendor modules.**
 
-stability), by unifying kernel core and moving SoC and Board support out of the core kernel into loadable vendor modules.
-
-### 02. pre-GKI/non-GKI and GKI linux version table
+### 02. `pre-GKI`/`non-GKI` and `GKI` linux version table
 ```
 +--------------------------------------------------+
 |          Android LTS Kernel Versions             |
@@ -127,8 +125,8 @@ stability), by unifying kernel core and moving SoC and Board support out of the 
 - **GKI = Generic Kernel Image**: A unified kernel framework introduced by Google to standardize the kernel across Android devices.
 - **SoC = System on Chip**
 - **ACK = Android Common Kernel**: An Android's linux LTS kernel branch, modified to accommodate Android needs.
-- OEMs like Samsung may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken Sdcard and broken Audio stuff. So use
-  their GKI kernel source instead if possible.
+- OEMs like Samsung may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken SD Card and broken Audio stuff. 
+  - **So, use their GKI kernel source instead if possible.**
 
 ## ✅ Understanding the ```Kernel root```
 
@@ -220,14 +218,6 @@ stability), by unifying kernel core and moving SoC and Board support out of the 
   ```
 ./build_xxxx.sh
 ```
-> [!NOTE]
-> GKI 2.0 kernel with branch `android14-5.15`, `android14-6.1`, and `android15-6.6` may require [bazel](https://bazel.build) to build!
->
-> Common command/known command:
->
-> `chmod +x tools/bazel && tools/bazel build --config=fast //common:kernel_aarch64_dist`
-> 
-> Please read Google's build instructions or OEM's instructions if exist.
 
 <img src="./screenshots/8.png">
 
