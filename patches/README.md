@@ -2,6 +2,16 @@
 
 #### Feel free to contribute to this documentation by explaining the issue and linking the commit that helped you fix it.
 
+> [!NOTE]  
+> How to apply a patch file?  
+>  
+> `patch -p1 < filename.patch`  
+>  
+> However, **I recommend opening the patch file in a code editor and manually editing your files for better understanding.**
+>
+> - Not all patch files can be applied using the command above.
+
+
 <br>
 
 ---
