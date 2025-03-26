@@ -39,9 +39,10 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 04. 👀 [Preparing for the Compilation](https://github.com/ravindu644/Android-Kernel-Tutorials#--preparing-for-the-compilation)
 05. ⚙️ [Customizing the Kernel (Temporary Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-temporary-method)
 06. ⚙️ [Customizing the Kernel (Permanent Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-permanent-method)
-07. ✅ [Compiling the Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-compiling-the-kernel)
-08. 🟥 [Fixing the Known compiling issues](https://github.com/ravindu644/Android-Kernel-Tutorials#-fixing-the-known-compiling-issues)
-09. 🟡 [Building a Signed Boot Image from the Compiled Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-building-a-signed-boot-image-from-the-compiled-kernel)
+07. 🟢 [Additional Patches]()
+08. ✅ [Compiling the Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-compiling-the-kernel)
+09. 🟥 [Fixing the Known compiling issues](https://github.com/ravindu644/Android-Kernel-Tutorials#-fixing-the-known-compiling-issues)
+10. 🟡 [Building a Signed Boot Image from the Compiled Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-building-a-signed-boot-image-from-the-compiled-kernel)
 
 <hr>
 <h2> ✅ Downloading the kernel source code for your device</h2>
@@ -340,6 +341,42 @@ chmod +755 -R /path/to/extracted/kernel/
   - **Copy that name** and add it to your `custom.config` with `=y` or `=n` to enable or disable it.
 
     <img src="./screenshots/20.png">
+
+## 🟢 Additional Patches
+
+### 01. To fix broken system funcitons like Wi-Fi, touch, sound etc.
+
+---
+
+  - On some devices, **compiling a custom kernel can break system-level functionalities like Wi-Fi, touch, sound, and even cause the system to not boot.**
+
+  - The reason behind this is that the device can't load the proprietary vendor modules, located inside the `/vendor/lib/modules` directory, after installing a custom kernel.
+
+  - To fix this issue, [use this patch](./patches/010.Disable-CRC-Checks.patch) to force the kernel to load those modules.
+
+  **Even if you don't have such an issue, using this patch is still a good practice.**
+
+  ---
+
+### 02. Fix: `There's an internal problem with your device.` issue.
+
+**The reason:**
+
+  ```
+Userspace reads /proc/config.gz and spits out an error message after boot
+finishes when it doesn't like the kernel's configuration. In order to
+preserve our freedom to customize the kernel however we'd like, show
+userspace the stock defconfig so that it never complains about our
+kernel configuration.
+  ```
+
+- To fix this issue, make a copy of your OEM's Defconfig and rename it to `stock_defconfig`.
+
+  <img src="./screenshots/30.png">
+
+- Then, use the patch below to fool Android into thinking that the defconfig was not changed:
+
+  - [Patch](./patches/011.stock_defconfig.patch), [Commit](https://github.com/ravindu644/android_kernel_a047f_eur/commit/d306bd4c4c84a12be5235e31540f40fb9c1a1066)
     
 ## ✅ Compiling the Kernel
 
