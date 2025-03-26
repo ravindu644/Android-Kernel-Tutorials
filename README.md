@@ -1,5 +1,10 @@
 ## A Beginner-Friendly Guide to Compile Your First Android Kernel!
 
+![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](#)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](/LICENSE)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/SamsungTweaks)
+
 **What You'll Learn:**  
 
 - Understanding the kernel root & choosing the right compilers for compilation
@@ -446,4 +451,10 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - Then, flash that `tar` file using ODIN's AP slot :)
 
-## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
+---
+
+**Written by:** [@ravindu644](https://t.me/ravindu)
+
+**Join Telegram:** [@SamsungTweaks](https://t.me/SamsungTweaks)
+
+---
