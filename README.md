@@ -365,7 +365,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - So, all we have to do is **get the boot image from the stock ROM, unpack it, replace its kernel with our "built" one, repack it, flash it,** and **enjoy :)**
 
-**For the unpacking and repacking process, we are going to use [Android_boot_image_editor](https://github.com/cfig/Android_boot_image_editor) by @cfig :)**
+**For the unpacking and repacking process, we are going to use [Android_boot_image_editor](https://github.com/cfig/Android_boot_image_editor) by [@cfig](https://github.com/cfig) :)**
 
 ### 01. Downloading `Android_boot_image_editor`
 
