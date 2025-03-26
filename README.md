@@ -405,7 +405,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
   <img src="./screenshots/27.png">
 
-#### 🟠 As you can see in the screenshot above, the kernel image of the unpacked `boot.img` is located in `build/unzip_boot/kernel`
+#### 🟠 As you can see in the screenshot above, the original `kernel` of the unpacked `boot.img` is located in `build/unzip_boot/kernel`
 
 ### 03. Repacking the `boot.img`
 
