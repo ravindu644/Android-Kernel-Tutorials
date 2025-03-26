@@ -361,7 +361,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - On Android devices, **the `kernel` image is usually located inside the `boot` partition.**
 
-  <img src="./screenshots/23.png" width="70%">
+  <img src="./screenshots/23.png">
 
 - So, all we have to do is **get the boot image from the stock ROM, unpack it, replace its kernel with our "built" one, repack it, flash it,** and **enjoy :)**
 
