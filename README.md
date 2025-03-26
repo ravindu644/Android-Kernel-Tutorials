@@ -353,9 +353,9 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ## 🟥 Fixing the Known compiling issues
 
-- **If you ever encounter any errors during your kernel compilation,** jump to [fixes](./fixes/) and see if your specific issue is mentioned there.
+- **If you ever encounter any errors during your kernel compilation,** jump to [fixes](./patches/) and see if your specific issue is mentioned there.
 
-**[Click here to learn about known issues and their fixes](./fixes/README.md)**
+**[Click here to learn about known issues and their fixes](./patches/README.md)**
 
 ## 🟡 Building a Signed Boot Image from the Compiled Kernel
 
