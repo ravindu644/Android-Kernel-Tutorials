@@ -378,6 +378,8 @@ chmod +755 -R /path/to/extracted/kernel/
 
   <img src="./screenshots/24.png">
 
+**Note:** Make sure to follow the [requirements installation section](https://github.com/ravindu644/Android-Kernel-Tutorials#-install-the-dependencies-for-compiling-kernels) before using the [Android_boot_image_editor](https://github.com/cfig/Android_boot_image_editor)
+
 ### 02. Unpacking the `boot.img`
 
 1. Extract both the `boot` and `vbmeta` images from your stock ROM and place them inside the `boot_editor_vXX_XX` folder
