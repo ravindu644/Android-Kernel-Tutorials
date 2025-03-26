@@ -365,5 +365,85 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - So, all we have to do is **get the boot image from the stock ROM, unpack it, replace its kernel with our "built" one, repack it, flash it,** and **enjoy :)**
 
+**For the unpacking and repacking process, we are going to use [Android_boot_image_editor](https://github.com/cfig/Android_boot_image_editor) by @cfig :)**
+
+### 01. Downloading `Android_boot_image_editor`
+
+- Download the latest release zip from [here](https://github.com/cfig/Android_boot_image_editor/releases/latest) and unzip it like this:
+
+  <img src="./screenshots/24.png">
+
+### 02. Unpacking the `boot.img`
+
+1. Extract both the `boot` and `vbmeta` images from your stock ROM and place them inside the `boot_editor_vXX_XX` folder
+
+  <img src="./screenshots/26.png">
+
+**✔️ Samsung-only note:**
+
+  - **On Samsung devices,** these images are usually located inside the `AP_XXXX.tar.md5` file.
+
+  - All you have to do is rename `AP_XXXX.tar.md5` to `AP_XXXX.tar` to remove the `md5` extension, extract `AP_XXXX.tar`, and grab the `boot.img.lz4` and `vbmeta.img.lz4` files from the extracted folder.
+
+  - Then, **decompress these lz4 files using the following commands,** and you will get your `boot.img` and `vbmeta.img`
+
+    ```bash
+    lz4 boot.img.lz4
+    lz4 vbmeta.img.lz4
+    ```  
+    
+    <img src="./screenshots/25.png">
+
+2. Now, run following command to unpack the `boot.img` :
+
+- **Keep in mind,** this will take some time on the first run since the tool downloads dependencies during its initial execution.
+
+
+  ```bash
+  ./gradlew unpack
+  ```
+
+  <img src="./screenshots/27.png">
+
+#### 🟠 As you can see in the screenshot above, the kernel image of the unpacked `boot.img` is located in `build/unzip_boot/kernel`
+
+### 03. Repacking the `boot.img`
+
+- Now, all we have to do is **replacing the original `kernel` located inside the `boot_editor_vXX_XX/build/unzip_boot` with our custom kernel.**
+
+**Example:**
+
+<img src="./gif/6.gif">
+<br><br>
+
+**What did I do?**
+
+1. Copied the compiled `Image` from the `build` folder of the Kernel Root to `boot_editor_vXX_XX/build/unzip_boot`
+
+2. Deleted the original `kernel` and renamed `Image` to `kernel` 😎
+
+#### 🟢 Now, run the command below to cook our new `boot.img`, which contains our custom kernel :)
+
+  ```bash
+  ./gradlew pack
+  ```
+
+  <img src="./screenshots/28.png">
+
+### 🟨 Our new boot image will be located inside the `boot_editor_v15_r1` folder with the name `boot.img.signed`
+
+- Copy the `boot.img.signed` file to another location and rename it to `boot.img`
+
+- Now, all you have to do is **flash that `boot.img` through fastboot mode** or **Download mode** (Samsung)
+
+**✔️ Samsung-only note:**  
+
+- You can create an ODIN-flashable `tar` file using the command below:  
+
+  ```bash
+  tar -cvf "Custom-Kernel.tar" boot.img
+  ```
+
+- Then, flash that `tar` file using ODIN's AP slot :)
 
 ## Written by [@Ravindu_Deshan](https://t.me/Ravindu_Deshan) for [@SamsungTweaks](https://t.me/SamsungTweaks)
