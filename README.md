@@ -260,7 +260,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - Located in: `General setup  ---> Local version - append to kernel release`
 
-<img src="./gif/1.gif">
+<img src="./screenshots/gif/1.gif">
 
 ### 2. Enabling BTRFS support.
 
@@ -268,7 +268,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - Located in: `File systems  ---> < > Btrfs filesystem support`
 
-<img src="./gif/2.gif">
+<img src="./screenshots/gif/2.gif">
 
 ### 3. Enabling more CPU Governors
 
@@ -280,13 +280,13 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - Located in: `CPU Power Management  ---> CPU Frequency scaling  ---> `
 
-<img src="./gif/3.gif">
+<img src="./screenshots/gif/3.gif">
 
 **Changing the Default CPU Governor:**
 
 - Located in: `CPU Power Management  ---> CPU Frequency scaling  ---> Default CPUFreq governor (performance)  --->`
 
-<img src="./gif/4.gif">
+<img src="./screenshots/gif/4.gif">
 
 ### 4. Enabling more IO Schedulers
 
@@ -382,7 +382,7 @@ kernel configuration.
 - Once you've customized the kernel as you want, simply **exit menuconfig**.  
 - After exiting, the kernel will start compiling!
 
-<img src="./gif/5.gif">
+<img src="./screenshots/gif/5.gif">
 
 ### 💡 If everything goes smoothly like this,
 
@@ -456,7 +456,7 @@ kernel configuration.
 
 **Example:**
 
-<img src="./gif/6.gif">
+<img src="./screenshots/gif/6.gif">
 <br><br>
 
 **What did I do?**
