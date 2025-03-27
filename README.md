@@ -38,10 +38,11 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd -
 04. 👀 [Preparing for the Compilation](https://github.com/ravindu644/Android-Kernel-Tutorials#--preparing-for-the-compilation)
 05. ⚙️ [Customizing the Kernel (Temporary Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-temporary-method)
 06. ⚙️ [Customizing the Kernel (Permanent Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-permanent-method)
-07. 🟢 [Additional Patches](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main#-additional-patches)
-08. ✅ [Compiling the Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-compiling-the-kernel)
-09. 🟥 [Fixing the Known compiling issues](https://github.com/ravindu644/Android-Kernel-Tutorials#-fixing-the-known-compiling-issues)
-10. 🟡 [Building a Signed Boot Image from the Compiled Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-building-a-signed-boot-image-from-the-compiled-kernel)
+07. [⁉️ How to nuke Samsung's anti-root protections?]()
+08. 🟢 [Additional Patches](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main#-additional-patches)
+09. ✅ [Compiling the Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-compiling-the-kernel)
+10. 🟥 [Fixing the Known compiling issues](https://github.com/ravindu644/Android-Kernel-Tutorials#-fixing-the-known-compiling-issues)
+11. 🟡 [Building a Signed Boot Image from the Compiled Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-building-a-signed-boot-image-from-the-compiled-kernel)
 
 <hr>
 <h2> ✅ Downloading the kernel source code for your device</h2>
@@ -340,6 +341,10 @@ chmod +755 -R /path/to/extracted/kernel/
   - **Copy that name** and add it to your `custom.config` with `=y` or `=n` to enable or disable it.
 
     <img src="./screenshots/20.png">
+
+## ⁉️ How to nuke Samsung's anti-root protections?
+
+ - ### [Moved to here](./samsung-rkp/)
 
 ## 🟢 Additional Patches
 
