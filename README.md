@@ -10,7 +10,6 @@
 - Understanding the kernel root & choosing the right compilers for compilation
 - Customizing the kernel and applying kernel patches.
 - Remove Samsung's anti-root protections.  
-- Implementing KernelSU (to-do)
 - Creating a signed boot image from the compiled kernel
 
 **Requirements:**
