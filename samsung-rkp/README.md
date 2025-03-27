@@ -30,24 +30,27 @@ CONFIG_FIVE=n
 
 ### Possible Locations of these Security features in Menuconfig:
 
-01. → Kernel Features  
+01. `---> Kernel Features`
    - Disable:
      - "Enable RKP (Realtime Kernel Protection) UH feature"
      - "Enable LKM authentication by micro hypervisor"
      - "Block LKM by micro hypervisor"
      - "Enable micro hypervisor feature of Samsung"
 
-02. → Kernel Features → Control Flow Protection  
+02. `---> Kernel Features ---> Control Flow Protection`
    - Disable:
      - "JOP Prevention"
      - "ROP Prevention"
      - "JOPP and ROPP"
 
 **Additional Notes:**  
-   - If the above configs are missing in "Kernel Features," check "Boot options."
-   - **Android 14 & some Android 13 sources:** These options are under "→ Hypervisor" (Disable all).
 
-03. → Security options  
+   - If the above configs are missing in "Kernel Features," check "Boot options."
+   - **Android 14 & some Android 13 sources:** These options are under "---> Hypervisor" (Disable all).
+
+<br>
+
+03. `---> Security options`
    - Disable:
      - "Defex, PROCA, FIVE Support"
 
