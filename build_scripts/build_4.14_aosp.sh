@@ -40,6 +40,7 @@ fi
 
 # Export toolchain paths
 export PATH="${PATH}:${HOME}/toolchains/neutron-clang/bin"
+export NEUTRON_PATH="${HOME}/toolchains/neutron-clang/bin"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/toolchains/neutron-clang/lib"
 
 # Set cross-compile environment variables
@@ -57,15 +58,15 @@ CC=${BUILD_CC} \
 CLANG_TRIPLE=aarch64-linux-gnu- \
 LLVM=1 \
 LLVM_IAS=1 \
-AR=${HOME}/toolchains/neutron-clang/bin/llvm-ar \
-NM=${HOME}/toolchains/neutron-clang/bin/llvm-nm \
-LD=${HOME}/toolchains/neutron-clang/bin/ld.lld \
-STRIP=${HOME}/toolchains/neutron-clang/bin/llvm-strip \
-OBJCOPY=${HOME}/toolchains/neutron-clang/bin/llvm-objcopy \
-OBJDUMP=${HOME}/toolchains/neutron-clang/bin/llvm-objdump \
-READELF=${HOME}/toolchains/neutron-clang/bin/llvm-readelf \
-HOSTCC=${HOME}/toolchains/neutron-clang/bin/clang \
-HOSTCXX=${HOME}/toolchains/neutron-clang/bin/clang++ \
+AR=${NEUTRON_PATH}/llvm-ar \
+NM=${NEUTRON_PATH}/llvm-nm \
+LD=${NEUTRON_PATH}/ld.lld \
+STRIP=${NEUTRON_PATH}/llvm-strip \
+OBJCOPY=${NEUTRON_PATH}/llvm-objcopy \
+OBJDUMP=${NEUTRON_PATH}/llvm-objdump \
+READELF=${NEUTRON_PATH}/llvm-readelf \
+HOSTCC=${NEUTRON_PATH}/clang \
+HOSTCXX=${NEUTRON_PATH}/clang++ \
 "
 
 build_kernel(){
