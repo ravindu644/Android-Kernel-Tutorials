@@ -44,7 +44,7 @@ export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/toolchains/clang-r416183b/lib
 
 # Set cross-compile environment variables
 export BUILD_CROSS_COMPILE="${HOME}/toolchains/gcc/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-"
-export BUILD_CC="${HOME}/toolchains/clang-r416183b/clang"
+export BUILD_CC="${HOME}/toolchains/clang-r416183b/bin/clang"
 
 # Build options for the kernel
 export BUILD_OPTIONS="
