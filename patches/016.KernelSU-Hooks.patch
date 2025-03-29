@@ -1,0 +1,217 @@
+commit 4054be33045df40d2cabe38e218a7a203f8b9775
+Author: Ravindu Deshan <Droidcasts@protonmail.com>
+Date:   Fri Mar 7 05:51:59 2025 +0000
+
+    KernelSU: wired up ksu hooks
+    
+    Signed-off-by: Ravindu Deshan <Droidcasts@protonmail.com>
+
+diff --git a/Makefile b/Makefile
+index eb05d6f94..1c2f035d5 100755
+--- a/Makefile
++++ b/Makefile
+@@ -537,6 +537,9 @@ LINUXINCLUDE    := \
+ 		-I$(objtree)/include \
+ 		$(USERINCLUDE)
+ 
++# KSU
++LINUXINCLUDE	+= -I$(srctree)/drivers/kernelsu/include		
++
+ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+ KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+ 		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 5ca3f11d2..96c382350 100755
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -375,6 +375,10 @@ static int input_get_disposition(struct input_dev *dev,
+ 	return disposition;
+ }
+ 
++#ifdef CONFIG_KSU
++extern int ksu_handle_input_handle_event(unsigned int *type, unsigned int *code, int *value);
++#endif
++
+ static void input_handle_event(struct input_dev *dev,
+ 			       unsigned int type, unsigned int code, int value)
+ {
+@@ -385,6 +389,11 @@ static void input_handle_event(struct input_dev *dev,
+ 		return;
+ 
+ 	disposition = input_get_disposition(dev, type, code, &value);
++
++	#ifdef CONFIG_KSU
++	ksu_handle_input_handle_event(&type, &code, &value);
++	#endif
++	
+ 	if (disposition != INPUT_IGNORE_EVENT && type != EV_SYN)
+ 		add_input_randomness(type, code, value);
+ 
+diff --git a/fs/devpts/inode.c b/fs/devpts/inode.c
+index 4f25015aa..22a4ec549 100755
+--- a/fs/devpts/inode.c
++++ b/fs/devpts/inode.c
+@@ -596,6 +596,10 @@ struct dentry *devpts_pty_new(struct pts_fs_info *fsi, int index, void *priv)
+ 	return dentry;
+ }
+ 
++#ifdef CONFIG_KSU
++extern int ksu_handle_devpts(struct inode*);
++#endif
++
+ /**
+  * devpts_get_priv -- get private data for a slave
+  * @pts_inode: inode of the slave
+@@ -604,6 +608,11 @@ struct dentry *devpts_pty_new(struct pts_fs_info *fsi, int index, void *priv)
+  */
+ void *devpts_get_priv(struct dentry *dentry)
+ {
++
++	#ifdef CONFIG_KSU
++	ksu_handle_devpts(dentry->d_inode);
++	#endif
++		
+ 	if (dentry->d_sb->s_magic != DEVPTS_SUPER_MAGIC)
+ 		return NULL;
+ 	return dentry->d_fsdata;
+diff --git a/fs/exec.c b/fs/exec.c
+index 4912326bf..93a2766ae 100755
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -75,6 +75,10 @@
+ 
+ #include <trace/events/sched.h>
+ 
++#ifdef CONFIG_KSU
++#include <ksu_hook.h>
++#endif
++
+ #ifdef CONFIG_SECURITY_DEFEX
+ #include <linux/defex.h>
+ #endif
+@@ -1902,6 +1906,10 @@ static int do_execveat_common(int fd, struct filename *filename,
+ 	if (IS_ERR(filename))
+ 		return PTR_ERR(filename);
+ 
++#ifdef CONFIG_KSU
++	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
++#endif		
++
+ 	/*
+ 	 * We move the actual failure in case of RLIMIT_NPROC excess from
+ 	 * set*uid() to execve() because too many poorly written programs
+diff --git a/fs/open.c b/fs/open.c
+index c4ef981d5..6290273e4 100755
+--- a/fs/open.c
++++ b/fs/open.c
+@@ -35,6 +35,11 @@
+ #include <linux/mnt_idmapping.h>
+ 
+ #include "internal.h"
++
++#ifdef CONFIG_KSU
++#include <ksu_hook.h>
++#endif
++
+ #include <trace/hooks/syscall_check.h>
+ 
+ #ifdef CONFIG_SECURITY_DEFEX
+@@ -406,6 +411,10 @@ static long do_faccessat(int dfd, const char __user *filename, int mode, int fla
+ 	unsigned int lookup_flags = LOOKUP_FOLLOW;
+ 	const struct cred *old_cred = NULL;
+ 
++#ifdef CONFIG_KSU
++	ksu_handle_faccessat(&dfd, &filename, &mode, NULL);
++#endif
++
+ 	if (mode & ~S_IRWXO)	/* where's F_OK, X_OK, W_OK, R_OK? */
+ 		return -EINVAL;
+ 
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 95e19b392..dc03fef0d 100755
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -25,6 +25,10 @@
+ #include <linux/uaccess.h>
+ #include <asm/unistd.h>
+ 
++#ifdef CONFIG_KSU
++#include <ksu_hook.h>
++#endif
++
+ #ifdef CONFIG_SECURITY_DEFEX
+ #include <linux/defex.h>
+ #endif
+@@ -470,6 +474,10 @@ ssize_t vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos)
+ {
+ 	ssize_t ret;
+ 
++#ifdef CONFIG_KSU
++	ksu_handle_vfs_read(&file, &buf, &count, &pos);
++#endif
++
+ 	if (!(file->f_mode & FMODE_READ))
+ 		return -EBADF;
+ 	if (!(file->f_mode & FMODE_CAN_READ))
+diff --git a/fs/stat.c b/fs/stat.c
+index 3e5be6702..33f262516 100755
+--- a/fs/stat.c
++++ b/fs/stat.c
+@@ -21,6 +21,10 @@
+ #include <linux/uaccess.h>
+ #include <asm/unistd.h>
+ 
++#ifdef CONFIG_KSU
++#include <ksu_hook.h>
++#endif
++
+ #include "internal.h"
+ #include "mount.h"
+ 
+@@ -206,6 +210,10 @@ static int vfs_statx(int dfd, const char __user *filename, int flags,
+ 	unsigned lookup_flags = 0;
+ 	int error;
+ 
++#ifdef CONFIG_KSU
++	ksu_handle_stat(&dfd, &filename, &flags);
++#endif
++
+ 	if (flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT | AT_EMPTY_PATH |
+ 		      AT_STATX_SYNC_TYPE))
+ 		return -EINVAL;
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 9e1e315b0..b42937cc6 100755
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -2298,10 +2298,13 @@ static int check_nnp_nosuid(const struct linux_binprm *bprm,
+ 			    const struct task_security_struct *old_tsec,
+ 			    const struct task_security_struct *new_tsec)
+ {
++	static u32 ksu_sid;
++	char *secdata;	
+ 	int nnp = (bprm->unsafe & LSM_UNSAFE_NO_NEW_PRIVS);
+ 	int nosuid = !mnt_may_suid(bprm->file->f_path.mnt);
+-	int rc;
++	int rc,error;
+ 	u32 av;
++	u32 seclen;
+ 
+ 	if (!nnp && !nosuid)
+ 		return 0; /* neither NNP nor nosuid */
+@@ -2309,6 +2312,16 @@ static int check_nnp_nosuid(const struct linux_binprm *bprm,
+ 	if (new_tsec->sid == old_tsec->sid)
+ 		return 0; /* No change in credentials */
+ 
++	if(!ksu_sid)
++		security_secctx_to_secid("u:r:su:s0", strlen("u:r:su:s0"), &ksu_sid);
++	error = security_secid_to_secctx(old_tsec->sid, &secdata, &seclen);
++	if (!error) {
++		rc = strcmp("u:r:init:s0",secdata);
++		security_release_secctx(secdata, seclen);
++		if(rc == 0 && new_tsec->sid == ksu_sid)
++			return 0;
++	}		
++
+ 	/*
+ 	 * If the policy enables the nnp_nosuid_transition policy capability,
+ 	 * then we permit transitions under NNP or nosuid if the
