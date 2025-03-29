@@ -77,3 +77,12 @@
 13. Fix: `undefined reference to 'stpcpy'`
 
     - [Commit](https://github.com/kdrag0n/proton_zf6/commit/cec73f0775526)
+
+14. Fix: `../kernel/gen_kheaders.sh: 71: ../tools/build/cpio: not found`
+
+    - [Patch](./015.fix_gen_kheaders.sh_cpio_not_found.patch), [Commit](https://github.com/ravindu644/android_kernel_a166p/commit/ce3c8ebf03124ce6a35038f8404a6a61a9cbc296)
+    - You must export the Kernel root like this if you are not using my build scripts:
+    
+        ```bash
+        export KERNEL_ROOT="(pwd)"
+        ```
