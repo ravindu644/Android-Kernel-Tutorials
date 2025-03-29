@@ -1,0 +1,27 @@
+commit 6addccd5a82d4dc1c31faee50175358cb3f347f5
+Author: rsuntk <rissu.ntk@gmail.com>
+Date:   Sat Mar 1 13:07:24 2025 +0000
+
+    scripts: dtc: Do not build with libyaml
+    
+    Reason: failing in CI
+    
+    Signed-off-by: rsuntk <rissu.ntk@gmail.com>
+
+diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
+index 66433c65e..1f5ffa8da 100755
+--- a/scripts/dtc/Makefile
++++ b/scripts/dtc/Makefile
+@@ -14,12 +14,7 @@ dtc-objs	+= libfdt/fdt.o libfdt/fdt_ro.o libfdt/fdt_wip.o libfdt/fdt_sw.o \
+ # Source files need to get at the userspace version of libfdt_env.h to compile
+ HOST_EXTRACFLAGS := -I$(src)/libfdt
+ 
+-ifeq ($(wildcard /usr/include/yaml.h),)
+ HOST_EXTRACFLAGS += -DNO_YAML
+-else
+-dtc-objs	+= yamltree.o
+-HOSTLDLIBS_dtc	:= -lyaml
+-endif
+ 
+ # Generated files need one more search path to include headers in source tree
+ HOSTCFLAGS_dtc-lexer.lex.o := -I$(src)

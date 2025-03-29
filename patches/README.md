@@ -56,7 +56,7 @@
 
 8. Fix: `drivers/misc/tzdev/tz_deploy_tzar: fix startup.tzar inclusion`
 
-    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/429bce31c68e9a8d779c0c8a8303799fc11df1d6)
+    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/429bce31c68e9a8d779c0c8a8303799fc11df1d6), [Patch](./022.tz_deploy_tzar.patch)
 
 9. Fix: `ioctl_cfg80211.c: error: too many arguments to function call, expected 3, have 8`
 
@@ -68,15 +68,15 @@
 
 11. Fix: ```yamltree.c:(.text+0xa41): undefined reference to `yaml_emitter_initialize'```
 
-    - [Commit](https://github.com/rsuntkOrgs/kernel_samsung_a03/commit/6addccd5a82d4dc1c31faee50175358cb3f347f5)
+    - [Commit](https://github.com/rsuntkOrgs/kernel_samsung_a03/commit/6addccd5a82d4dc1c31faee50175358cb3f347f5), [Patch](./023.undefined_reference_to_`yaml_emitter_initialize'.patch)
 
 12. Fix: `as: unrecognized option '-EL'`
 
-    - [Commit](https://github.com/kdrag0n/proton_zf6/commit/6e87fec9a3df5)
+    - [Commit](https://github.com/kdrag0n/proton_zf6/commit/6e87fec9a3df5), [Patch](./024.as:_unrecognized_option_'-EL'.patch)
 
 13. Fix: `undefined reference to 'stpcpy'`
 
-    - [Commit](https://github.com/kdrag0n/proton_zf6/commit/cec73f0775526)
+    - [Commit](https://github.com/kdrag0n/proton_zf6/commit/cec73f0775526), [Patch](./025.undefined_reference_to_'stpcpy'.patch)
 
 14. Fix: `../kernel/gen_kheaders.sh: 71: ../tools/build/cpio: not found`
 
