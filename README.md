@@ -208,6 +208,12 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ---
 
+🔴 **If your device has a MediaTek chipset, usually it doesn't support booting a RAW kernel `Image`. Therefore, you should build a gzip-compressed kernel `Image.gz` instead.**  
+
+- [Here's the required patch for it](./patches/014.build_gzip_compressed_kernel.patch)
+
+---
+
 ### 03. Edit the Makefile.
 
 - If you find these variables: ```REAL_CC``` or ```CFP_CC``` in your "Makefile", remove them from the "Makefile", then Search for "wrapper" in your Makefile. If there's a line related to a Python file, remove that entire line/function as well.
