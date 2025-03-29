@@ -1,0 +1,58 @@
+commit 9737a7740f98a1dc90a02556d878f81a975d56c1
+Author: Ravindu Deshan <Droidcasts@protonmail.com>
+Date:   Fri Sep 20 07:40:56 2024 +0000
+
+    fix: sec_debug_test.c:773:(.text+0x1044): relocation truncated to fit: R_AARCH64_LDST64_ABS_LO12_NC against bullshit
+
+diff --git a/arch/arm64/kernel/vmlinux.lds.S b/arch/arm64/kernel/vmlinux.lds.S
+index e0b071913..ca8ceaac4 100755
+--- a/arch/arm64/kernel/vmlinux.lds.S
++++ b/arch/arm64/kernel/vmlinux.lds.S
+@@ -217,7 +217,7 @@ SECTIONS
+ 	BSS_SECTION(0, 0, 0)
+ 
+ 	. = ALIGN(PAGE_SIZE);
+-#ifndef CONFIG_UH
++#ifndef CONFIG_UH_RKP
+ 	idmap_pg_dir = .;
+ 	. += IDMAP_DIR_SIZE;
+ 	swapper_pg_dir = .;
+diff --git a/drivers/samsung/debug/sec_debug_test.c b/drivers/samsung/debug/sec_debug_test.c
+index 3168d1f76..202757967 100755
+--- a/drivers/samsung/debug/sec_debug_test.c
++++ b/drivers/samsung/debug/sec_debug_test.c
+@@ -749,7 +749,7 @@ static void simulate_UNALIGNED(char *arg)
+ {
+ 	static u8 data[5] __aligned(4) = {1, 2, 3, 4, 5};
+ 	u32 *p;
+-	u32 val = 0x12345678;
++	u32 val = 0x0;
+ 
+ 	pr_crit("%s()\n", __func__);
+ 
+@@ -770,7 +770,7 @@ static void simulate_WRITE_RO(char *arg)
+ #else
+ 	ptr = (unsigned long *)simulate_WRITE_RO;
+ #endif
+-	*ptr ^= 0x12345678;
++	*ptr ^= 0x0;
+ }
+ 
+ #define BUFFER_SIZE SZ_1K
+diff --git a/drivers/soc/samsung/debug/exynos-debug-test.c b/drivers/soc/samsung/debug/exynos-debug-test.c
+index 2dd874fd0..40b8f0a89 100755
+--- a/drivers/soc/samsung/debug/exynos-debug-test.c
++++ b/drivers/soc/samsung/debug/exynos-debug-test.c
+@@ -786,10 +786,11 @@ static void simulate_WRITE_RO(char *arg)
+ // Write to function addr will triger a warning by JOPP compiler
+ #ifdef CONFIG_RKP_CFP_JOPP
+ 	ptr = (unsigned long *)__start_rodata;
++	*ptr ^= 0x12345678;
+ #else
+ 	ptr = (unsigned long *)simulate_WRITE_RO;
+ #endif
+-	*ptr ^= 0x12345678;
++	*ptr ^= 0x0;
+ }
+ 
+ #define BUFFER_SIZE SZ_1K

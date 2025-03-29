@@ -1,0 +1,41 @@
+commit 571d9d222935054158ade009dc6ef9237634eebf
+Author: Ravindu Deshan <Droidcasts@protonmail.com>
+Date:   Fri Sep 20 06:08:05 2024 +0000
+
+    Fix: #error New address family defined, please update secclass_map.
+
+diff --git a/scripts/selinux/genheaders/genheaders.c b/scripts/selinux/genheaders/genheaders.c
+index fa48fabcb..3cc4893d9 100755
+--- a/scripts/selinux/genheaders/genheaders.c
++++ b/scripts/selinux/genheaders/genheaders.c
+@@ -9,7 +9,6 @@
+ #include <string.h>
+ #include <errno.h>
+ #include <ctype.h>
+-#include <sys/socket.h>
+ 
+ struct security_class_mapping {
+ 	const char *name;
+diff --git a/scripts/selinux/mdp/mdp.c b/scripts/selinux/mdp/mdp.c
+index ffe8179f5..c29fa4a62 100755
+--- a/scripts/selinux/mdp/mdp.c
++++ b/scripts/selinux/mdp/mdp.c
+@@ -32,7 +32,6 @@
+ #include <stdlib.h>
+ #include <unistd.h>
+ #include <string.h>
+-#include <sys/socket.h>
+ 
+ static void usage(char *name)
+ {
+diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
+index 05ecb689f..21e523cc3 100755
+--- a/security/selinux/include/classmap.h
++++ b/security/selinux/include/classmap.h
+@@ -1,5 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ #include <linux/capability.h>
++#include <linux/socket.h>
+ 
+ #define COMMON_FILE_SOCK_PERMS "ioctl", "read", "write", "create", \
+     "getattr", "setattr", "lock", "relabelfrom", "relabelto", "append", "map"
