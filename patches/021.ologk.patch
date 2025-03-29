@@ -1,0 +1,35 @@
+commit abbbbfe0b0e85853ac59e8661de1da57cbf2466a
+Author: Ravindu Deshan <droidcasts@protonmail.com>
+Date:   Fri Mar 21 18:26:30 2025 +0530
+
+    include/ologk: nuke missing include
+    
+    In file included from mm/page_alloc.c:71:
+    ./include/linux/ologk.h:5:10: fatal error: 'olog.pb.h' file not found
+    \#include olog.pb.h
+             ^~~~~~~~~~~
+    
+    Co-authored-by: corsicanu <corsicanu@users.noreply.github.com>
+    Signed-off-by: Ravindu Deshan <droidcasts@protonmail.com>
+
+diff --git a/include/linux/ologk.h b/include/linux/ologk.h
+index c3c1b8be0..58456d98d 100755
+--- a/include/linux/ologk.h
++++ b/include/linux/ologk.h
+@@ -2,13 +2,11 @@
+ #define _OLOG_KERNEL_H_
+ 
+ #include <linux/unistd.h>
+-#include "olog.pb.h"
+ 
+ #define OLOG_CPU_FREQ_FILTER   1500000
+ 
+-#define ologk(...) _perflog(PERFLOG_LOG, PERFLOG_UNKNOWN, __VA_ARGS__)
+-#define perflog(...) _perflog(PERFLOG_LOG, __VA_ARGS__)
+-extern void _perflog(int type, int logid, const char *fmt, ...);
+-extern void perflog_evt(int logid, int arg1);
++#define ologk(...)
++#define perflog(...)
++#define perflog_evt(...)
+ 
+ #endif

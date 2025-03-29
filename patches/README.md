@@ -36,15 +36,15 @@
 
     - **Note:** If you are unable to find the `scripts/dtc/dtc-lexer.lex.c_shipped` file, that's fine.
 
-    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/32ace01940d8fb26f809171c6bc9846fb6810181)    
+    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/32ace01940d8fb26f809171c6bc9846fb6810181), [Patch](./018.yylloc.patch)
 
 4. Fix: `#error New address family defined, please update secclass_map.`
 
-    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/571d9d222935054158ade009dc6ef9237634eebf)
+    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/571d9d222935054158ade009dc6ef9237634eebf), [Patch](./019.secclass.patch)
 
 5. Fix: `sec_debug_test.c:773:(.text+0x1044): relocation truncated to fit: R_AARCH64_LDST64_ABS_LO12_NC against...`
 
-    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/9737a7740f98a1dc90a02556d878f81a975d56c1)
+    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/9737a7740f98a1dc90a02556d878f81a975d56c1), [Patch](./020.sec_debug_test.patch)
 
 6. Fix: `fatal error: 'linux/state_notifier.h' file not found`
 
@@ -52,7 +52,7 @@
     
 7. Fix: `./include/linux/ologk.h:5:10: fatal error: 'olog.pb.h' file not found`
 
-    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/abbbbfe0b0e85853ac59e8661de1da57cbf2466a)
+    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/abbbbfe0b0e85853ac59e8661de1da57cbf2466a), [Patch](./021.ologk.patch)
 
 8. Fix: `drivers/misc/tzdev/tz_deploy_tzar: fix startup.tzar inclusion`
 
