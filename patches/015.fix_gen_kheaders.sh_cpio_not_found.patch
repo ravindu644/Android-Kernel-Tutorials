@@ -1,0 +1,23 @@
+commit ce3c8ebf03124ce6a35038f8404a6a61a9cbc296
+Author: Ravindu Deshan <prasannakumarasinha26@gmail.com>
+Date:   Thu Mar 27 16:10:27 2025 +0000
+
+    fix: ../kernel/gen_kheaders.sh: 71: ../tools/build/cpio: not found
+    
+    Signed-off-by: Ravindu Deshan <prasannakumarasinha26@gmail.com>
+
+diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+index 85c12cc62..26f5c57f5 100755
+--- a/kernel/gen_kheaders.sh
++++ b/kernel/gen_kheaders.sh
+@@ -8,8 +8,8 @@ sfile="$(readlink -f "$0")"
+ outdir="$(pwd)"
+ tarfile=$1
+ cpio_dir=$outdir/$tarfile.tmp
+-cpio=$srctree/tools/build/cpio
+-tar=$srctree/tools/build/tar
++cpio=${KERNEL_ROOT}/tools/build/cpio
++tar=${KERNEL_ROOT}/tools/build/tar
+ 
+ dir_list="
+ include/
