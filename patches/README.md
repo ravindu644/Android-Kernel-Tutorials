@@ -48,7 +48,7 @@
 
 6. Fix: `fatal error: 'linux/state_notifier.h' file not found`
 
-    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/75a7c07c13868f051ee1501347fb220c9aa0ef95)
+    - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/75a7c07c13868f051ee1501347fb220c9aa0ef95), [Patch](./026.state_notifier.h_not_found.patch)
     
 7. Fix: `./include/linux/ologk.h:5:10: fatal error: 'olog.pb.h' file not found`
 
@@ -60,11 +60,11 @@
 
 9. Fix: `ioctl_cfg80211.c: error: too many arguments to function call, expected 3, have 8`
 
-    - [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/a787bb1da52a27a61225acbc037c0dba65110a43)
+    - [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/a787bb1da52a27a61225acbc037c0dba65110a43), [Patch](./028.ioctl_cfg80211.c_%20error_%20too_many_arguments_to_function_call,_expected_3,_have_8.patch)
 
 10. Fix: `drivers/input/touchscreen/gt1151q_1695/gt1x_test.c: multiple definition of 'is_space'`
 
-    - [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/896574bace78ed509d9b7270c55a7c06c6f1e975)
+    - [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/896574bace78ed509d9b7270c55a7c06c6f1e975), [Patch](./027.fixed_multiple_definition_of_'is_space'.patch)
 
 11. Fix: ```yamltree.c:(.text+0xa41): undefined reference to `yaml_emitter_initialize'```
 
