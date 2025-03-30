@@ -14,12 +14,13 @@
 
 **Requirements:**
 - A working 🧠
-- Ubuntu/Debian based PC/Server
-- Knowledge of basic commands in Linux, and Bash script knowledge
+- Linux based PC/Server (Debian-based recommended.)
+- Basic knowledge in Linux commands and Bash Script.
 - Patience
 	
-### 🛠 Install the dependencies for compiling kernels
-- Only works on Debian-based distros.
+### 🛠 Install required dependencies for compiling kernels
+- Command below only for Debian-based distros like Ubuntu, Linux Mint, Debian and etc.
+- You can compile other kernel with other distros, like Arch-based `(pacman)` and CentOS/RHL-based `(yay)`/`(dnf)`. **However, we won't provide it here. Please search related packages below that match with your distro!**
 - Paste the code below in your terminal to start installation:
  
 ```bash
@@ -92,20 +93,14 @@ chmod +755 -R /path/to/extracted/kernel/
 - **Generic Kernel Image,** or **GKI,** is an Android's project that aims for reducing kernel fragmentation, (and also improving Android stability), **by unifying kernel core and moving SoC and Board support out of the core kernel into loadable vendor modules.**
 
 ### 02. `pre-GKI`/`non-GKI` and `GKI` linux version table
-```
-+--------------------------------------------------+
-|          Android LTS Kernel Versions             |
-+--------------------------------------------------+
-|       pre-GKI       |     GKI 1.0    |  GKI 2.0  |
-+---------------------+----------------+-----------+
-|         3.10        |       5.4      |   5.10    |
-|         3.18        |                |   5.15    |
-|         4.4         |                |   6.1     |
-|         4.9         |                |   6.6     |
-|         4.14        |                |           |
-|         4.19        |                |           |
-+---------------------+----------------+-----------+
-```
+| Pre-GKI | GKI 1.0 | GKI 2.0 |
+|---------|---------|---------|
+| 3.10    | 5.4     | 5.10    |
+| 3.18    |         | 5.15    |
+| 4.4     |         | 6.1     |
+| 4.9     |         | 6.6     |
+| 4.14    |         |         |
+| 4.19    |         |         |
 #### Explanation:
 
 1. **pre-GKI or non-GKI**:
@@ -117,7 +112,7 @@ chmod +755 -R /path/to/extracted/kernel/
    - Android's first generation of the Generic Kernel Image, starts and also ends from kernel version **5.4**.
    - The first generation of GKI is not yet matured as second generation of GKI.
    - These kernels are considered as **device-specific**, but more commonized, depends on how OEMs and SoCs Manufacturer treat them.
-   - A few variants exist for certain SoC, like qGKI (Qualcomm GKI), and mGKI (Mediatek GKI) because has been modified to accommodate SoCs manufacturer needs.
+   - SoC Manufacturers often modify GKI 1.0 kernel to add their SoC features. From this modifications, the term **Mediatek GKI (mGKI)** and **Qualcomm GKI (qGKI)** exist.
 
 4. **GKI 2.0**:
    - Android's second generation of the Generic Kernel Image, starting with kernel version **5.10**.
@@ -131,7 +126,7 @@ chmod +755 -R /path/to/extracted/kernel/
 - **GKI = Generic Kernel Image**: A unified kernel framework introduced by Google to standardize the kernel across Android devices.
 - **SoC = System on Chip**
 - **ACK = Android Common Kernel**: An Android's linux LTS kernel branch, modified to accommodate Android needs.
-- OEMs like Samsung may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken SD Card and broken Audio stuff. 
+- OEMs like Samsung may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken SD Card and broken Audio. 
   - **So, use their GKI kernel source instead if possible.**
 
 ## ✅ Understanding the ```Kernel root```
@@ -355,12 +350,18 @@ chmod +755 -R /path/to/extracted/kernel/
 ## 🟢 Additional Patches
 
 ### 01. To fix broken system funcitons like Wi-Fi, touch, sound etc.
+> [!NOTE]
+> Bypassing this usually not a good practice, because something like this is used as **last effort.**
+>
+> when there's no open source linux driver found. (e.g Proprietary drivers)
+>
+> But, for newbies or kernel developer that wanna ship their Loadable Kernel Module, **this is okay.**
 
 ---
 
   - On some devices, **compiling a custom kernel can break system-level functionalities like Wi-Fi, touch, sound, and even cause the system to not boot.**
 
-  - The reason behind this is that the device can't load the proprietary vendor modules, located inside the `/vendor/lib/modules` directory, after installing a custom kernel.
+  - The reason behind this is that the device can't load the external kernel modules `(*.ko)`, due to linux's prebuilt security feature `(symversioning, signature)` that prevent malicious kernel module to load. It's located inside `/vendor/lib/modules` directory, after installing a custom kernel.
 
   - To fix this issue, [use this patch](./patches/010.Disable-CRC-Checks.patch) to force the kernel to load those modules.
 
@@ -502,7 +503,7 @@ kernel configuration.
 
 ---
 
-**Written by:** [@ravindu644](https://t.me/ravindu)
+**Written by:** [@ravindu644](https://t.me/ravindu) and our contributor(s)
 
 **Join Telegram:** [@SamsungTweaks](https://t.me/SamsungTweaks)
 
