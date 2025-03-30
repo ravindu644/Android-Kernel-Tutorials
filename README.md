@@ -351,7 +351,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 ### 01. To fix broken system funcitons like Wi-Fi, touch, sound etc.
 > [!NOTE]
-> Bypassing this usually not a good practice, because something like this is used as **last effort.**
+> Bypassing this usually not a good practice, because something like this is used as **last effort,**
 >
 > when there's no open source linux driver found. (e.g Proprietary drivers)
 >
@@ -361,7 +361,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
   - On some devices, **compiling a custom kernel can break system-level functionalities like Wi-Fi, touch, sound, and even cause the system to not boot.**
 
-  - The reason behind this is that the device can't load the external kernel modules `(*.ko)`, due to linux's prebuilt security feature `(symversioning, signature)` that prevent malicious kernel module to load. It's located inside `/vendor/lib/modules` directory, after installing a custom kernel.
+  - The reason behind this is that the device can't load the external kernel modules `(*.ko)`, due to linux's prebuilt security feature `(symversioning, signature)` that prevent malicious kernel module to load.
 
   - To fix this issue, [use this patch](./patches/010.Disable-CRC-Checks.patch) to force the kernel to load those modules.
 
