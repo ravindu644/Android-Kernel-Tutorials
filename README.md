@@ -19,8 +19,8 @@
 - Patience
 	
 ### 🛠 Install required dependencies for compiling kernels
-- Command below only for Debian-based distros like Ubuntu, Linux Mint, Debian and etc.
-- You can compile other kernel with other distros, like Arch-based `(pacman)` and CentOS/RHL-based `(yay)`/`(dnf)`. **However, we won't provide it here. Please search related packages below that match with your distro!**
+- The command below only for Debian-based distros like Ubuntu, Linux Mint, Debian and etc.
+- You can compile kernel with other distros, like Arch-based `(pacman)` and CentOS/RHL-based `(yay)`/`(dnf)`. **However, we won't provide it here. Please search related packages below that match with your distro!**
 - Paste the code below in your terminal to start installation:
  
 ```bash
@@ -109,8 +109,9 @@ chmod +755 -R /path/to/extracted/kernel/
    - Starting to get deprecated in ACK, since `linux-4.19.y` branch already reaching EoL (End of Life) state, with last Linux 4.19.325
 
 3. **GKI 1.0**:
-   - Android's first generation of the Generic Kernel Image, starts and also ends from kernel version **5.4**.
-   - The first generation of GKI is not yet matured as second generation of GKI.
+   - Android's first generation of the Generic Kernel Image, starting with kernel version **5.4**.
+   - This first generation of GKI only have android11-5.4 and android12-5.4 branch and Google announced that GKI 1.0 is deprecated.
+   - The first generation of GKI is not yet matured as second generation of GKI, as its failed to reach GKI project goals.
    - These kernels are considered as **device-specific**, but more commonized, depends on how OEMs and SoCs Manufacturer treat them.
    - SoC Manufacturers often modify GKI 1.0 kernel to add their SoC features. From this modifications, the term **Mediatek GKI (mGKI)** and **Qualcomm GKI (qGKI)** exist.
 
