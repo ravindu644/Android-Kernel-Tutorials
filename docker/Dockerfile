@@ -99,6 +99,12 @@ RUN mkdir -p "/home/kernel-builder/toolchains/gcc" && \
     tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz && \
     rm arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz
 
+# Init neutron-clang 
+RUN mkdir -p "/home/kernel-builder/toolchains/neutron-clang" && \
+    cd "/home/kernel-builder/toolchains/neutron-clang" && \
+    curl -LO "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman" && chmod +x antman && \
+    bash antman -S && bash antman --patch=glibc
+
 # Init android-partition-tools
 RUN git clone https://github.com/ravindu644/android-partition-tools.git /home/kernel-builder/android-partition-tools --depth=1
 ENV PATH=$PATH:/home/kernel-builder/android-partition-tools
