@@ -30,3 +30,25 @@ jobs:
       with:
         name: Kernel-Builder-${{ github.event.inputs.tag }}
         path: docker/*.zip
+
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ github.event.inputs.tag }}-docker
+        name: "Kernel-Builder-${{ github.event.inputs.tag }}"
+        draft: false
+        prerelease: true
+        token: ${{ secrets.TOKEN }}          
+        artifacts: "docker/*.zip"
+        body: |        
+          "**How to use..?**  
+
+          - Download the `kernel-builder.zip` file.  
+          - Unzip it.  
+          - Install Docker if it's not already installed.  
+          - Run `kernel-builder.sh`, which is located inside the unzipped folder to power up the docker container :)
+
+            ```
+            bash kernel-builder.sh
+            ```
+          "
