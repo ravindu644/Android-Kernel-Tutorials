@@ -41,7 +41,7 @@ jobs:
         token: ${{ secrets.TOKEN }}          
         artifacts: "docker/*.zip"
         body: |        
-          "**How to use..?**  
+          **How to use..?**  
 
           - Download the `kernel-builder.zip` file.  
           - Unzip it.  
@@ -51,4 +51,4 @@ jobs:
             ```
             bash kernel-builder.sh
             ```
-          "
+
