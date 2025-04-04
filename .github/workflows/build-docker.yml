@@ -1,0 +1,32 @@
+name: Build the Docker Container
+
+on:
+  workflow_dispatch:
+    inputs:      
+      tag:
+        description: 'Docker Release Tag'
+        required: true    
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+
+    - name: Set environment variable
+      run: |
+        echo "DOCKER_CONTAINER_VERSION=${{ github.event.inputs.tag }}" >> $GITHUB_ENV        
+
+    - name: Cook the container
+      run: |
+        cd docker && bash docker/build-container.sh
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Kernel-Builder-${{ github.event.inputs.tag }}
+        path: docker/*.zip
