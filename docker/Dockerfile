@@ -109,5 +109,16 @@ RUN mkdir -p "/home/kernel-builder/toolchains/neutron-clang" && \
 RUN git clone https://github.com/ravindu644/android-partition-tools.git /home/kernel-builder/android-partition-tools --depth=1
 ENV PATH=$PATH:/home/kernel-builder/android-partition-tools
 
+# sKETCHY way to initialize boot image editor :3
+RUN cd "/home/kernel-builder" && \
+    curl -LO "https://github.com/cfig/Android_boot_image_editor/releases/download/v15_r1/boot_editor_v15_r1.zip" && \
+    unzip boot_editor_v15_r1.zip && \
+    cd boot_editor_v15_r1 && \
+    curl -LO "https://github.com/ravindu644/android_kernel_m145f_common/raw/refs/heads/M145FXXU4CXG4/prebuilts/Android_boot_image_editor/boot.img" && \
+    curl -LO "https://github.com/ravindu644/android_kernel_m145f_common/raw/refs/heads/M145FXXU4CXG4/prebuilts/Android_boot_image_editor/vbmeta.img" && \
+    bash gradlew unpack && \
+    bash gradlew clear && \
+    rm -f boot.img vbmeta.img
+
 # Final command to keep the container running
 CMD ["bash"]
