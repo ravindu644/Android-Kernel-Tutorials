@@ -23,7 +23,7 @@ jobs:
 
     - name: Cook the container
       run: |
-        cd docker && bash docker/build-container.sh
+        cd docker && bash build-container.sh || exit 1
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
