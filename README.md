@@ -1,11 +1,7 @@
 > [!CAUTION]
-> This guide shows you how to compile a kernel - it doesn’t hold your hand when things go wrong. If your kernel doesn’t boot, your device bricks, or something breaks, **that’s on you,** not me.
+> **By using this guide, you accept all risks -** including potential device bricking, failed boots, or other issues. **We take no responsibility for any damage.**
 > 
-> **I take zero responsibility for your mistakes.** If you can’t follow instructions properly, don’t expect me to fix what you messed up. This guide is here to help, not to babysit.
-> 
-> If you successfully compile the kernel, great! That means the guide works. If your kernel doesn’t boot, it’s your job to debug it, check the logs, and figure it out.
-> 
-> And if you skip the docs and then ask me stupid questions because you screwed up? **I’ll laugh at you.** 
+> Questions will **only** be considered **if you've read the full documentation** and **done your own research first.**
 
 ## A Beginner-Friendly Guide to Compile Your First Android Kernel!
 
