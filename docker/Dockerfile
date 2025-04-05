@@ -112,7 +112,7 @@ ENV PATH=$PATH:/home/kernel-builder/android-partition-tools
 # sKETCHY way to initialize boot image editor :3
 RUN cd "/home/kernel-builder" && \
     curl -LO "https://github.com/cfig/Android_boot_image_editor/releases/download/v15_r1/boot_editor_v15_r1.zip" && \
-    unzip boot_editor_v15_r1.zip && \
+    unzip boot_editor_v15_r1.zip && rm boot_editor_v15_r1.zip && -rf \
     cd boot_editor_v15_r1 && \
     curl -LO "https://github.com/ravindu644/android_kernel_m145f_common/raw/refs/heads/M145FXXU4CXG4/prebuilts/Android_boot_image_editor/boot.img" && \
     curl -LO "https://github.com/ravindu644/android_kernel_m145f_common/raw/refs/heads/M145FXXU4CXG4/prebuilts/Android_boot_image_editor/vbmeta.img" && \
