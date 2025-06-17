@@ -211,44 +211,13 @@ repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 
 <img src="./screenshots/2.png">
 
-**Note:** It's a good idea to give the entire kernel directory 755 permission to remove those read-only error from files and folders. This prevents issues when editing files and upstreaming the kernel.
-
-**Run this command to fix it:**
-
-
-```
-chmod +755 -R /path/to/extracted/kernel/
-```
-
-**Before:**
-<img src="./screenshots/3.png">
-
-**After:**
-<img src="./screenshots/4.png">
-
 **The following video demonstrates all the steps mentioned above:** 
-
-[🎥 Extracting Samsung's Kernel.tar.gz & granting required permissions](https://www.youtube.com/watch?v=QLymPkTpC2Y)
 
 <hr>
 
-- **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos:
-
-  <img src="./screenshots/13.png">=
-
-## ✅ Understanding the ```Kernel root```
-
-<img src="./screenshots/6.png">
-
-- As you can see in the above screenshot, it's the Linux kernel source code.
-- It must have those folders, **highlighted in blue in the terminal.**
-- **In GKI kernels,** the kernel root is located in a folder named "common".
-
-- If you have a **GKI Samsung kernel**, you should use the "common" kernel instead of "msm-kernel" for the compilation.
-
 <h2> ✅ Preparing for the Compilation</h2>
 
-### 01. After downloading or cloning the Kernel Source, we should have a build script to compile our kernel.
+### 02. Time to compile our kernel.
 
 - Before creating a build script, we must determine the compatible compilers we will use to build our kernel.
 
