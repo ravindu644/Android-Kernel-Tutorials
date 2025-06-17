@@ -6,56 +6,180 @@
 ## A Beginner-Friendly Guide to Compile Your First Android Kernel!
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)
-[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](#)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](/LICENSE)
-[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/SamsungTweaks)
 
-**What You'll Learn:**  
+# Android Kernel Tutorial: GKI 2.0
 
-- Understanding the kernel root & choosing the right compilers for compilation
-- Customizing the kernel and applying kernel patches.
-- Remove Samsung's anti-root protections.  
-- Creating a signed boot image from the compiled kernel
+**Readings:**  
+
+First, you should read the official Android documentation for kernel building:  
+- https://source.android.com/docs/setup/build/building-kernels  
+- https://source.android.com/docs/core/architecture/kernel/gki-release-builds
+
+Extras:  
+- https://kernelsu.org/guide/how-to-build.html
+- https://source.android.com/docs/setup/build/building-pixel-kernels
+
+**What You Need To Know:**  
+
+**Generic Kernel Image (GKI):**
+- A Generic Kernel Image (GKI) for Android is a standardized Linux kernel created by Google to reduce device differences and make updates easier. It separates hardware-specific code into loadable modules, letting one kernel work across various devices.
+
+**Android Kernel Evolution: Pre-GKI, GKI 1.0, GKI 2.0:**
+- Pre-GKI: Custom kernels forked from the Android Common Kernel, tailored by vendors and OEMs, caused fragmentation and slow updates.
+- GKI 1.0: Launched with Android 11 (kernel 5.4), introduced a standardized kernel with vendor modules to reduce fragmentation, but vendor modifications limited success.
+- GKI 2.0: Introduced with Android 12 (kernel 5.10+), enforces a stable Kernel Module Interface, separates hardware code, and enables independent updates.
+
+This tutorial covers GKI 2.0 kernels, the current standard for Android devices.
+
+**Git:**
+- Git is a free and open source distributed version control system. Android uses Git for local operations such as branching, commits, diffs, and edits. For help learning Git, refer to the Git documentation.
+
+**Repo:**
+- Repo is a Python wrapper around Git that simplifies performing complex operations across multiple Git repositories. Repo doesn't replace Git for all version control operations, it only makes complex Git operations easier to accomplish. Repo uses manifest files to aggregate Git projects into the Android superproject.
+
+**Android kernel manifest:**
+- An Android kernel manifest is an XML file (typically named manifest.xml or default.xml) that specifies the Git repositories, branches, and projects required to download the Generic Kernel Image (GKI) source code using the repo tool. It acts as a roadmap for developers to synchronize the kernel source tree from Google's Android Git repositories (e.g., https://android.googlesource.com/kernel/manifest). 
+
+**Kernel version vs Android version:**
+
+Please note: Kernel version and Android version aren't necessarily the same!
+
+If you find that your kernel version is 5.10.101-android12, but your Android system version is Android 13 or other, don't be surprised, because the version number of the Android system isn't necessarily the same as the version number of the Linux kernel. The version number of the Linux kernel is generally correspondent to the version of the Android system that comes with the device when it is shipped. If the Android system is upgraded later, the kernel version will generally not change. Always check kernel version before building!
 
 **Requirements:**
 - A working 🧠
-- Linux based PC/Server (Debian-based recommended.)
+- Linux based PC/Server/VM (This will be done on Ubuntu WSL)
 - Basic knowledge in Linux commands and Bash Script.
 - Patience
 	
-### 🛠 Install required dependencies for compiling kernels
+### 🛠 Install required dependencies for GKI 2.0 kernels
 - The command below only for Debian-based distros like Ubuntu, Linux Mint, Debian and etc.
-- You can compile kernel with other distros, like Arch-based `(pacman)` and CentOS/RHL-based `(yay)`/`(dnf)`. **However, we won't provide it here. Please search related packages below that match with your distro!**
+- You can compile kernels with any distro! **Please search related packages below that match with your distro!**
 - Paste the code below in your terminal to start installation:
  
 ```bash
-sudo apt update && sudo apt install -y git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full android-sdk-libsparse-utils erofs-utils \
-default-jdk git gnupg flex bison gperf build-essential zip curl libc6-dev libncurses-dev libx11-dev libreadline-dev libgl1 libgl1-mesa-dev \
-python3 make sudo gcc g++ bc grep tofrodos python3-markdown libxml2-utils xsltproc zlib1g-dev python-is-python3 libc6-dev libtinfo6 \
-make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd --fix-missing && wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb && sudo dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb
+sudo apt update && sudo apt install git-core gnupg flex bison build-essential zip curl zlib1g-dev libc6-dev-i386 x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig repo
 ```
-<br>❗The video Guide for this tutorial can be found here (outdated): Open in <a href="https://t.me/SamsungTweaks/137">Telegram</a> </h3>
-<br>
 
 ### Quick Links :
-01. 📁 [Downloading the kernel source code for your device](https://github.com/ravindu644/Android-Kernel-Tutorials#--downloading-the-kernel-source-code-for-your-device)
-02. 🧠 [Understanding the Kernel root](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-the-kernel-root)
-03. 🧠 [Understanding non-GKI & GKI kernels](https://github.com/ravindu644/Android-Kernel-Tutorials#-understanding-non-gki--gki-kernels)
-04. 👀 [Preparing for the Compilation](https://github.com/ravindu644/Android-Kernel-Tutorials#--preparing-for-the-compilation)
-05. ⚙️ [Customizing the Kernel (Temporary Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-temporary-method)
-06. ⚙️ [Customizing the Kernel (Permanent Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-permanent-method)
-07. [⁉️ How to nuke Samsung's anti-root protections?](https://github.com/ravindu644/Android-Kernel-Tutorials#%EF%B8%8F-how-to-nuke-samsungs-anti-root-protections)
-08. 🟢 [Additional Patches](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main#-additional-patches)
-09. ✅ [Compiling the Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-compiling-the-kernel)
-10. 🟥 [Fixing the Known compiling issues](https://github.com/ravindu644/Android-Kernel-Tutorials#-fixing-the-known-compiling-issues)
-11. 🟡 [Building a Signed Boot Image from the Compiled Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-building-a-signed-boot-image-from-the-compiled-kernel)
+01. 📁 [Downloading the kernel source code for your device](https://github.com/TheWildJames/Android_Kernel_Tutorials#--downloading-the-kernel-source-code-for-your-device)
+02. 🧠 [Understanding the Kernel root](https://github.com/TheWildJames/Android_Kernel_Tutorials?tab=readme-ov-file#-understanding-the-kernel-root)
+03. 🧠 [Understanding non-GKI & GKI kernels](https://github.com/TheWildJames/Android_Kernel_Tutorials#-understanding-non-gki--gki-kernels)
+04. 👀 [Preparing for the Compilation](https://github.com/TheWildJames/Android_Kernel_Tutorials#--preparing-for-the-compilation)
+05. ⚙️ [Customizing the Kernel (Temporary Method)](https://github.com/TheWildJames/Android_Kernel_Tutorials#-customizing-the-kernel-temporary-method)
+06. ⚙️ [Customizing the Kernel (Permanent Method)](https://github.com/TheWildJames/Android_Kernel_Tutorials#-customizing-the-kernel-permanent-method)
+07. [⁉️ How to nuke Samsung's anti-root protections?](https://github.com/TheWildJames/Android_Kernel_Tutorials#%EF%B8%8F-how-to-nuke-samsungs-anti-root-protections)
+08. 🟢 [Additional Patches](https://github.com/TheWildJames/Android_Kernel_Tutorials/tree/main#-additional-patches)
+09. ✅ [Compiling the Kernel](https://github.com/TheWildJames/Android_Kernel_Tutorials#-compiling-the-kernel)
+10. 🟥 [Fixing the Known compiling issues](https://github.com/TheWildJames/Android_Kernel_Tutorials#-fixing-the-known-compiling-issues)
+11. 🟡 [Building a Signed Boot Image from the Compiled Kernel](https://github.com/TheWildJames/Android_Kernel_Tutorials#-building-a-signed-boot-image-from-the-compiled-kernel)
 
 <hr>
 <h2> ✅ Downloading the kernel source code for your device</h2>
 
-- **⚠️ If your device is Samsung,**
+#### 00. Find kernel manifest from here:  
+[Google Git](https://android.googlesource.com/kernel/manifest)  
+[Generic Kernel Image (GKI) release builds](https://source.android.com/docs/core/architecture/kernel/gki-release-builds)
+
+You can also use the table below for reference.
+
+**Android 12 5.10 kernels:**
+| Kernel Version           | Patch Level | Branch                        |
+|--------------------------|-------------|-------------------------------|
+| 5.10.168-android12       | 2023-04     | common-android12-5.10-2023-04 |
+| 5.10.198-android12       | 2024-01     | common-android12-5.10-2024-01 |
+| 5.10.205-android12       | 2024-03     | common-android12-5.10-2024-03 |
+| 5.10.209-android12       | 2024-05     | common-android12-5.10-2024-05 |
+| 5.10.218-android12       | 2024-08     | common-android12-5.10-2024-08 |
+| 5.10.226-android12       | 2024-11     | common-android12-5.10-2024-11 |
+| 5.10.233-android12       | 2025-02     | common-android12-5.10-2025-02 |
+| 5.10.236-android12       | 2025-05     | common-android12-5.10-2025-05 |
+| 5.10.X-android12         | lts         | common-android12-5.10-lts     |
+
+**Android 13 5.10 kernels:**
+| Kernel Version           | Patch Level | Branch                        |
+|--------------------------|-------------|-------------------------------|
+| 5.10.198-android13       | 2024-01     | common-android13-5.10-2024-01 |
+| 5.10.205-android13       | 2024-03     | common-android13-5.10-2024-03 |
+| 5.10.209-android13       | 2024-05     | common-android13-5.10-2024-05 |
+| 5.10.210-android13       | 2024-06     | common-android13-5.10-2024-06 |
+| 5.10.214-android13       | 2024-07     | common-android13-5.10-2024-07 |
+| 5.10.218-android13       | 2024-08     | common-android13-5.10-2024-08 |
+| 5.10.223-android13       | 2024-11     | common-android13-5.10-2024-11 |
+| 5.10.228-android13       | 2025-01     | common-android13-5.10-2025-01 |
+| 5.10.234-android13       | 2025-03     | common-android13-5.10-2025-03 |
+| 5.10.236-android13       | 2025-05     | common-android13-5.10-2025-05 |
+| 5.10.X-android13         | lts         | common-android13-5.10-lts     |
+
+**Android 13 5.15 kernels:**
+| Kernel Version           | Patch Level | Branch                        |
+|--------------------------|-------------|-------------------------------|
+| 5.15.123-android13       | 2023-11     | common-android13-5.15-2023-11 |
+| 5.15.137-android13       | 2024-01     | common-android13-5.15-2024-01 |
+| 5.15.144-android13       | 2024-03     | common-android13-5.15-2024-03 |
+| 5.15.148-android13       | 2024-05     | common-android13-5.15-2024-05 |
+| 5.15.149-android13       | 2024-07     | common-android13-5.15-2024-07 |
+| 5.15.151-android13       | 2024-08     | common-android13-5.15-2024-08 |
+| 5.15.153-android13       | 2024-09     | common-android13-5.15-2024-09 |
+| 5.15.167-android13       | 2024-11     | common-android13-5.15-2024-11 |
+| 5.15.170-android13       | 2025-01     | common-android13-5.15-2025-01 |
+| 5.15.178-android13       | 2025-03     | common-android13-5.15-2025-03 |
+| 5.15.180-android13       | 2025-05     | common-android13-5.15-2025-05 |
+| 5.15.X-android13         | lts         | common-android13-5.15-lts     |
+**Android 14 5.15 kernels:**
+| Kernel Version           | Patch Level | Branch                        |
+|--------------------------|-------------|-------------------------------|
+| 5.15.137-android14       | 2024-01     | common-android14-5.15-2024-01 |
+| 5.15.144-android14       | 2024-03     | common-android14-5.15-2024-03 |
+| 5.15.148-android14       | 2024-05     | common-android14-5.15-2024-05 |
+| 5.15.149-android14       | 2024-06     | common-android14-5.15-2024-06 |
+| 5.15.153-android14       | 2024-07     | common-android14-5.15-2024-07 |
+| 5.15.158-android14       | 2024-08     | common-android14-5.15-2024-08 |
+| 5.15.167-android14       | 2024-11     | common-android14-5.15-2024-11 |
+| 5.15.170-android14       | 2025-01     | common-android14-5.15-2025-01 |
+| 5.15.178-android14       | 2025-03     | common-android14-5.15-2025-03 |
+| 5.15.180-android14       | 2025-05     | common-android14-5.15-2025-05 |
+| 5.15.X-android14         | lts         | common-android14-5.15-lts     |
+
+**Android 14 6.1 kernels:**
+| Kernel Version           | Patch Level | Branch                        |
+|--------------------------|-------------|-------------------------------|
+| 6.1.57-android14         | 2024-01     | common-android14-6.1-2024-01  |
+| 6.1.68-android14         | 2024-03     | common-android14-6.1-2024-03  |
+| 6.1.75-android14         | 2024-05     | common-android14-6.1-2024-05  |
+| 6.1.78-android14         | 2024-06     | common-android14-6.1-2024-06  |
+| 6.1.84-android14         | 2024-07     | common-android14-6.1-2024-07  |
+| 6.1.90-android14         | 2024-08     | common-android14-6.1-2024-08  |
+| 6.1.93-android14         | 2024-09     | common-android14-6.1-2024-09  |
+| 6.1.99-android14         | 2024-10     | common-android14-6.1-2024-10  |
+| 6.1.112-android14        | 2024-11     | common-android14-6.1-2024-11  |
+| 6.1.115-android14        | 2024-12     | common-android14-6.1-2024-12  |
+| 6.1.118-android14        | 2025-01     | common-android14-6.1-2025-01  |
+| 6.1.124-android14        | 2025-02     | common-android14-6.1-2025-02  |
+| 6.1.128-android14        | 2025-03     | common-android14-6.1-2025-03  |
+| 6.1.129-android14        | 2025-04     | common-android14-6.1-2025-04  |
+| 6.1.134-android14        | 2025-05     | common-android14-6.1-2025-05  |
+| 6.1.X-android14          | lts         | common-android14-6.1-lts      |
+
+**Android 15 6.6 kernels:**
+| Kernel Version           | Patch Level | Branch                        |
+|--------------------------|-------------|-------------------------------|
+| 6.6.50-android15         | 2024-10     | common-android15-6.6-2024-10  |
+| 6.6.56-android15         | 2024-11     | common-android15-6.6-2024-11  |
+| 6.6.57-android15         | 2024-12     | common-android15-6.6-2024-12  |
+| 6.6.58-android15         | 2025-01     | common-android15-6.6-2025-01  |
+| 6.6.66-android15         | 2025-02     | common-android15-6.6-2025-02  |
+| 6.6.77-android15         | 2025-03     | common-android15-6.6-2025-03  |
+| 6.6.82-android15         | 2025-04     | common-android15-6.6-2025-04  |
+| 6.6.87-android15         | 2025-05     | common-android15-6.6-2025-05  |
+| 6.6.X-android15          | lts         | common-android15-6.6-lts      |
+
 
 #### 01. Download the kernel source from here: [Samsung Opensource]( https://opensource.samsung.com/main)
+
+```bash
+mkdir -p ~/android-kernel && cd ~/android-kernel
+```
 
 <img src="./screenshots/1.png">
 
@@ -155,7 +279,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 <img src="./screenshots/5.png">
 
-- In my case, the kernel version is **5.4,** with qualcomm chipset, which is [qGKI](https://github.com/ravindu644/Android-Kernel-Tutorials#-understanding-non-gki--gki-kernels).
+- In my case, the kernel version is **5.4,** with qualcomm chipset, which is [qGKI](https://github.com/TheWildJames/Android_Kernel_Tutorials#-understanding-non-gki--gki-kernels).
 
 - You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
 
@@ -432,7 +556,7 @@ kernel configuration.
 
   <img src="./screenshots/24.png">
 
-**Note:** Make sure to follow the [requirements installation section](https://github.com/ravindu644/Android-Kernel-Tutorials#-install-the-dependencies-for-compiling-kernels) before using the [Android_boot_image_editor](https://github.com/cfig/Android_boot_image_editor)
+**Note:** Make sure to follow the [requirements installation section](https://github.com/TheWildJames/Android_Kernel_Tutorials#-install-the-dependencies-for-compiling-kernels) before using the [Android_boot_image_editor](https://github.com/cfig/Android_boot_image_editor)
 
 ### 02. Unpacking the `boot.img`
 
