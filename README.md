@@ -44,7 +44,14 @@ This tutorial covers GKI 2.0 kernels, the current standard for Android devices.
 - Repo is a Python wrapper around Git that simplifies performing complex operations across multiple Git repositories. Repo doesn't replace Git for all version control operations, it only makes complex Git operations easier to accomplish. Repo uses manifest files to aggregate Git projects into the Android superproject.
 
 **Android kernel manifest:**
-- An Android kernel manifest is an XML file (typically named manifest.xml or default.xml) that specifies the Git repositories, branches, and projects required to download the Generic Kernel Image (GKI) source code using the repo tool. It acts as a roadmap for developers to synchronize the kernel source tree from Google's Android Git repositories (e.g., https://android.googlesource.com/kernel/manifest). 
+- An Android kernel manifest is an XML file (typically named manifest.xml or default.xml) that specifies the Git repositories, branches, and projects required to download the Generic Kernel Image (GKI) source code using the repo tool. It acts as a roadmap for developers to synchronize the kernel source tree from Google's Android Git repositories (e.g., https://android.googlesource.com/kernel/manifest).
+
+### Notes:
+- **LTS = Long-Term Support**
+- **GKI = Generic Kernel Image**
+- **SoC = System on Chip**
+- **OEMs = Original Equipment Manufacturers:** like Samsung or OnePlus may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken SD Card and broken Audio. 
+  - **So, use their GKI kernel source instead if possible.** 
 
 **Requirements:**
 - A working 🧠
@@ -189,17 +196,25 @@ repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 
 <img src="./screenshots/1.png">
 
-#### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command and please do not use any apps to do this:
+#### 02. Determine the Kernel Build Systems: https://source.android.com/docs/setup/reference/bazel-support
 
-```bash
-tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
-```
+| Kernel Version           | Bazel (Kleaf)  | build.sh (legacy) |
+|--------------------------|----------------|-------------------|
+| 5.10-android12           | ❌            | ✅ (official)     |
+| 5.10-android13           | ✅            | ✅ (official) 	|
+| 5.15-android13           | ✅            | ✅ (official)     |
+| 5.15-android14           | ✅ (official) | ❌                |
+| 6.1-android14            | ✅ (official) | ❌                |
+| 6.6-android15            | ✅ (official) | ❌                |
+
+"Official" means that this is the official way to build the kernel, even though the alternative way might also be used to build the kernel.
 
 <img src="./screenshots/2.png">
 
 **Note:** It's a good idea to give the entire kernel directory 755 permission to remove those read-only error from files and folders. This prevents issues when editing files and upstreaming the kernel.
 
 **Run this command to fix it:**
+
 
 ```
 chmod +755 -R /path/to/extracted/kernel/
@@ -219,15 +234,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - **⚠️ For other devices,** You can find them by your OEM's sites or from your OEM's **official** GitHub repos:
 
-  <img src="./screenshots/13.png">
-
-### Notes:
-- **LTS = Long-Term Support**: These kernels are stable, well-maintained, and receive long-term updates.
-- **GKI = Generic Kernel Image**: A unified kernel framework introduced by Google to standardize the kernel across Android devices.
-- **SoC = System on Chip**
-- **ACK = Android Common Kernel**: An Android's linux LTS kernel branch, modified to accommodate Android needs.
-- OEMs like Samsung may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken SD Card and broken Audio. 
-  - **So, use their GKI kernel source instead if possible.**
+  <img src="./screenshots/13.png">=
 
 ## ✅ Understanding the ```Kernel root```
 
