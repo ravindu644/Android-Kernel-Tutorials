@@ -29,6 +29,12 @@ Extras:
 - GKI 1.0: Launched with Android 11 (kernel 5.4), introduced a standardized kernel with vendor modules to reduce fragmentation, but vendor modifications limited success.
 - GKI 2.0: Introduced with Android 12 (kernel 5.10+), enforces a stable Kernel Module Interface, separates hardware code, and enables independent updates.
 
+**Kernel version vs Android version:**
+
+Please note: Kernel version and Android version aren't necessarily the same!
+
+If you find that your kernel version is 5.10.101-android12, but your Android system version is Android 13 or other, don't be surprised, because the version number of the Android system isn't necessarily the same as the version number of the Linux kernel. The version number of the Linux kernel is generally correspondent to the version of the Android system that comes with the device when it is shipped. If the Android system is upgraded later, the kernel version will generally not change. Always check kernel version before building!
+
 This tutorial covers GKI 2.0 kernels, the current standard for Android devices.
 
 **Git:**
@@ -39,12 +45,6 @@ This tutorial covers GKI 2.0 kernels, the current standard for Android devices.
 
 **Android kernel manifest:**
 - An Android kernel manifest is an XML file (typically named manifest.xml or default.xml) that specifies the Git repositories, branches, and projects required to download the Generic Kernel Image (GKI) source code using the repo tool. It acts as a roadmap for developers to synchronize the kernel source tree from Google's Android Git repositories (e.g., https://android.googlesource.com/kernel/manifest). 
-
-**Kernel version vs Android version:**
-
-Please note: Kernel version and Android version aren't necessarily the same!
-
-If you find that your kernel version is 5.10.101-android12, but your Android system version is Android 13 or other, don't be surprised, because the version number of the Android system isn't necessarily the same as the version number of the Linux kernel. The version number of the Linux kernel is generally correspondent to the version of the Android system that comes with the device when it is shipped. If the Android system is upgraded later, the kernel version will generally not change. Always check kernel version before building!
 
 **Requirements:**
 - A working 🧠
@@ -126,6 +126,7 @@ You can also use the table below for reference.
 | 5.15.178-android13       | 2025-03     | common-android13-5.15-2025-03 |
 | 5.15.180-android13       | 2025-05     | common-android13-5.15-2025-05 |
 | 5.15.X-android13         | lts         | common-android13-5.15-lts     |
+
 **Android 14 5.15 kernels:**
 | Kernel Version           | Patch Level | Branch                        |
 |--------------------------|-------------|-------------------------------|
@@ -175,10 +176,15 @@ You can also use the table below for reference.
 | 6.6.X-android15          | lts         | common-android15-6.6-lts      |
 
 
-#### 01. Download the kernel source from here: [Samsung Opensource]( https://opensource.samsung.com/main)
+#### 01. Download the kernel source: https://source.android.com/docs/setup/build/building-kernels#downloading
 
 ```bash
+# Make Directory & Open it
 mkdir -p ~/android-kernel && cd ~/android-kernel
+# Initialize Kernel Source
+repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b REPLACE_WITH_BRANCH
+# Download Kernel
+repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
 
 <img src="./screenshots/1.png">
