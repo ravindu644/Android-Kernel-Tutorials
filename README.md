@@ -183,7 +183,7 @@ git config --global user.email "your.email@example.com"
 # Make Directory & Open it
 mkdir -p ~/android-kernel && cd ~/android-kernel
 # Initialize Kernel Source
-repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b (REPLACE_WITH_BRANCH)
+repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b REPLACE_WITH_BRANCH
 # Download Kernel Source
 repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
