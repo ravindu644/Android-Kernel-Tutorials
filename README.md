@@ -188,6 +188,32 @@ repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b REPLA
 repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
 
+After running these commands you may see this error:
+> error: Cannot fetch kernel/common from https://android.googlesource.com/kernel/common
+
+In that case your branch might be depricated and you will have to run the commands below to find out:
+```bash
+#!/bin/bash
+
+# Prompt for branch name without using read -p
+echo "Enter the branch name: "
+read FORMATTED_BRANCH
+
+# Remove 'common-' from the start of the branch name
+FORMATTED_BRANCH=${FORMATTED_BRANCH#common-}
+
+REMOTE_BRANCH=$(git ls-remote https://android.googlesource.com/kernel/common ${FORMATTED_BRANCH})
+DEFAULT_MANIFEST_PATH=.repo/manifests/default.xml
+
+if grep -q deprecated <<< $REMOTE_BRANCH; then
+  echo "Found deprecated branch: $FORMATTED_BRANCH"
+  sed -i "s/\"${FORMATTED_BRANCH}\"/\"deprecated\/${FORMATTED_BRANCH}\"/g" $DEFAULT_MANIFEST_PATH
+fi
+
+repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
+```
+
+
 ### 03. Determine the Kernel Build Systems: https://source.android.com/docs/setup/reference/bazel-support
 
 | Kernel Version           | Bazel (Kleaf)  | build.sh (legacy) |
