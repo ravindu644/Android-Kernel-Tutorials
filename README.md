@@ -84,7 +84,7 @@ sudo apt update && sudo apt install git-core gnupg flex bison build-essential zi
 <hr>
 <h2> ✅ Downloading the kernel source code for your device</h2>
 
-#### 00. Find kernel manifest from here:  
+#### 01. Find kernel manifest from here:  
 [Google Git](https://android.googlesource.com/kernel/manifest)  
 [Generic Kernel Image (GKI) release builds](https://source.android.com/docs/core/architecture/kernel/gki-release-builds)
 
@@ -183,7 +183,7 @@ You can also use the table below for reference.
 | 6.6.X-android15          | lts         | common-android15-6.6-lts      |
 
 
-#### 01. Download the kernel source: https://source.android.com/docs/setup/build/building-kernels#downloading
+#### 02. Download the kernel source: https://source.android.com/docs/setup/build/building-kernels#downloading
 
 ```bash
 # Make Directory & Open it
@@ -194,9 +194,9 @@ repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b REPLA
 repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
 
-<img src="./screenshots/1.png">
+<img src="./screenshots/2.png">
 
-#### 02. Determine the Kernel Build Systems: https://source.android.com/docs/setup/reference/bazel-support
+#### 03. Determine the Kernel Build Systems: https://source.android.com/docs/setup/reference/bazel-support
 
 | Kernel Version           | Bazel (Kleaf)  | build.sh (legacy) |
 |--------------------------|----------------|-------------------|
@@ -209,21 +209,15 @@ repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 
 "Official" means that this is the official way to build the kernel, even though the alternative way might also be used to build the kernel.
 
-<img src="./screenshots/2.png">
-
-**The following video demonstrates all the steps mentioned above:** 
+<img src="./screenshots/3.png"> 
 
 <hr>
 
 <h2> ✅ Preparing for the Compilation</h2>
 
-### 02. Time to compile our kernel.
+### 04. Time to compile our kernel.
 
-- Before creating a build script, we must determine the compatible compilers we will use to build our kernel.
-
-- Run ```make kernelversion``` inside the kernel root to check your kernel version.
-
-<img src="./screenshots/5.png">
+<img src="./screenshots/4.png">
 
 - In my case, the kernel version is **5.4,** with qualcomm chipset, which is [qGKI](https://github.com/TheWildJames/Android_Kernel_Tutorials#-understanding-non-gki--gki-kernels).
 
@@ -254,9 +248,6 @@ repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 - If your defconfig is located in the `arch/arm64/configs` directory, just replace `your_defconfig` with the name of your defconfig.
 
 - If your defconfig is located in the `arch/arm64/configs/vendor` directory, replace `your_defconfig` like this:
-  
-  - `vendor/name_of_the_defconfig`
-  - Example patch: [here](./patches/005.edit-defconfig.patch)
 
   <img src="./screenshots/12.png">
 
