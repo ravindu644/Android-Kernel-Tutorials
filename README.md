@@ -188,9 +188,6 @@ repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b REPLA
 repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
 
-<img src="./screenshots/2.png">
-<img src="./screenshots/2.1.png">
-
 ### 03. Determine the Kernel Build Systems: https://source.android.com/docs/setup/reference/bazel-support
 
 | Kernel Version           | Bazel (Kleaf)  | build.sh (legacy) |
@@ -203,8 +200,6 @@ repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 | 6.6-android15            | ✅ (official) | ❌                |
 
 "Official" means that this is the official way to build the kernel, even though the alternative way might also be used to build the kernel.
-
-<img src="./screenshots/3.png"> 
 
 ### 04. Time to compile our kernel.
 
@@ -221,5 +216,3 @@ To Build with Bazel
 ```bash
 tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
 ```
-
-<img src="./screenshots/4.png"> 
