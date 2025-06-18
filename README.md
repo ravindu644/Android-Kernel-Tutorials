@@ -210,9 +210,39 @@ if grep -q deprecated <<< $REMOTE_BRANCH; then
   sed -i "s/\"${FORMATTED_BRANCH}\"/\"deprecated\/${FORMATTED_BRANCH}\"/g" $DEFAULT_MANIFEST_PATH
 fi
 
+# Download Kernel Source
 repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
 
+
+### 03. Determine the Kernel Build Systems: https://source.android.com/docs/setup/reference/bazel-support
+
+| Kernel Version           | Bazel (Kleaf)  | build.sh (legacy) |
+|--------------------------|----------------|-------------------|
+| 5.10-android12           | ❌            | ✅ (official)     |
+| 5.10-android13           | ✅            | ✅ (official) 	|
+| 5.15-android13           | ✅            | ✅ (official)     |
+| 5.15-android14           | ✅ (official) | ❌                |
+| 6.1-android14            | ✅ (official) | ❌                |
+| 6.6-android15            | ✅ (official) | ❌                |
+
+"Official" means that this is the official way to build the kernel, even though the alternative way might also be used to build the kernel.
+
+### 04. Time to compile our kernel.
+
+- In my case, the kernel version is **6.1.124-android14,** with the branch **common-android14-6.1-2025-02,** which is GKI 2.0.
+
+- You can find full information about **choosing the correct build system for your kernel version** [above](https://github.com/TheWildJames/Android_Kernel_Tutorials#03-determine-the-kernel-build-systems-httpssourceandroidcomdocssetupreferencebazel-support).
+
+To build with build.sh:
+```bash
+LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
+```
+
+To Build with Bazel
+```bash
+tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
+```
 
 ### 03. Determine the Kernel Build Systems: https://source.android.com/docs/setup/reference/bazel-support
 
