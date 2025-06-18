@@ -9,27 +9,27 @@
 
 # Android Kernel Tutorial: GKI 2.0
 
-**Readings:**  
+### Readings:  
 
 First, you should read the official Android documentation for kernel building:  
 - https://source.android.com/docs/setup/build/building-kernels  
 - https://source.android.com/docs/core/architecture/kernel/gki-release-builds
 
-Extras:  
+### Extras:  
 - https://kernelsu.org/guide/how-to-build.html
 - https://source.android.com/docs/setup/build/building-pixel-kernels
 
-**What You Need To Know:**  
+### What You Need To Know: 
 
-**Generic Kernel Image (GKI):**
+### Generic Kernel Image (GKI):
 - A Generic Kernel Image (GKI) for Android is a standardized Linux kernel created by Google to reduce device differences and make updates easier. It separates hardware-specific code into loadable modules, letting one kernel work across various devices.
 
-**Android Kernel Evolution: Pre-GKI, GKI 1.0, GKI 2.0:**
+### Android Kernel Evolution: Pre-GKI, GKI 1.0, GKI 2.0:
 - Pre-GKI: Custom kernels forked from the Android Common Kernel, tailored by vendors and OEMs, caused fragmentation and slow updates.
 - GKI 1.0: Launched with Android 11 (kernel 5.4), introduced a standardized kernel with vendor modules to reduce fragmentation, but vendor modifications limited success.
 - GKI 2.0: Introduced with Android 12 (kernel 5.10+), enforces a stable Kernel Module Interface, separates hardware code, and enables independent updates.
 
-**Kernel version vs Android version:**
+### Kernel version vs Android version:
 
 Please note: Kernel version and Android version aren't necessarily the same!
 
@@ -37,13 +37,13 @@ If you find that your kernel version is 5.10.101-android12, but your Android sys
 
 This tutorial covers GKI 2.0 kernels, the current standard for Android devices.
 
-**Git:**
+### Git:
 - Git is a free and open source distributed version control system. Android uses Git for local operations such as branching, commits, diffs, and edits. For help learning Git, refer to the Git documentation.
 
-**Repo:**
+### Repo:
 - Repo is a Python wrapper around Git that simplifies performing complex operations across multiple Git repositories. Repo doesn't replace Git for all version control operations, it only makes complex Git operations easier to accomplish. Repo uses manifest files to aggregate Git projects into the Android superproject.
 
-**Android kernel manifest:**
+### Android kernel manifest:
 - An Android kernel manifest is an XML file (typically named manifest.xml or default.xml) that specifies the Git repositories, branches, and projects required to download the Generic Kernel Image (GKI) source code using the repo tool. It acts as a roadmap for developers to synchronize the kernel source tree from Google's Android Git repositories (e.g., https://android.googlesource.com/kernel/manifest).
 
 ### Notes:
@@ -53,7 +53,7 @@ This tutorial covers GKI 2.0 kernels, the current standard for Android devices.
 - **OEMs = Original Equipment Manufacturers:** like Samsung or OnePlus may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken SD Card and broken Audio. 
   - **So, use their GKI kernel source instead if possible.** 
 
-**Requirements:**
+### Requirements:
 - A working 🧠
 - Linux based PC/Server/VM (This will be done on Ubuntu WSL)
 - Basic knowledge in Linux commands and Bash Script.
@@ -70,8 +70,6 @@ sudo apt update && sudo apt install git-core gnupg flex bison build-essential zi
 
 ### Quick Links :
 01. 📁 [Downloading the kernel source code for your device](https://github.com/TheWildJames/Android_Kernel_Tutorials#--downloading-the-kernel-source-code-for-your-device)
-02. 🧠 [Understanding the Kernel root](https://github.com/TheWildJames/Android_Kernel_Tutorials?tab=readme-ov-file#-understanding-the-kernel-root)
-03. 🧠 [Understanding non-GKI & GKI kernels](https://github.com/TheWildJames/Android_Kernel_Tutorials#-understanding-non-gki--gki-kernels)
 04. 👀 [Preparing for the Compilation](https://github.com/TheWildJames/Android_Kernel_Tutorials#--preparing-for-the-compilation)
 05. ⚙️ [Customizing the Kernel (Temporary Method)](https://github.com/TheWildJames/Android_Kernel_Tutorials#-customizing-the-kernel-temporary-method)
 06. ⚙️ [Customizing the Kernel (Permanent Method)](https://github.com/TheWildJames/Android_Kernel_Tutorials#-customizing-the-kernel-permanent-method)
@@ -189,7 +187,7 @@ You can also use the table below for reference.
 # Make Directory & Open it
 mkdir -p ~/android-kernel && cd ~/android-kernel
 # Initialize Kernel Source
-repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b REPLACE_WITH_BRANCH
+repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b (REPLACE_WITH_BRANCH)[make these into steps for a tutorial]
 # Download Kernel
 repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
@@ -219,9 +217,9 @@ repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 
 <img src="./screenshots/4.png">
 
-- In my case, the kernel version is **5.4,** with qualcomm chipset, which is [qGKI](https://github.com/TheWildJames/Android_Kernel_Tutorials#-understanding-non-gki--gki-kernels).
+- In my case, the kernel version is **6.1.124-android14,** , which is GKI 2.0.
 
-- You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
+- You can find full information about **choosing the correct compiler for your kernel version** above (based on my experience, btw).
 
 - Keep in mind that **you don't need to manually download any of these toolchains** since my build scripts handle everything for you :)  
 
