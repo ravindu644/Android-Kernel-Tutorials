@@ -264,3 +264,17 @@ chmod +x magiskboot
 ```
 
 Then download your stock boot.img, after that you must move it to the new folder `~/android-tools`
+After that you must unpack the boot.img:
+
+```bash
+# Unpack boot.img
+magiskboot unpack boot.img
+```
+
+You will now see an output containing one of the following lines:
+1. `KERNEL_FMT      [raw]`  
+2. `KERNEL_FMT      [lz4]`  
+3. `KERNEL_FMT      [gzip]`  
+
+These are 3 differnet common formats, Once you fined your format you must then repack your boot.img with the kernel you made!
+
