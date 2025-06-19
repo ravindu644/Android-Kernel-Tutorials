@@ -297,7 +297,7 @@ These are three common formats. Once you identify your format, you must repack y
 > [!NOTE]
 > You must use the same kernel format as you original stock boot.img from your device.
 
-If you ran `build.sh` then use one of these command to move kernel image to boot.img folder:
+If you ran `build.sh` then use one of these command to move kernel image to `android-bootimgs` folder:
 
 1. KERNEL_FMT = raw
 ```bash
@@ -332,3 +332,18 @@ KERNEL_FMT = gzip
 # gzip Kernel Image & rename to kernel
 gzip -n -k -f -9 ~/android-kernel/bazel-bin/common/kernel_aarch64/Image > ~/android-bootimgs/kernel
 ```
+
+After that you will now have to repack your boot.img with your kerenl!
+
+```bash
+# Move into the dir
+cd ~/android-bootimgs
+
+# Repack boot.img with magiskboot
+~/android-tools/magiskboot repack boot.img
+```
+You will now see a newly created file: `new-boot.img` 
+
+# 🎉 Congratulations!  
+You've successfully built a GKI 2.0 Android kernel and repacked it into your boot.img.  
+You're now ready to flash it to your device! 🚀  
