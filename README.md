@@ -71,8 +71,10 @@ sudo apt update && sudo apt install git-core gnupg flex bison build-essential zi
 ### Quick Links :
 01. 👀 [Find kernel manifest](https://github.com/TheWildJames/Android_Kernel_Tutorials#01-find-kernel-manifest-from-here)
 02. ⚙️ [Download the kernel source](https://github.com/TheWildJames/Android_Kernel_Tutorials#02-download-the-kernel-source-httpssourceandroidcomdocssetupbuildbuilding-kernelsdownloading)
-03. 👀 [Determine the Kernel Build Systems](https://github.com/TheWildJames/Android_Kernel_Tutorials#03-determine-the-kernel-build-systems-httpssourceandroidcomdocssetupreferencebazel-support)
-04. ✅ [Time to compile our kernel](https://github.com/TheWildJames/Android_Kernel_Tutorials04-time-to-compile-our-kernel)
+03. 🔎 [Determine the Kernel Build Systems](https://github.com/TheWildJames/Android_Kernel_Tutorials#03-determine-the-kernel-build-systems-httpssourceandroidcomdocssetupreferencebazel-support)
+04. ✅ [Time to compile our kernel](https://github.com/TheWildJames/Android_Kernel_Tutorials#04-time-to-compile-our-kernel)
+05. 📤 [Unpack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials#05-unpack-boot.img)
+06. 📥 [Repack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials#06-repack-boot.img)
 
 ### 01. Find kernel manifest from here:  
 Google Git: https://android.googlesource.com/kernel/manifest  
@@ -175,6 +177,9 @@ You can also use the table below for reference.
 
 ### 02. Download the kernel source: https://source.android.com/docs/setup/build/building-kernels#downloading
 
+> [!NOTE]
+> You must replace `REPLACE_WITH_BRANCH` in the command below with the correctly formatted branch name you obtained earlier (e.g., common-android15-6.6-lts).
+
 ```bash
 # If this is you first time running repo you may need to configure these below
 git config --global user.name "Your Name"
@@ -190,7 +195,8 @@ repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b REPLA
 repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
 
-After running these commands you may see this error:
+> [!NOTE]
+> After running these commands you may see this error:
 > error: Cannot fetch kernel/common from https://android.googlesource.com/kernel/common
 
 In that case your branch might be depricated and you will have to run the commands below to find out:
@@ -228,7 +234,8 @@ repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 | 6.1-android14            | ✅ (official) | ❌                |
 | 6.6-android15            | ✅ (official) | ❌                |
 
-"Official" means that this is the official way to build the kernel, even though the alternative way might also be used to build the kernel.
+> [!NOTE]
+> "Official" means that this is the official way to build the kernel, even though the alternative way might also be used to build the kernel.
 
 ### 04. Time to compile our kernel.
 
@@ -246,7 +253,7 @@ To Build with Bazel
 tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
 ```
 
-### 05. Unpack & Repack boot.imm
+### 05. Unpack boot.img
 
 On GKI 2.0 devices the kernels are built into the boot.img. We need to get our stock boot.img and unpack it
 
@@ -263,18 +270,65 @@ curl -LO https://raw.githubusercontent.com/TheWildJames/Android_Kernel_Tutorials
 chmod +x magiskboot
 ```
 
-Then download your stock boot.img, after that you must move it to the new folder `~/android-tools`
+Then download your stock boot.img, after that you must move it to a new folder `~/android-bootimgs`
 After that you must unpack the boot.img:
 
 ```bash
+# Make new directory and move into it
+mkdir -p ~/android-bootimgs && cd ~/android-bootimgs
+
+# Move stock boot.img to ~/android-bootimgs
+# You must do this yourself there is no command for me to give you!
+
 # Unpack boot.img
-magiskboot unpack boot.img
+~/android-tools/magiskboot unpack boot.img
 ```
 
 You will now see an output containing one of the following lines:
+
 1. `KERNEL_FMT      [raw]`  
 2. `KERNEL_FMT      [lz4]`  
 3. `KERNEL_FMT      [gzip]`  
 
-These are 3 differnet common formats, Once you fined your format you must then repack your boot.img with the kernel you made!
+These are three common formats. Once you identify your format, you must repack your boot.img with the custom kernel you created.
 
+### 06. Repack boot.img
+
+> [!NOTE]
+> You must use the same kernel format as you original stock boot.img from your device.
+
+If you ran `build.sh` then use one of these command to move kernel image to boot.img folder:
+
+1. KERNEL_FMT = raw
+```bash
+# Copy Kernel Image & rename to kernel
+cp ~/android-kernel/out/*/dist/Image ~/android-bootimgs/kernel
+```
+2. KERNEL_FMT = lz4
+```bash
+# Copy Kernel Image.lz4 & rename to kernel
+cp ~/android-kernel/out/*/dist/Image.lz4 ~/android-bootimgs/kernel
+```
+3. KERNEL_FMT = gzip
+```bash
+# gzip Kernel Image & rename to kernel
+gzip -n -k -f -9 ~/android-kernel/out/*/dist/Image > ~/android-bootimgs/kernel
+```
+
+If you ran `Bazel` then use one of these command to move kernel image to boot.img folder:
+
+KERNEL_FMT = raw
+```bash
+# Copy Kernel Image & rename to kernel
+cp ~/android-kernel/bazel-bin/common/kernel_aarch64/Image ~/android-bootimgs/kernel
+```
+KERNEL_FMT = lz4
+```bash
+# Copy Kernel Image.lz4 & rename to kernel
+cp ~/android-kernel/bazel-bin/common/kernel_aarch64/Image.lz4 ~/android-bootimgs/kernel
+```
+KERNEL_FMT = gzip
+```bash
+# gzip Kernel Image & rename to kernel
+gzip -n -k -f -9 ~/android-kernel/bazel-bin/common/kernel_aarch64/Image > ~/android-bootimgs/kernel
+```
