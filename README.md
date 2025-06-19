@@ -73,8 +73,8 @@ sudo apt update && sudo apt install git-core gnupg flex bison build-essential zi
 02. ⚙️ [Download the kernel source](https://github.com/TheWildJames/Android_Kernel_Tutorials#02-download-the-kernel-source-httpssourceandroidcomdocssetupbuildbuilding-kernelsdownloading)
 03. 🔎 [Determine the Kernel Build Systems](https://github.com/TheWildJames/Android_Kernel_Tutorials#03-determine-the-kernel-build-systems-httpssourceandroidcomdocssetupreferencebazel-support)
 04. ✅ [Time to compile our kernel](https://github.com/TheWildJames/Android_Kernel_Tutorials#04-time-to-compile-our-kernel)
-05. 📤 [Unpack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials#05-unpack-boot.img)
-06. 📥 [Repack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials#06-repack-boot.img)
+05. 📤 [Unpack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials?tab=readme-ov-file#05-unpack-bootimg)
+06. 📥 [Repack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials#06-repack-bootimg)
 
 ### 01. Find kernel manifest from here:  
 Google Git: https://android.googlesource.com/kernel/manifest  
