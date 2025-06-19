@@ -182,8 +182,10 @@ git config --global user.email "your.email@example.com"
 
 # Make Directory & Open it
 mkdir -p ~/android-kernel && cd ~/android-kernel
+
 # Initialize Kernel Source
 repo init --depth=1 -u https://android.googlesource.com/kernel/manifest -b REPLACE_WITH_BRANCH
+
 # Download Kernel Source
 repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
@@ -248,19 +250,17 @@ tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
 
 On GKI 2.0 devices the kernels are built into the boot.img. We need to get our stock boot.img and unpack it
 
+Start by downloading magiskboot from the [tools above](https://github.com/TheWildJames/Android_Kernel_Tutorials/blob/gki-2.0/tools/magiskboot) and placing it in a new folder
 
-### 04. Time to compile our kernel.
-
-- In my case, the kernel version is **6.1.124-android14,** with the branch **common-android14-6.1-2025-02,** which is GKI 2.0.
-
-- You can find full information about **choosing the correct build system for your kernel version** [above](https://github.com/TheWildJames/Android_Kernel_Tutorials#03-determine-the-kernel-build-systems-httpssourceandroidcomdocssetupreferencebazel-support).
-
-To build with build.sh:
 ```bash
-LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
+# Make new directory and move into it
+mkdir -p ~/android-tools && cd ~/android-tools
+
+# Download magiskboot
+curl -LO https://raw.githubusercontent.com/TheWildJames/Android_Kernel_Tutorials/gki-2.0/tools/magiskboot
+
+# Make it executable
+chmod +x magiskboot
 ```
 
-To Build with Bazel
-```bash
-tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
-```
+Then download your stock boot.img, after that you must move it to the new folder `~/android-tools`
