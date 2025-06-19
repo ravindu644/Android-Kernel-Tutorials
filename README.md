@@ -244,18 +244,10 @@ To Build with Bazel
 tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
 ```
 
-### 03. Determine the Kernel Build Systems: https://source.android.com/docs/setup/reference/bazel-support
+### 05. Unpack & Repack boot.imm
 
-| Kernel Version           | Bazel (Kleaf)  | build.sh (legacy) |
-|--------------------------|----------------|-------------------|
-| 5.10-android12           | ❌            | ✅ (official)     |
-| 5.10-android13           | ✅            | ✅ (official) 	|
-| 5.15-android13           | ✅            | ✅ (official)     |
-| 5.15-android14           | ✅ (official) | ❌                |
-| 6.1-android14            | ✅ (official) | ❌                |
-| 6.6-android15            | ✅ (official) | ❌                |
+On GKI 2.0 devices the kernels are built into the boot.img. We need to get our stock boot.img and unpack it
 
-"Official" means that this is the official way to build the kernel, even though the alternative way might also be used to build the kernel.
 
 ### 04. Time to compile our kernel.
 
