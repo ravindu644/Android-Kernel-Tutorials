@@ -73,8 +73,11 @@ sudo apt update && sudo apt install git-core gnupg flex bison build-essential zi
 02. ⚙️ [Download the kernel source](https://github.com/TheWildJames/Android_Kernel_Tutorials#02-download-the-kernel-source-httpssourceandroidcomdocssetupbuildbuilding-kernelsdownloading)
 03. 🔎 [Determine the Kernel Build Systems](https://github.com/TheWildJames/Android_Kernel_Tutorials#03-determine-the-kernel-build-systems-httpssourceandroidcomdocssetupreferencebazel-support)
 04. ✅ [Time to compile our kernel](https://github.com/TheWildJames/Android_Kernel_Tutorials#04-time-to-compile-our-kernel)
-05. 📤 [Unpack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials?tab=readme-ov-file#05-unpack-bootimg)
-06. 📥 [Repack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials#06-repack-bootimg)
+05. 🔐 [Integrate KernelSU (Optional)](https://github.com/TheWildJames/Android_Kernel_Tutorials#05-integrate-kernelsu-optional)
+06. 🛡️ [Integrate SUSFS (Optional)](https://github.com/TheWildJames/Android_Kernel_Tutorials#06-integrate-susfs-optional)
+07. 🔨 [Build kernel with KernelSU/SUSFS](https://github.com/TheWildJames/Android_Kernel_Tutorials#07-build-kernel-with-kernelsususfs)
+08. 📤 [Unpack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials#08-unpack-bootimg)
+09. 📥 [Repack boot.img](https://github.com/TheWildJames/Android_Kernel_Tutorials#09-repack-bootimg)
 
 ### 01. Find kernel manifest from here:  
 Google Git: https://android.googlesource.com/kernel/manifest  
@@ -253,7 +256,234 @@ To Build with Bazel
 tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
 ```
 
-### 05. Unpack boot.img
+### 05. Integrate KernelSU (Optional)
+
+> [!NOTE]
+> KernelSU is a kernel-based root solution for Android GKI devices. This step is optional but recommended if you want root access.
+
+KernelSU provides kernel-level root access and is specifically designed for GKI 2.0 kernels. Follow these steps to integrate it:
+
+#### What is KernelSU?
+- **KernelSU** is a kernel-based root solution for Android devices
+- It provides root access through kernel modules rather than system modifications
+- Designed specifically for GKI (Generic Kernel Image) devices
+- More stable and secure compared to traditional root methods
+
+#### Integration Steps:
+
+```bash
+# Navigate to your kernel source directory
+cd ~/android-kernel
+
+# Add KernelSU to your kernel source
+curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+```
+
+This script will:
+- Download the latest KernelSU source code
+- Integrate it into your kernel source tree
+- Modify necessary kernel configuration files
+- Add KernelSU-specific patches
+
+#### Verify Integration:
+After running the setup script, you should see:
+- New KernelSU directory in your kernel source
+- Modified kernel configuration files
+- KernelSU-related entries in the build system
+
+### 06. Integrate SUSFS (Optional)
+
+> [!WARNING]
+> SUSFS is an advanced feature that provides additional security and hiding capabilities. Only proceed if you understand the implications and requirements.
+
+SUSFS (Super User File System) is a kernel module that provides advanced hiding and security features for rooted devices.
+
+#### What is SUSFS?
+- **SUSFS** stands for "Super User File System"
+- Provides advanced hiding capabilities for root detection bypass
+- Works in conjunction with KernelSU
+- Helps hide root access from banking apps and other security-sensitive applications
+
+#### Supported Kernel Versions:
+SUSFS has specific branches for different kernel versions. Choose the correct branch for your kernel:
+
+| Kernel Version | SUSFS Branch |
+|----------------|--------------|
+| 5.10.x         | gki-android12-5.10 |
+| 5.15.x         | gki-android13-5.15 |
+| 6.1.x          | gki-android14-6.1 |
+| 6.6.x          | gki-android15-6.6 |
+
+#### Integration Steps:
+
+> [!IMPORTANT]
+> SUSFS requires KernelSU to be integrated first. Make sure you've completed step 05 before proceeding.
+
+```bash
+# Navigate to your kernel source directory
+cd ~/android-kernel
+
+# Determine your kernel version to choose the correct SUSFS branch
+KERNEL_VERSION=$(grep "VERSION = " common/Makefile | head -1 | awk '{print $3}')
+PATCHLEVEL=$(grep "PATCHLEVEL = " common/Makefile | head -1 | awk '{print $3}')
+KERNEL_VER="${KERNEL_VERSION}.${PATCHLEVEL}"
+
+echo "Detected kernel version: ${KERNEL_VER}"
+
+# Choose the appropriate SUSFS branch based on your kernel version
+case ${KERNEL_VER} in
+    "5.10")
+        SUSFS_BRANCH="gki-android12-5.10"
+        ;;
+    "5.15")
+        SUSFS_BRANCH="gki-android13-5.15"
+        ;;
+    "6.1")
+        SUSFS_BRANCH="gki-android14-6.1"
+        ;;
+    "6.6")
+        SUSFS_BRANCH="gki-android15-6.6"
+        ;;
+    *)
+        echo "Unsupported kernel version for SUSFS: ${KERNEL_VER}"
+        echo "Please check SUSFS repository for supported versions"
+        exit 1
+        ;;
+esac
+
+echo "Using SUSFS branch: ${SUSFS_BRANCH}"
+
+# Clone SUSFS with the appropriate branch
+git clone -b ${SUSFS_BRANCH} https://gitlab.com/simonpunk/susfs4ksu.git susfs
+
+# Apply SUSFS patches to the kernel
+cd susfs
+./susfs4ksu.sh
+cd ..
+```
+
+#### Manual Branch Selection:
+If the automatic detection doesn't work, you can manually specify the branch:
+
+```bash
+# For Android 12 with kernel 5.10
+git clone -b gki-android12-5.10 https://gitlab.com/simonpunk/susfs4ksu.git susfs
+
+# For Android 13 with kernel 5.15
+git clone -b gki-android13-5.15 https://gitlab.com/simonpunk/susfs4ksu.git susfs
+
+# For Android 14 with kernel 6.1
+git clone -b gki-android14-6.1 https://gitlab.com/simonpunk/susfs4ksu.git susfs
+
+# For Android 15 with kernel 6.6
+git clone -b gki-android15-6.6 https://gitlab.com/simonpunk/susfs4ksu.git susfs
+
+# Then apply the patches
+cd susfs
+./susfs4ksu.sh
+cd ..
+```
+
+#### Verify SUSFS Integration:
+After applying SUSFS patches, you should see:
+- SUSFS-related configuration options in kernel config
+- Modified kernel source files with SUSFS patches
+- SUSFS module integrated into the build system
+
+### 07. Build kernel with KernelSU/SUSFS
+
+Now that you've integrated KernelSU and optionally SUSFS, it's time to build the kernel with these modifications.
+
+#### Build Configuration:
+The integration scripts should have automatically modified your kernel configuration. However, you can verify the configuration:
+
+```bash
+# Navigate to kernel source
+cd ~/android-kernel
+
+# Check if KernelSU is properly configured
+grep -r "KERNELSU" common/arch/arm64/configs/ || echo "KernelSU config not found - this is normal for some integration methods"
+
+# For Bazel builds, check if the configuration is properly set
+if [ -f "common/arch/arm64/configs/gki_defconfig" ]; then
+    echo "GKI defconfig found"
+else
+    echo "Warning: GKI defconfig not found"
+fi
+```
+
+#### Build the Kernel:
+
+Choose the appropriate build method based on your kernel version (refer to step 03):
+
+**For build.sh (legacy method):**
+```bash
+# Build with KernelSU/SUSFS integrated
+LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
+```
+
+**For Bazel (official method for newer kernels):**
+```bash
+# Build with KernelSU/SUSFS integrated
+tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
+```
+
+#### Build Verification:
+After the build completes successfully, verify that KernelSU is integrated:
+
+```bash
+# For build.sh builds
+if [ -f "out/*/dist/Image" ]; then
+    echo "✅ Kernel build successful!"
+    echo "📍 Kernel location: out/*/dist/Image"
+else
+    echo "❌ Kernel build failed!"
+fi
+
+# For Bazel builds
+if [ -f "bazel-bin/common/kernel_aarch64/Image" ]; then
+    echo "✅ Kernel build successful!"
+    echo "📍 Kernel location: bazel-bin/common/kernel_aarch64/Image"
+else
+    echo "❌ Kernel build failed!"
+fi
+
+# Check for KernelSU integration (this may not always show output)
+strings out/*/dist/Image 2>/dev/null | grep -i kernelsu || echo "KernelSU strings not found (this is normal)"
+```
+
+#### Troubleshooting Build Issues:
+
+If you encounter build errors:
+
+1. **Clean build environment:**
+```bash
+# For build.sh
+rm -rf out/
+
+# For Bazel
+tools/bazel clean --expunge
+```
+
+2. **Check integration:**
+```bash
+# Verify KernelSU files are present
+ls -la KernelSU/ 2>/dev/null || echo "KernelSU directory not found"
+
+# Verify SUSFS files are present (if you integrated SUSFS)
+ls -la susfs/ 2>/dev/null || echo "SUSFS directory not found"
+```
+
+3. **Re-run integration if needed:**
+```bash
+# Re-integrate KernelSU if there are issues
+curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+
+# Re-integrate SUSFS if there are issues (replace branch name as needed)
+cd susfs && ./susfs4ksu.sh && cd ..
+```
+
+### 08. Unpack boot.img
 
 On GKI 2.0 devices the kernels are built into the boot.img. We need to get our stock boot.img and unpack it
 
@@ -292,7 +522,7 @@ You will now see an output containing one of the following lines:
 
 These are three common formats. Once you identify your format, you must repack your boot.img with the custom kernel you created.
 
-### 06. Repack boot.img
+### 09. Repack boot.img
 
 > [!NOTE]
 > You must use the same kernel format as you original stock boot.img from your device.
@@ -345,5 +575,24 @@ cd ~/android-bootimgs
 You will now see a newly created file: `new-boot.img` 
 
 # 🎉 Congratulations!  
-You've successfully built a GKI 2.0 Android kernel and repacked it into your boot.img.  
-You're now ready to flash it to your device! 🚀  
+You've successfully built a GKI 2.0 Android kernel with KernelSU and optionally SUSFS, and repacked it into your boot.img.  
+
+## What You've Accomplished:
+- ✅ Built a custom GKI 2.0 kernel
+- ✅ Integrated KernelSU for kernel-level root access
+- ✅ Optionally integrated SUSFS for advanced hiding capabilities
+- ✅ Created a flashable boot.img with your custom kernel
+
+## Next Steps:
+1. **Flash the kernel:** Use fastboot or your preferred flashing method to install `new-boot.img`
+2. **Install KernelSU Manager:** Download and install the KernelSU Manager app from the official repository
+3. **Verify installation:** Check that KernelSU is working properly after boot
+4. **Configure SUSFS:** If you integrated SUSFS, configure it according to your needs
+
+## Important Notes:
+- Always backup your original boot.img before flashing
+- Test the kernel thoroughly before daily use
+- Keep your KernelSU Manager app updated
+- Join the KernelSU community for support and updates
+
+You're now ready to flash your custom kernel to your device! 🚀
