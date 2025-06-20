@@ -199,8 +199,8 @@ repo --trace sync -c -j$(nproc --all) --no-tags --fail-fast
 ```
 
 > [!NOTE]
-> After running these commands you may see this error:
-> error: Cannot fetch kernel/common from https://android.googlesource.com/kernel/common
+> After running these commands you may see this error:  
+> `error: Cannot fetch kernel/common from https://android.googlesource.com/kernel/common`
 
 In that case your branch might be depricated and you will have to run the commands below to find out:
 ```bash
@@ -270,13 +270,14 @@ KernelSU provides kernel-level root access and is specifically designed for GKI 
 - More stable and secure compared to traditional root methods
 
 #### Integration Steps:
+Check [here](https://kernelsu.org/guide/how-to-build.html#build-kernel-with-kernelsu) for more info!
 
 ```bash
 # Navigate to your kernel source directory
 cd ~/android-kernel
 
 # Add KernelSU to your kernel source
-curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
 ```
 
 This script will:
@@ -293,13 +294,9 @@ After running the setup script, you should see:
 
 ### 06. Integrate SUSFS (Optional)
 
-> [!WARNING]
-> SUSFS is an advanced feature that provides additional security and hiding capabilities. Only proceed if you understand the implications and requirements.
-
-SUSFS (Super User File System) is a kernel module that provides advanced hiding and security features for rooted devices.
+SUSFS4KSU: An addon root hiding kernel patches and userspace module for KernelSU.
 
 #### What is SUSFS?
-- **SUSFS** stands for "Super User File System"
 - Provides advanced hiding capabilities for root detection bypass
 - Works in conjunction with KernelSU
 - Helps hide root access from banking apps and other security-sensitive applications
@@ -309,80 +306,45 @@ SUSFS has specific branches for different kernel versions. Choose the correct br
 
 | Kernel Version | SUSFS Branch |
 |----------------|--------------|
-| 5.10.x         | gki-android12-5.10 |
-| 5.15.x         | gki-android13-5.15 |
-| 6.1.x          | gki-android14-6.1 |
-| 6.6.x          | gki-android15-6.6 |
+| android12-5.10 | gki-android12-5.10 |
+| android13-5.10 | gki-android13-5.15 |
+| android13-5.15 | gki-android13-5.15 |
+| android14-5.15 | gki-android13-5.15 |
+| android14-6.1  | gki-android14-6.1 |
+| android15-6.6  | gki-android15-6.6 |
 
 #### Integration Steps:
 
 > [!IMPORTANT]
 > SUSFS requires KernelSU to be integrated first. Make sure you've completed step 05 before proceeding.
+> You must also replace <kernel_version> below with the appropriate SUSFS Branch from the list above.
+
+#### Branch Selection:
 
 ```bash
 # Navigate to your kernel source directory
-cd ~/android-kernel
+cd ~/
 
-# Determine your kernel version to choose the correct SUSFS branch
-KERNEL_VERSION=$(grep "VERSION = " common/Makefile | head -1 | awk '{print $3}')
-PATCHLEVEL=$(grep "PATCHLEVEL = " common/Makefile | head -1 | awk '{print $3}')
-KERNEL_VER="${KERNEL_VERSION}.${PATCHLEVEL}"
-
-echo "Detected kernel version: ${KERNEL_VER}"
-
-# Choose the appropriate SUSFS branch based on your kernel version
-case ${KERNEL_VER} in
-    "5.10")
-        SUSFS_BRANCH="gki-android12-5.10"
-        ;;
-    "5.15")
-        SUSFS_BRANCH="gki-android13-5.15"
-        ;;
-    "6.1")
-        SUSFS_BRANCH="gki-android14-6.1"
-        ;;
-    "6.6")
-        SUSFS_BRANCH="gki-android15-6.6"
-        ;;
-    *)
-        echo "Unsupported kernel version for SUSFS: ${KERNEL_VER}"
-        echo "Please check SUSFS repository for supported versions"
-        exit 1
-        ;;
-esac
-
-echo "Using SUSFS branch: ${SUSFS_BRANCH}"
-
-# Clone SUSFS with the appropriate branch
-git clone -b ${SUSFS_BRANCH} https://gitlab.com/simonpunk/susfs4ksu.git susfs
-
-# Apply SUSFS patches to the kernel
-cd susfs
-./susfs4ksu.sh
-cd ..
-```
-
-#### Manual Branch Selection:
-If the automatic detection doesn't work, you can manually specify the branch:
-
-```bash
-# For Android 12 with kernel 5.10
-git clone -b gki-android12-5.10 https://gitlab.com/simonpunk/susfs4ksu.git susfs
-
-# For Android 13 with kernel 5.15
-git clone -b gki-android13-5.15 https://gitlab.com/simonpunk/susfs4ksu.git susfs
-
-# For Android 14 with kernel 6.1
-git clone -b gki-android14-6.1 https://gitlab.com/simonpunk/susfs4ksu.git susfs
-
-# For Android 15 with kernel 6.6
-git clone -b gki-android15-6.6 https://gitlab.com/simonpunk/susfs4ksu.git susfs
+# example: gki-android15-6.1
+git clone https://gitlab.com/simonpunk/susfs4ksu.git -b <kernel_version>
 
 # Then apply the patches
-cd susfs
-./susfs4ksu.sh
-cd ..
+cp ~/susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ~/android-kernel/KernelSU/
+
+cp ~/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-<kernel_version>.patch ~/android-kernel/common/
+
+cp ~/susfs4ksu/kernel_patches/fs/* ~/android-kernel/common/fs/
+
+cp ./susfs4ksu/kernel_patches/include/linux/* ~/android-kernel/common/include/linux/
+
+cd ~/android-kernel/KernelSU && patch -p1 < 10_enable_susfs_for_ksu.patch
+
+cd ~/android-kernel/common && patch -p1 < 50_add_susfs_in_kernel.patch
 ```
+
+> [!IMPORTANT]
+> If there are failed patches, you may try to patch them manually by yourself.
+> Link here for more info(not added yet)
 
 #### Verify SUSFS Integration:
 After applying SUSFS patches, you should see:
