@@ -346,35 +346,7 @@ cd ~/android-kernel/common && patch -p1 < 50_add_susfs_in_kernel.patch
 > If there are failed patches, you may try to patch them manually by yourself.
 > Link here for more info(not added yet)
 
-#### Verify SUSFS Integration:
-After applying SUSFS patches, you should see:
-- SUSFS-related configuration options in kernel config
-- Modified kernel source files with SUSFS patches
-- SUSFS module integrated into the build system
-
-### 07. Build kernel with KernelSU/SUSFS
-
-Now that you've integrated KernelSU and optionally SUSFS, it's time to build the kernel with these modifications.
-
-#### Build Configuration:
-The integration scripts should have automatically modified your kernel configuration. However, you can verify the configuration:
-
-```bash
-# Navigate to kernel source
-cd ~/android-kernel
-
-# Check if KernelSU is properly configured
-grep -r "KERNELSU" common/arch/arm64/configs/ || echo "KernelSU config not found - this is normal for some integration methods"
-
-# For Bazel builds, check if the configuration is properly set
-if [ -f "common/arch/arm64/configs/gki_defconfig" ]; then
-    echo "GKI defconfig found"
-else
-    echo "Warning: GKI defconfig not found"
-fi
-```
-
-#### Build the Kernel:
+### 07. #### Build the Kernel:
 
 Choose the appropriate build method based on your kernel version (refer to step 03):
 
@@ -388,61 +360,6 @@ LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh
 ```bash
 # Build with KernelSU/SUSFS integrated
 tools/bazel build --config=fast --lto=thin //common:kernel_aarch64_dist
-```
-
-#### Build Verification:
-After the build completes successfully, verify that KernelSU is integrated:
-
-```bash
-# For build.sh builds
-if [ -f "out/*/dist/Image" ]; then
-    echo "✅ Kernel build successful!"
-    echo "📍 Kernel location: out/*/dist/Image"
-else
-    echo "❌ Kernel build failed!"
-fi
-
-# For Bazel builds
-if [ -f "bazel-bin/common/kernel_aarch64/Image" ]; then
-    echo "✅ Kernel build successful!"
-    echo "📍 Kernel location: bazel-bin/common/kernel_aarch64/Image"
-else
-    echo "❌ Kernel build failed!"
-fi
-
-# Check for KernelSU integration (this may not always show output)
-strings out/*/dist/Image 2>/dev/null | grep -i kernelsu || echo "KernelSU strings not found (this is normal)"
-```
-
-#### Troubleshooting Build Issues:
-
-If you encounter build errors:
-
-1. **Clean build environment:**
-```bash
-# For build.sh
-rm -rf out/
-
-# For Bazel
-tools/bazel clean --expunge
-```
-
-2. **Check integration:**
-```bash
-# Verify KernelSU files are present
-ls -la KernelSU/ 2>/dev/null || echo "KernelSU directory not found"
-
-# Verify SUSFS files are present (if you integrated SUSFS)
-ls -la susfs/ 2>/dev/null || echo "SUSFS directory not found"
-```
-
-3. **Re-run integration if needed:**
-```bash
-# Re-integrate KernelSU if there are issues
-curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
-
-# Re-integrate SUSFS if there are issues (replace branch name as needed)
-cd susfs && ./susfs4ksu.sh && cd ..
 ```
 
 ### 08. Unpack boot.img
@@ -541,15 +458,15 @@ You've successfully built a GKI 2.0 Android kernel with KernelSU and optionally 
 
 ## What You've Accomplished:
 - ✅ Built a custom GKI 2.0 kernel
-- ✅ Integrated KernelSU for kernel-level root access
+- ✅ Optionally Integrated KernelSU for kernel-level root access
 - ✅ Optionally integrated SUSFS for advanced hiding capabilities
-- ✅ Created a flashable boot.img with your custom kernel
+- ✅ Unpacked & repacked a boot.img with your custom kernel
 
 ## Next Steps:
 1. **Flash the kernel:** Use fastboot or your preferred flashing method to install `new-boot.img`
 2. **Install KernelSU Manager:** Download and install the KernelSU Manager app from the official repository
 3. **Verify installation:** Check that KernelSU is working properly after boot
-4. **Configure SUSFS:** If you integrated SUSFS, configure it according to your needs
+4. **Configure SUSFS:** If you integrated SUSFS, download the [module](https://github.com/sidex15/susfs4ksu-module).
 
 ## Important Notes:
 - Always backup your original boot.img before flashing
