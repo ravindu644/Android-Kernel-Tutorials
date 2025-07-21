@@ -1,19 +1,20 @@
 #!/bin/bash
 
-# =============================================================================
+# ==============================================================================
 #
-#   The "Bulletproof" Final Module Preparation Script v8
+#               LKM Auto-Packer for Kernel Builds
 #
-#                       - ravindu644
+#   This script prepares Loadable Kernel Modules (LKMs) built during the
+#   kernel compilation process, organizing them for direct placement into
+#   target images such as:
+#       - vendor_boot.img
+#       - vendor_dlkm.img
 #
-#   This script uses a robust `while read` loop to iterate through the
-#   master module list, fixing the "only one loop" bug from the previous
-#   version. This is the gold standard for processing line-by-line input.
+#   Simplifies post-build module integration for custom kernels.
 #
-#   It correctly uses the stock modules.dep as a blueprint, builds the
-#   module directory, strips the modules, and regenerates all metadata.
-#
-# =============================================================================
+#                              - ravindu644
+# ==============================================================================
+
 
 # --- 1. SETUP LOGGING AND INTERACTIVE INPUT ---
 
