@@ -34,8 +34,8 @@ if [ ! -d "${HOME}/toolchains/aarch64-linaro-7.5" ]; then
 fi
 
 # Export toolchain paths
-export PATH="${PATH}:${HOME}/toolchains/proton-12/bin"
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/toolchains/proton-12/lib"
+export PATH="${HOME}/toolchains/proton-12/bin:${PATH}"
+export LD_LIBRARY_PATH="${HOME}/toolchains/proton-12/lib:${LD_LIBRARY_PATH}"
 
 # Set cross-compile environment variables
 export BUILD_CROSS_COMPILE="${HOME}/toolchains/aarch64-linaro-7.5/bin/aarch64-linux-gnu-"

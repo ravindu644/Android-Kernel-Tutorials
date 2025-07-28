@@ -30,9 +30,9 @@ if [ ! -d "${HOME}/toolchains/neutron-clang" ]; then
 fi
 
 # Export toolchain paths
-export PATH="${PATH}:${HOME}/toolchains/neutron-clang/bin"
+export PATH="${HOME}/toolchains/neutron-clang/bin:${PATH}"
 export NEUTRON_PATH="${HOME}/toolchains/neutron-clang/bin"
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/toolchains/neutron-clang/lib"
+export LD_LIBRARY_PATH="${HOME}/toolchains/neutron-clang/lib:${LD_LIBRARY_PATH}"
 
 # Set cross-compile environment variables
 export BUILD_CC="${HOME}/toolchains/neutron-clang/bin/clang"
