@@ -148,9 +148,11 @@ chmod +755 -R /path/to/extracted/kernel/
 
 - As you can see in the above screenshot, it's the Linux kernel source code.
 - It must have those folders, **highlighted in blue in the terminal.**
-- **In GKI kernels,** the kernel root is located in a folder named "common".
+- **In traditional GKI kernels,** the kernel root is located in a folder named "common".
 
-- If you have a **GKI Samsung kernel**, you should use the "common" kernel instead of "msm-kernel" for the compilation.
+- **In GKI Samsung Qualcomm kernel sources**, you should use the `common` kernel instead of `msm-kernel` for compilation.
+- **In some GKI Samsung MediaTek kernel sources**, the kernel root is named `kernel-VERSION.PATCHLEVEL`.
+  - e.g., `kernel-5.15`
 
 <h2> ✅ Preparing for the Compilation</h2>
 
@@ -171,6 +173,25 @@ chmod +755 -R /path/to/extracted/kernel/
 - Next, go to [build_scripts](./build_scripts/), choose the appropriate script, download it, and place it inside your kernel's root directory.
 
 <img src="./screenshots/7.png">
+
+<hr>
+
+> [!CAUTION]
+> **DO NOT FLASH GKI `Image` ALONE WITHOUT VENDOR DRIVERS — ESPECIALLY ON SAMSUNG DEVICES**
+>
+> These GKI build scripts only compile the kernel `Image` from source. They **may NOT include**:
+> - OEM out-of-tree drivers (e.g., Samsung's `sec_*`, EFUSE triggers, TrustZone handlers)
+> - Vendor-specific modules built only via official OEM build systems.
+>
+> Flashing this `Image` as your **first custom binary** after unlocking the bootloader can **permanently hard brick** your device — especially on **Samsung MediaTek GKI 2.0+** models.
+>
+> Why? Because missing security drivers may prevent proper EFUSE handling, and the system may treat your flash as a tamper violation, leading to irreversible brick.
+>
+> I’ve already bricked a phone this way — so **take this seriously.**
+>
+> ✅ If you still want to proceed and learn how to build a *safe* and *bootable* GKI kernel, especially for Samsung MTK devices, refer to my **SM-A166P repo**:
+>
+> 👉 https://github.com/ravindu644/android_kernel_a166p
 
 <hr>
 
