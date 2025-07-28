@@ -26,19 +26,15 @@ if [ ! -d "${HOME}/toolchains/proton-12" ]; then
     git clone --depth=1 https://github.com/ravindu644/proton-12.git "${HOME}/toolchains/proton-12" 
 fi
 
-# Download and extract Linaro 7.5 if not already done
-if [ ! -d "${HOME}/toolchains/aarch64-linaro-7.5" ]; then
-    cd "${HOME}/toolchains" && wget https://kali.download/nethunter-images/toolchains/linaro-aarch64-7.5.tar.xz
-    tar -xvf linaro-aarch64-7.5.tar.xz && rm linaro-aarch64-7.5.tar.xz
-    cd "${KERNEL_ROOT}"
-fi
+# Proton Clang contains binutils so we don't need separate one
 
 # Export toolchain paths
-export PATH="${HOME}/toolchains/proton-12/bin:${PATH}"
-export LD_LIBRARY_PATH="${HOME}/toolchains/proton-12/lib:${LD_LIBRARY_PATH}"
+export PATH="${PATH}:${HOME}/toolchains/proton-12/bin"
+# export LD_LIBRARY_PATH="${HOME}/toolchains/proton-12/lib:${LD_LIBRARY_PATH}"
 
 # Set cross-compile environment variables
-export BUILD_CROSS_COMPILE="${HOME}/toolchains/aarch64-linaro-7.5/bin/aarch64-linux-gnu-"
+export BUILD_CROSS_COMPILE="aarch64-linux-gnu-"
+export BUILD_CROSS_COMPILE_ARM32="arm-linux-gnu-"
 export BUILD_CC="${HOME}/toolchains/proton-12/bin/clang"
 
 # Build options for the kernel
@@ -49,6 +45,7 @@ O=${KERNEL_ROOT}/out \
 ARCH=arm64 \
 DTC_EXT=${KERNEL_ROOT}/tools/dtc \
 CROSS_COMPILE=${BUILD_CROSS_COMPILE} \
+CROSS_COMPILE_ARM32=${BUILD_CROSS_COMPILE_ARM32} \
 CC=${BUILD_CC} \
 CLANG_TRIPLE=aarch64-linux-gnu- \
 "
