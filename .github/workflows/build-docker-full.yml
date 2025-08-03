@@ -34,7 +34,7 @@ jobs:
     - name: Create release
       uses: ncipollo/release-action@v1
       with:
-        tag: ${{ github.event.inputs.tag }}-docker
+        tag: ${{ github.event.inputs.tag }}-docker-full
         name: "Kernel-Builder-${{ github.event.inputs.tag }}-full"
         draft: false
         prerelease: true
@@ -54,5 +54,5 @@ jobs:
           - Run `kernel-builder.sh`, which is located inside the unzipped folder to power up the docker container :)          
 
             ```
-            sudo ./kernel-builder.sh
+            ./kernel-builder.sh
             ```
