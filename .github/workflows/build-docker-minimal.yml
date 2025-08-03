@@ -1,0 +1,59 @@
+name: Build the Docker Container - Minimal
+
+on:
+  workflow_dispatch:
+    inputs:      
+      tag:
+        description: 'Docker Release Tag'
+        required: true    
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+
+    - name: Set environment variable
+      run: |
+        echo "DOCKER_CONTAINER_VERSION=${{ github.event.inputs.tag }}" >> $GITHUB_ENV        
+
+    - name: Cook the container
+      run: |
+        cd docker && bash build-container-minimal.sh || exit 1
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Kernel-Builder-${{ github.event.inputs.tag }}-minimal
+        path: docker/*.zip
+
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ github.event.inputs.tag }}-docker
+        name: "Kernel-Builder-${{ github.event.inputs.tag }}-minimal"
+        draft: false
+        prerelease: true
+        token: ${{ secrets.TOKEN }}          
+        artifacts: "docker/*.zip"
+        body: |        
+          **How to use..?**  
+
+          - Download the `kernel-builder.zip` file.  
+          - Unzip it.  
+          - Install Docker if it's not already installed.
+           - In Ubuntu based systems, you can run:
+
+            ```
+            sudo apt install docker.io && sudo usermod -aG docker $USER && sudo reboot
+            ```          
+          - Run `kernel-builder.sh`, which is located inside the unzipped folder to power up the docker container :)          
+
+            ```
+            sudo ./kernel-builder.sh
+            ```
+

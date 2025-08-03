@@ -4,16 +4,17 @@ FROM ubuntu:22.04
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV KBUILD_BUILD_USER="@ravindu644"
-ENV CROSS_COMPILE="/home/kernel-builder/toolchains/gcc/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-"
 
 # Install all required packages
 RUN apt-get update && apt-get install -y \
     android-sdk-libsparse-utils \
     bash-completion \
     bc \
+    tmux \
     bison \
     build-essential \
     bzip2 \
+    neofetch \
     coreutils \
     cpio \
     curl \
@@ -92,33 +93,9 @@ RUN echo 'echo -e "\e[32mAndroid-Kernel-Tutorials by @ravindu644\e[0m\n"' >> /ho
 # Set the default user to "kernel-builder"
 USER kernel-builder
 
-# Init arm gnu toolchain
-RUN mkdir -p "/home/kernel-builder/toolchains/gcc" && \
-    cd "/home/kernel-builder/toolchains/gcc" && \
-    curl -LO "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz" && \
-    tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz && \
-    rm arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz
-
-# Init neutron-clang 
-RUN mkdir -p "/home/kernel-builder/toolchains/neutron-clang" && \
-    cd "/home/kernel-builder/toolchains/neutron-clang" && \
-    curl -LO "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman" && chmod +x antman && \
-    bash antman -S && bash antman --patch=glibc
-
 # Init android-partition-tools
 RUN git clone https://github.com/ravindu644/android-partition-tools.git /home/kernel-builder/android-partition-tools --depth=1
 ENV PATH=$PATH:/home/kernel-builder/android-partition-tools
-
-# sKETCHY way to initialize boot image editor :3
-RUN cd "/home/kernel-builder" && \
-    curl -LO "https://github.com/cfig/Android_boot_image_editor/releases/download/v15_r1/boot_editor_v15_r1.zip" && \
-    unzip boot_editor_v15_r1.zip && rm -rf boot_editor_v15_r1.zip && \
-    cd boot_editor_v15_r1 && \
-    curl -LO "https://github.com/ravindu644/android_kernel_m145f_common/raw/refs/heads/M145FXXU4CXG4/prebuilts/Android_boot_image_editor/boot.img" && \
-    curl -LO "https://github.com/ravindu644/android_kernel_m145f_common/raw/refs/heads/M145FXXU4CXG4/prebuilts/Android_boot_image_editor/vbmeta.img" && \
-    bash gradlew unpack && \
-    bash gradlew clear && \
-    rm -f boot.img vbmeta.img
 
 # Final command to keep the container running
 CMD ["bash"]
