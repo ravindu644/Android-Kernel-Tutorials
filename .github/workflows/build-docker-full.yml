@@ -1,4 +1,4 @@
-name: Build the Docker Container
+name: Build the Docker Container - Full
 
 on:
   workflow_dispatch:
@@ -23,19 +23,19 @@ jobs:
 
     - name: Cook the container
       run: |
-        cd docker && bash build-container.sh || exit 1
+        cd docker && bash build-container-full.sh || exit 1
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: Kernel-Builder-${{ github.event.inputs.tag }}
+        name: Kernel-Builder-${{ github.event.inputs.tag }}-full
         path: docker/*.zip
 
     - name: Create release
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ github.event.inputs.tag }}-docker
-        name: "Kernel-Builder-${{ github.event.inputs.tag }}"
+        name: "Kernel-Builder-${{ github.event.inputs.tag }}-full"
         draft: false
         prerelease: true
         token: ${{ secrets.TOKEN }}          
@@ -45,10 +45,14 @@ jobs:
 
           - Download the `kernel-builder.zip` file.  
           - Unzip it.  
-          - Install Docker if it's not already installed.  
-          - Run `kernel-builder.sh`, which is located inside the unzipped folder to power up the docker container :)
+          - Install Docker if it's not already installed.
+           - In Ubuntu based systems, you can run:
 
             ```
-            bash kernel-builder.sh
-            ```
+            sudo apt install docker.io && sudo usermod -aG docker $USER && sudo reboot
+            ```          
+          - Run `kernel-builder.sh`, which is located inside the unzipped folder to power up the docker container :)          
 
+            ```
+            sudo ./kernel-builder.sh
+            ```
