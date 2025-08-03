@@ -35,8 +35,18 @@ else
 fi
 
 # Run the container
+# Run the container
 echo -e "${GREEN}Launching kernel-builder container...${RESET}"
-docker run -it --privileged \
-    -v kernel-builder-data:/home/kernel-builder \
-    -v "$HOME:/home/kernel-builder/$USER" \
-    kernel-builder
+if [ -d "$HOME/toolchains" ]; then
+    docker run -it --privileged \
+        -v kernel-builder-data:/home/kernel-builder \
+        -v "$HOME:/home/kernel-builder/$USER" \
+        -v "$HOME/toolchains:/home/kernel-builder/toolchains" \
+        kernel-builder
+else
+    docker run -it --privileged \
+        -v kernel-builder-data:/home/kernel-builder \
+        -v "$HOME:/home/kernel-builder/$USER" \
+        kernel-builder
+fi
+
