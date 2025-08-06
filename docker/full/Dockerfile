@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     coreutils \
     cpio \
     curl \
+    rsync \
     default-jdk \
     device-tree-compiler \
     e2fsprogs \

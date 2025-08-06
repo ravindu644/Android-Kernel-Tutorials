@@ -46,6 +46,7 @@ RUN apt-get update && apt-get install -y \
     libx11-dev \
     libxml2-utils \
     lz4 \
+    rsync \
     make \
     nano \
     net-tools \
