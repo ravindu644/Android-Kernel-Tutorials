@@ -35,11 +35,14 @@ python3 make sudo gcc g++ bc grep tofrodos python3-markdown libxml2-utils xsltpr
 make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd kmod --fix-missing && wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb && sudo dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb
 ```
 <br>❗The video Guide for this tutorial can be found here (outdated): Open in <a href="https://t.me/SamsungTweaks/137">Telegram</a> </h3>
+<br>
+
 > [!NOTE]
 >
-> If you are not a beginner and want to build a GKI 2.0 kernel from the official Google sources, jump to the <a href="https://github.com/ravindu644/Android-Kernel-Tutorials/tree/gki-2.0">gki-2.0</a> branch.
+> - If you are not a beginner and want to build a GKI 2.0 kernel from the official Google sources, jump to the [gki-2.0](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/gki-2.0) branch.
 >
-> Credit to @TheWildJames for the awesome tutorial!
+> - Credit to [@TheWildJames](https://github.com/TheWildJames) for the awesome tutorial!
+>
 
 <br>
 
