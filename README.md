@@ -18,9 +18,11 @@
 - Creating a signed boot image from the compiled kernel
 
 **Requirements:**
-- A working 🧠
-- Linux based PC/Server (Debian-based recommended.)
-- Basic knowledge in Linux commands and Bash Script.
+- A working 🧠  
+- A Linux-based PC/Server (Debian-based recommended)  
+- Basic knowledge of Linux commands and Bash scripting  
+- Basic knowledge of version control (Git)  
+  - This is good practice when building a kernel. Imagine you edit some files and realize you've messed up the source - this one single command `git stash` can help you revert all the uncommitted changes you made. How cool is that :)  
 - Patience
 	
 ### 🛠 Install required dependencies for compiling kernels
