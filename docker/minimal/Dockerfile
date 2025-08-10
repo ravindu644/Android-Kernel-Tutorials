@@ -4,6 +4,7 @@ FROM ubuntu:22.04
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV KBUILD_BUILD_USER="@ravindu644"
+ENV TERM=xterm-256color
 
 # Install all required packages
 RUN apt-get update && apt-get install -y \
@@ -32,6 +33,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     gperf \
     grep \
+    htop \
     iproute2 \
     iputils-ping \
     kmod \
@@ -58,6 +60,7 @@ RUN apt-get update && apt-get install -y \
     python-is-python3 \
     python3 \
     python3-markdown \
+    python3-pip \
     repo \
     sudo \
     tar \
@@ -69,6 +72,7 @@ RUN apt-get update && apt-get install -y \
     xsltproc \
     xz-utils \
     zip \
+    tree \
     zlib1g-dev \
     zstd \
     --fix-missing && \
@@ -89,7 +93,8 @@ RUN useradd -m -s /bin/bash kernel-builder && \
 WORKDIR /home/kernel-builder
 
 # Add a custom greeting to the bash prompt
-RUN echo 'echo -e "\e[32mAndroid-Kernel-Tutorials by @ravindu644\e[0m\n"' >> /home/kernel-builder/.bashrc
+RUN echo 'export PS1="\[\033[1;36m\]⚡ \[\033[1;32m\]\u\[\033[0;37m\]@\[\033[1;35m\]kernel-builder\[\033[0;37m\]:\[\033[1;34m\]\W\[\033[1;33m\] ->\[\033[0m\] "' >> /home/kernel-builder/.bashrc && \
+    echo 'echo -e "\e[32mAndroid-Kernel-Tutorials by @ravindu644\e[0m\n"' >> /home/kernel-builder/.bashrc
 
 # Set the default user to "kernel-builder"
 USER kernel-builder
