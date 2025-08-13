@@ -191,3 +191,5 @@ Now, you can edit this file to manipulate your commits.
 *   **`reword` or `r`**: This allows you to change the commit message of a specific commit without altering its content. When you save, Git will open an editor for each `reword` line for you to write a new message.
 
 Once you save and close the interactive rebase file, Git will apply the changes. Your project history will now be cleaner and easier to read.
+
+**Jump to the Next section once you mastered these basics:** [Advanced Git for Kernel development](./ADVANCED.md)
