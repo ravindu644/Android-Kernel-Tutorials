@@ -19,11 +19,13 @@
 
 **Requirements:**
 - A working 🧠  
+- Patience  
 - A Linux-based PC/Server (Debian-based recommended)  
 - Basic knowledge of Linux commands and Bash scripting  
 - Basic knowledge of version control (Git)  
   - This is good practice when building a kernel. Imagine you edit some files and realize you've messed up the source - this one single command `git stash` can help you revert all the uncommitted changes you made. How cool is that :)  
-- Patience
+
+  - Go [learn some Git from here](./Git-for-beginners/) **before** you start learning kernel compilation!
 	
 ### 🛠 Install required dependencies for compiling kernels
 - The command below only for Debian-based distros like Ubuntu, Linux Mint, Debian and etc.
