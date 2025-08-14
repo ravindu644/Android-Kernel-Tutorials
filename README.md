@@ -145,7 +145,13 @@ chmod +755 -R /path/to/extracted/kernel/
    - In this second generation, GKI project starting to get matured properly.
    - This kernel is considered as "universal", since you can boot a GKI kernels that builded with Google's GKI kernel source on **some** devices, if correct and match.
 
----
+> [!NOTE]
+> For 4.19 Kernels, it is not always possible to say if the kernel is non-GKI or GKI because some OEM can make it GKI and some OEM can keep it as non-GKI too.
+> Maybe wrong if I say OEMs modify it, instead they use GKI base of 4.19. You can take a look at Android Common Kernel repository if you really want. For your information, 4.19 GKI is considered as GKI 1.0.
+> 
+> - Example:
+> 1. Samsung Galaxy A13 5G (SM-A137F) has kernel 4.19 but it is GKI.
+> 2. Samsung Galaxy S20 4G has kernel 4.19 but it is not GKI.
 
 ### Notes:
 - **LTS = Long-Term Support**: These kernels are stable, well-maintained, and receive long-term updates.
