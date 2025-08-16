@@ -196,7 +196,6 @@ chmod +755 -R /path/to/extracted/kernel/
 <hr>
 
 > [!CAUTION]
-> **DO NOT FLASH GKI `Image` ALONE WITHOUT VENDOR DRIVERS — ESPECIALLY ON SAMSUNG DEVICES**
 >
 > These GKI build scripts only compile the kernel `Image` from source. They **may NOT include**:
 > - OEM out-of-tree drivers (e.g., Samsung's `sec_*`, EFUSE triggers, TrustZone handlers)
@@ -208,9 +207,11 @@ chmod +755 -R /path/to/extracted/kernel/
 >
 > I’ve already bricked a phone this way — so **take this seriously.**
 >
-> ✅ If you still want to proceed and learn how to build a *safe* and *bootable* GKI kernel, especially for Samsung MTK devices, refer to my **SM-A166P repo**:
+> If you still want to proceed and learn how to build a *safe* and *bootable* GKI kernel, especially for Samsung MTK devices, refer to my **SM-A166P repo**:
 >
 > 👉 https://github.com/ravindu644/android_kernel_a166p
+>
+> **TLDR:** **DO NOT FLASH GKI `Image` ALONE WITHOUT VENDOR DRIVERS — ESPECIALLY ON SAMSUNG MTK DEVICES**
 
 <hr>
 
