@@ -204,10 +204,10 @@ If you are a beginner, I recommend trying to build the kernel without a build sc
 - Download the correct compiler(s) for your kernel version from there, and extract them into a new folder(s) like this:
 
   ![Makefile screenshot](./screenshots/32.png)  
-  *Extrcted clang*
+  *Extracted clang*
 
   ![Makefile screenshot](./screenshots/33.png)  
-  *Extrcted cross compiler*
+  *Extracted cross compiler*
 
 ---
 ### 02. Exporting the compiler locations to the PATH
