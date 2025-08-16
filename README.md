@@ -173,7 +173,231 @@ chmod +755 -R /path/to/extracted/kernel/
 - **In some GKI Samsung MediaTek kernel sources**, the kernel root is named `kernel-VERSION.PATCHLEVEL`.
   - e.g., `kernel-5.15`
 
-<h2> ✅ Preparing for the Compilation</h2>
+## ✅ Preparing for the Compilation
+
+- There are 2 ways to compile the kernel.  
+
+1. **Without** a build script.  
+2. **With** a build script.  
+
+If you are a beginner, I recommend trying to build the kernel without a build script first. Once you understand the logic, you can then use a build script to make your life easier :)
+
+---
+
+## 🟠 Method 1: Without a build script.
+
+### 01. Choosing the right compiler.
+
+- Before compiling the kernel, we must determine the compatible compilers to use for building our kernel.
+
+- You can open your `Makefile` to check your kernel version.  
+
+  ![Makefile screenshot](./screenshots/31.png)  
+  *Kernel version = `VERSION.PATCHLEVEL.SUBLEVEL`*
+
+- In my case, the kernel version is **4.14.113**.
+
+- You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
+
+- In my case, they are: [clang-r383902b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r383902b.tar.gz), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
+
+- Download the correct compiler(s) for your kernel version from there, and extract them into a new folder(s) like this:
+
+  ![Makefile screenshot](./screenshots/32.png)  
+  *Extracted clang*
+
+  ![Makefile screenshot](./screenshots/33.png)  
+  *Extracted cross compiler*
+
+---
+### 02. Exporting the compiler locations to the PATH
+
+- Even though we downloaded the right compilers, our system (Host OS) will not automatically know which compiler to use for building our kernel.  
+
+- By default, it will use the system’s compilers, which might be incompatible with older kernels.  
+  → In such a case, the build will fail instantly.  
+
+- So, our task is to wire up the downloaded compilers to our system’s `PATH`.  
+  We must tell the system: “use the `clang` binary from here, not your own clang!”  
+
+---
+
+#### 💡 What is `PATH`?
+`PATH` is an environment variable in Linux/Unix that stores a list of directories.  
+When you type a command (like `clang` or `gcc`), the system looks through the directories in `PATH` **from left to right** to find the first matching executable.  
+
+By adding your downloaded compiler’s folder to **the begining of the** `PATH`, you make sure the build system picks **your compiler** instead of the system default.
+
+---
+
+- To check what your `PATH` variable looks like, you can type `echo $PATH` in the terminal:  
+
+  ![PATH screenshot](./screenshots/34.png)  
+  - Our goal is to add our compilers' locations to the left side of `/usr/local/sbin` :)
+
+- In the extracted compiler folders, the binary files (executables) are usually located inside the `bin` folder, like this:  
+
+  ![Bin folder screenshot](./screenshots/35.png)
+
+- Copy the full path to that `bin` folder and export those locations to the `PATH` like this:  
+
+  ```bash
+  export PATH="/path/to/first/compiler/bin:/path/to/second/compiler/bin:$PATH"
+  ```
+
+- **In my case,** it looked like this:
+
+  ```bash
+  export PATH="/home/kernel-builder/toolchains/clang-r383902b/bin:/home/kernel-builder/toolchains/gcc/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu/bin:$PATH"
+  ```
+
+**As you can see, we have successfully exported the toolchains to our `PATH`:**
+
+  ![Bin folder screenshot](./screenshots/36.png)
+
+**For confirmation,** type `clang -v` in the terminal to verify that it is actually wired up!
+
+  ![Bin folder screenshot](./screenshots/37.png)
+  *We did it!*
+
+---
+
+### 03. Compiling the kernel with `make`
+
+- Keep in mind that the `PATH` variable we exported in Step 02 is **only valid in the currently opened terminal.**  
+
+  **So, don't close it** - use that terminal window to navigate the kernel source and run commands for further compilation.
+
+- **Now,** using that terminal window, navigate to your **root of the kernel source** like this: `cd /path/to/kernel-root`
+
+  ![Bin folder screenshot](./screenshots/38.png)
+
+---
+
+**💡 Better to Know:** A **defconfig** (default configuration) is like a preset settings file for the kernel.
+
+- It tells the build system which features to enable or disable.
+- Common defconfig locations are `arch/arm64/configs` or `arch/arm64/configs/vendor`.
+
+---
+
+- **In my case,** my defconfig is located at `arch/arm64/configs`, and its name is `exynos9820-beyondxks_defconfig`.
+
+  - **Also,** I have multiple defconfigs made for my **specific purposes**, named: `common.config`, `ksu.config`, and `nethunter.config`.
+  - You can also create your own customized defconfigs for specific changes (more on that later)!
+
+- Now, we need to tell our compilers to "use these defconfigs to build the kernel"!  
+- To do that, simply run the following command:
+
+```bash
+make \
+  ARCH=arm64 \
+  CC=clang \
+  CROSS_COMPILE=aarch64-none-linux-gnu- \
+  CLANG_TRIPLE=aarch64-none-linux-gnu- \
+  your_defconfig your_second_defconfig your_third_defconfig
+```
+---
+
+**💡 Explanation:**
+
+1. **ARCH=arm64** → Specifies the architecture of the kernel we are building.
+
+    - In our case, it is 64-bit ARM.
+
+2. **CC=clang** → Tells `make` to use the `clang` compiler.
+
+    - **Don't change this value.** Keep it as it is!
+
+3. **CROSS_COMPILE=aarch64-none-linux-gnu-** → Prefix for the cross-compiler binaries (e.g., `aarch64-none-linux-gnu-gcc`).
+
+    - You can get this value by opening your GCC's `bin` folder. All the binaries have the same prefix!
+
+    ![Bin folder screenshot](./screenshots/39.png)  
+    *See the highlighted part. `aarch64-none-linux-gnu-` is the common prefix for all the binaries, and it is the value for the `CROSS_COMPILE` variable.*
+
+4. **CLANG_TRIPLE=aarch64-linux-gnu-** → Tells Clang exactly which target architecture, OS, and ABI to compile for.
+
+    - Ensures the kernel build system can enable features and flags specific to ARM64 Linux.
+    - This does **not** require a literal binary named `aarch64-linux-gnu-` in your path — Clang uses it internally as a target specification.
+    - You can also use `aarch64-none-linux-gnu-` as the triple; the vendor field (`none`) is usually ignored by Clang.
+
+5. **your_defconfig ...** → These are the configuration files (`defconfigs`) that define which kernel features, drivers, and options to include in the build.
+
+**This is the absolute barebone of the `make` command for compiling the Android kernel. Don't try to remove any part of this code!**
+
+---
+
+- Now, when you run that above command, the build system will read all of your `defconfig` files and merge them into a single file called `.config` !
+
+  ![Bin folder screenshot](./screenshots/40.png)
+  *Screenshot **before** running the command*
+
+  ![Bin folder screenshot](./screenshots/41.png)
+  *Screenshot **after** running the command*
+
+**This will write the final configuration to a hidden file named `.config`, which will be used by the build system to compile the kernel:**
+
+  ![Bin folder screenshot](./screenshots/42.png)
+
+---
+
+- Before compiling the kernel, if you want to edit the contents of the `.config` in a GUI way, you can use the `menuconfig` tool.  
+
+- To launch `menuconfig`, type the same beginning of the command you used to create the `.config` (i.e., the `CC` and `CROSS_COMPILE` parts), but at the end, instead of defconfig names, use `menuconfig` like this:
+
+```bash
+make \
+  ARCH=arm64 \
+  CC=clang \
+  CROSS_COMPILE=aarch64-none-linux-gnu- \
+  CLANG_TRIPLE=aarch64-none-linux-gnu- \
+  menuconfig
+```
+
+  ![Bin folder screenshot](./screenshots/43.png)  
+  *It will open something like this. Feel free to edit it according to your needs.*
+
+**Use the arrow keys to navigate through `menuconfig`. Once you are done editing, exit `menuconfig` to proceed with building the kernel.**
+
+**Note:** The customization part is not discussed here; it is covered in Method 2. This is just the barebones of "Compiling the kernel."
+
+---
+
+- Now, we have successfully created the final configuration file (`.config`) and, if needed, customized it using `menuconfig`.  
+
+- The only thing left to do is compile the kernel!  
+
+- To compile, run the same command as before with the same beginning (the `ARCH`, `CC`, and `CROSS_COMPILE` parts), but this time **do not specify any defconfig or menuconfig at the end**. Like this:
+
+```bash
+make \
+  ARCH=arm64 \
+  CC=clang \
+  CROSS_COMPILE=aarch64-none-linux-gnu- \
+  CLANG_TRIPLE=aarch64-none-linux-gnu-
+```
+
+---
+
+### 💡 What this does:
+
+This command tells the build system to start compiling the kernel immediately using the `.config` you just created. All the settings and options from `.config` will now guide the build process.
+
+---
+
+**Once you run the above command, the build system will start compiling the kernel in the same kernel root directory:**
+
+  ![Bin folder screenshot](./screenshots/44.png)  
+
+### Barebone Training is enough! 
+
+**Let's jump into the easiest and laziest method you can do xD**
+**We'll explore the compilation more deeply in `Method 02`!**
+
+---
+
+## 🟠 Method 2: With a build script.
 
 ### 01. After downloading or cloning the Kernel Source, we should have a build script to compile our kernel.
 
@@ -196,7 +420,6 @@ chmod +755 -R /path/to/extracted/kernel/
 <hr>
 
 > [!CAUTION]
-> **DO NOT FLASH GKI `Image` ALONE WITHOUT VENDOR DRIVERS — ESPECIALLY ON SAMSUNG DEVICES**
 >
 > These GKI build scripts only compile the kernel `Image` from source. They **may NOT include**:
 > - OEM out-of-tree drivers (e.g., Samsung's `sec_*`, EFUSE triggers, TrustZone handlers)
@@ -208,19 +431,17 @@ chmod +755 -R /path/to/extracted/kernel/
 >
 > I’ve already bricked a phone this way — so **take this seriously.**
 >
-> ✅ If you still want to proceed and learn how to build a *safe* and *bootable* GKI kernel, especially for Samsung MTK devices, refer to my **SM-A166P repo**:
+> If you still want to proceed and learn how to build a *safe* and *bootable* GKI kernel, especially for Samsung MTK devices, refer to my **SM-A166P repo**:
 >
 > 👉 https://github.com/ravindu644/android_kernel_a166p
+>
+> **TLDR:** **DO NOT FLASH GKI `Image` ALONE WITHOUT VENDOR DRIVERS — ESPECIALLY ON SAMSUNG MTK DEVICES**
 
 <hr>
 
 ### 02. Edit the Build script:
 
-**💡 Better to Know:** A **defconfig** (default configuration) is like a preset settings file for the kernel.
-
-- It tells the build system which features to enable or disable.
-
-**So, Open the build script in a text editor and make these changes:**
+**Open the build script in a text editor and make these changes:**
 
 - Replace `your_defconfig` to your current defconfig which is located in `arch/arm64/configs`
 
