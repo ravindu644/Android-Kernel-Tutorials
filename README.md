@@ -233,7 +233,7 @@ By adding your downloaded compiler’s folder to **the begining of the** `PATH`,
 - To check what your `PATH` variable looks like, you can type `echo $PATH` in the terminal:  
 
   ![PATH screenshot](./screenshots/34.png)  
-  - Our goal is to add our compilers' locations to the left side of `/usr/local/sbin`. :)
+  - Our goal is to add our compilers' locations to the left side of `/usr/local/sbin` :)
 
 - In the extracted compiler folders, the binary files (executables) are usually located inside the `bin` folder, like this:  
 
