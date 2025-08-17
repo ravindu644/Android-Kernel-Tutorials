@@ -1,0 +1,3 @@
+[submodule "special-tools/LKM_Tools"]
+	path = special-tools/LKM_Tools
+	url = https://github.com/ravindu644/LKM_Tools.git
