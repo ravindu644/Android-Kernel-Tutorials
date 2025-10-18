@@ -16,11 +16,11 @@ install_dependencies() {
     if command -v dnf &> /dev/null; then
         echo -e "[INFO]: Fedora/RHEL-based system detected, using dnf...\n"
         sudo dnf group install "c-development" "development-tools" && \
-        sudo dnf install -y git dtc lz4 xz zlib-devel java-17-openjdk-devel python3 \
-            p7zip p7zip-plugins android-tools erofs-utils java-latest-openjdk-devel \
+        sudo dnf install -y dtc lz4 xz zlib-devel java-latest-openjdk-devel python3 \
+            p7zip p7zip-plugins android-tools erofs-utils \
             ncurses-devel libX11-devel readline-devel mesa-libGL-devel python3-markdown \
             libxml2 libxslt dos2unix kmod openssl elfutils-libelf-devel dwarves \
-            openssl-devel libarchive zstd rsync
+            openssl-devel libarchive zstd rsync --skip-unavailable
 
     elif command -v apt &> /dev/null; then
         echo -e "[INFO]: Ubuntu/Debian-based system detected, using apt...\n"
