@@ -61,36 +61,36 @@ export LD_LIBRARY_PATH="${HOME}/toolchains/neutron-clang/lib:${LD_LIBRARY_PATH}"
 export BUILD_CC="${HOME}/toolchains/neutron-clang/bin/clang"
 
 # Build options for the kernel
-export BUILD_OPTIONS="
--C ${KERNEL_ROOT} \
-O=${KERNEL_ROOT}/out \
--j$(nproc) \
-ARCH=arm64 \
-CROSS_COMPILE=aarch64-linux-gnu- \
-CLANG_TRIPLE=aarch64-linux-gnu- \
-CC=${BUILD_CC} \
-LLVM=1 \
-LLVM_IAS=1 \
-AR=${NEUTRON_PATH}/llvm-ar \
-NM=${NEUTRON_PATH}/llvm-nm \
-LD=${NEUTRON_PATH}/ld.lld \
-STRIP=${NEUTRON_PATH}/llvm-strip \
-OBJCOPY=${NEUTRON_PATH}/llvm-objcopy \
-OBJDUMP=${NEUTRON_PATH}/llvm-objdump \
-READELF=${NEUTRON_PATH}/llvm-readelf \
-HOSTCC=${NEUTRON_PATH}/clang \
-HOSTCXX=${NEUTRON_PATH}/clang++ \
-"
+export BUILD_OPTIONS=(
+    -C "${KERNEL_ROOT}"
+    O="${KERNEL_ROOT}/out"
+    -j"$(nproc)"
+    ARCH=arm64
+    CROSS_COMPILE=aarch64-linux-gnu-
+    CLANG_TRIPLE=aarch64-linux-gnu-
+    CC="${BUILD_CC}"
+    LLVM=1
+    LLVM_IAS=1
+    AR="${NEUTRON_PATH}/llvm-ar"
+    NM="${NEUTRON_PATH}/llvm-nm"
+    LD="${NEUTRON_PATH}/ld.lld"
+    STRIP="${NEUTRON_PATH}/llvm-strip"
+    OBJCOPY="${NEUTRON_PATH}/llvm-objcopy"
+    OBJDUMP="${NEUTRON_PATH}/llvm-objdump"
+    READELF="${NEUTRON_PATH}/llvm-readelf"
+    HOSTCC="${NEUTRON_PATH}/clang"
+    HOSTCXX="${NEUTRON_PATH}/clang++"
+)
 
 build_kernel(){
     # Make default configuration.
-    make ${BUILD_OPTIONS} gki_defconfig
+    make "${BUILD_OPTIONS[@]}" gki_defconfig
 
     # Configure the kernel (GUI)
-    make ${BUILD_OPTIONS} menuconfig
+    make "${BUILD_OPTIONS[@]}" menuconfig
 
     # Build the kernel
-    make ${BUILD_OPTIONS} Image || exit 1
+    make "${BUILD_OPTIONS[@]}" Image || exit 1
 
     # Copy the built kernel to the build directory
     cp "${KERNEL_ROOT}/out/arch/arm64/boot/Image" "${KERNEL_ROOT}/build"

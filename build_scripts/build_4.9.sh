@@ -62,27 +62,27 @@ export BUILD_CROSS_COMPILE="${HOME}/toolchains/aarch64-linaro-7.5/bin/aarch64-li
 export BUILD_CC="${HOME}/toolchains/proton-12/bin/clang"
 
 # Build options for the kernel
-export BUILD_OPTIONS="
--j$(nproc) \
--C ${KERNEL_ROOT} \
-O=${KERNEL_ROOT}/out \
-ARCH=arm64 \
-DTC_EXT=${KERNEL_ROOT}/tools/dtc \
-CROSS_COMPILE=${BUILD_CROSS_COMPILE} \
-CC=${BUILD_CC} \
-CLANG_TRIPLE=aarch64-linux-gnu- \
-"
+export BUILD_OPTIONS=(
+    -j"$(nproc)"
+    -C "${KERNEL_ROOT}"
+    O="${KERNEL_ROOT}/out"
+    ARCH=arm64
+    DTC_EXT="${KERNEL_ROOT}/tools/dtc"
+    CROSS_COMPILE="${BUILD_CROSS_COMPILE}"
+    CC="${BUILD_CC}"
+    CLANG_TRIPLE=aarch64-linux-gnu-
+)
 
 build_kernel(){
     # Make default configuration.
     # Replace 'your_defconfig' with the name of your kernel's defconfig
-    make ${BUILD_OPTIONS} your_defconfig
+    make "${BUILD_OPTIONS[@]}" your_defconfig
 
     # Configure the kernel (GUI)
-    make ${BUILD_OPTIONS} menuconfig
+    make "${BUILD_OPTIONS[@]}" menuconfig
 
     # Build the kernel
-    make ${BUILD_OPTIONS} Image || exit 1
+    make "${BUILD_OPTIONS[@]}" Image || exit 1
 
     # Copy the built kernel to the build directory
     cp "${KERNEL_ROOT}/out/arch/arm64/boot/Image" "${KERNEL_ROOT}/build"
