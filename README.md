@@ -29,7 +29,7 @@
 	
 ### 🛠 Install required dependencies for compiling kernels
 
-> [!INFO]
+> [!TIP]
 > For the most reliable and hassle-free experience, we recommend using our pre-configured Docker container which provides a stable, tested environment for kernel compilation that works on any OS. Download it from the [releases page](https://github.com/ravindu644/Android-Kernel-Tutorials/releases) and follow the included instructions.
 
 But, if you don't want to use the Docker container, here are the commands to install the dependencies for Ubuntu/Fedora:
