@@ -32,6 +32,15 @@
 > [!TIP]
 > For the most reliable and hassle-free experience, we recommend using our pre-configured Docker container which provides a stable, tested environment for kernel compilation that works on any OS. Download it from the [releases page](https://github.com/ravindu644/Android-Kernel-Tutorials/releases) and follow the included instructions.
 
+<details>
+<summary><strong>Expand to view how the Docker container looks like</strong></summary>
+
+![Kernel Builder Docker Container](./screenshots/kernel-builder.png)
+
+*Screenshot of the Ubuntu-based Docker container running on Fedora (click to view in full quality)*
+
+</details>
+
 But, if you don't want to use the Docker container, here are the commands to install the dependencies for Ubuntu/Fedora:
 
 <details>
