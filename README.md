@@ -97,7 +97,6 @@ openssl-devel libarchive zstd rsync
 
 ---
 
-<hr>
 <h2> ✅ Downloading the kernel source code for your device</h2>
 
 - **⚠️ If your device is Samsung,**
