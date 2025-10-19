@@ -20,7 +20,7 @@
 **Requirements:**
 - A working 🧠  
 - Patience  
-- A Linux-based PC/Server (Debian-based recommended)  
+- A x86_64 (AMD64) Linux-based PC/Server (Debian-based recommended)  
 - Basic knowledge of Linux commands and Bash scripting  
 - Basic knowledge of version control (Git)  
   - This is good practice when building a kernel. Imagine you edit some files and realize you've messed up the source - this one single command `git stash` can help you revert all the uncommitted changes you made. How cool is that :)  
@@ -28,25 +28,44 @@
   - Go [learn some Git from here](./Git-for-beginners/) **before** you start learning kernel compilation!
 	
 ### 🛠 Install required dependencies for compiling kernels
-- The command below only for Debian-based distros like Ubuntu, Linux Mint, Debian and etc.
-- You can compile kernel with other distros, like Arch-based `(pacman)` and CentOS/RHL-based `(yay)`/`(dnf)`. **However, we won't provide it here. Please search related packages below that match with your distro!**
-- Paste the code below in your terminal to start installation:
- 
+
+> [!TIP]
+> For the most reliable and hassle-free experience, we recommend using our pre-configured Docker container which provides a stable, tested environment for kernel compilation that works on any OS. Download it from the [releases page](https://github.com/ravindu644/Android-Kernel-Tutorials/releases) and follow the included instructions.
+
+<details>
+<summary><strong>Expand to view how the Docker container looks like</strong></summary>
+
+![Kernel Builder Docker Container](./screenshots/kernel-builder.png)
+
+*Screenshot of the Ubuntu-based Docker container running on Fedora (click to view in full quality)*
+
+</details>
+
+But, if you don't want to use the Docker container, here are the commands to install the dependencies for Ubuntu/Fedora:
+
+<details>
+<summary><strong>🟧 Ubuntu/Debian-based distributions (Ubuntu, Linux Mint, Debian, etc.)</strong></summary>
+
 ```bash
 sudo apt update && sudo apt install -y git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full android-sdk-libsparse-utils erofs-utils \
 default-jdk git gnupg flex bison gperf build-essential zip curl libc6-dev libncurses-dev libx11-dev libreadline-dev libgl1 libgl1-mesa-dev \
 python3 make sudo gcc g++ bc grep tofrodos python3-markdown libxml2-utils xsltproc zlib1g-dev python-is-python3 libc6-dev libtinfo6 \
 make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd rsync --fix-missing && wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb && sudo dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb
 ```
-<br>❗The video Guide for this tutorial can be found here (outdated): Open in <a href="https://t.me/SamsungTweaks/137">Telegram</a> </h3>
-<br>
+</details>
 
-> [!NOTE]
->
-> - If you are not a beginner and want to build a GKI 2.0 kernel from the official Google sources, jump to the [gki-2.0](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/gki-2.0) branch.
->
-> - Credit to [@TheWildJames](https://github.com/TheWildJames) for the awesome tutorial!
->
+<details>
+<summary><strong>🟦 Fedora/Red Hat-based distributions (Fedora, CentOS, RHEL, etc.)</strong></summary>
+
+```bash
+sudo dnf group install "c-development" "development-tools" && \
+sudo dnf install -y git dtc lz4 xz zlib-devel java-17-openjdk-devel python3 \
+p7zip p7zip-plugins android-tools erofs-utils java-latest-openjdk-devel \
+ncurses-devel libX11-devel readline-devel mesa-libGL-devel python3-markdown \
+libxml2 libxslt dos2unix kmod openssl elfutils-libelf-devel dwarves \
+openssl-devel libarchive zstd rsync
+```
+</details>
 
 <br>
 
@@ -63,14 +82,21 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd r
 10. 🟥 [Fixing the Known compiling issues](https://github.com/ravindu644/Android-Kernel-Tutorials#-fixing-the-known-compiling-issues)
 11. 🟡 [Building a Signed Boot Image from the Compiled Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-building-a-signed-boot-image-from-the-compiled-kernel)
 
+---
+
 > [!NOTE]
+> If you are not a beginner and want to build a GKI 2.0 kernel from the official Google sources, jump to the [gki-2.0](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/gki-2.0) branch.
+>
+> Credit to [@TheWildJames](https://github.com/TheWildJames) for the awesome tutorial!
+>
 > To-do:
 >
 > - Write a separate guide about using Samsung/Google's official GKI Build Systems (1.0 / 2.0+) to build an automated kernel with customization support.
 >
 > - Write a guide on wiring up and injecting the 500+ built Loadable Kernel Modules (.ko drivers) into `vendor_boot` and `vendor_dlkm` images, without causing conflicts or device crashes.
 
-<hr>
+---
+
 <h2> ✅ Downloading the kernel source code for your device</h2>
 
 - **⚠️ If your device is Samsung,**

@@ -12,17 +12,17 @@ index 765c697..e230740 100755
  fi
  
  # Create necessary directories
--mkdir -p "${RDIR}/out" "${RDIR}/build" "${HOME}/toolchains"
-+mkdir -p "${RDIR}/build" "${HOME}/toolchains"
+-mkdir -p "${KERNEL_ROOT}/out" "${KERNEL_ROOT}/build" "${HOME}/toolchains"
++mkdir -p "${KERNEL_ROOT}/build" "${HOME}/toolchains"
  
  #init neutron-clang
  if [ ! -d "${HOME}/toolchains/neutron-clang" ]; then
 @@ -45,8 +45,6 @@ export BUILD_CC="${HOME}/toolchains/neutron-clang/bin/clang"
  
  # Build options for the kernel
- export BUILD_OPTIONS="
---C ${RDIR} \
--O=${RDIR}/out \
+ export BUILD_OPTIONS=(
+--C "${KERNEL_ROOT}" \
+-O="${KERNEL_ROOT}/out" \
  -j$(nproc) \
  ARCH=arm64 \
  CROSS_COMPILE=${BUILD_CROSS_COMPILE} \
@@ -30,8 +30,8 @@ index 765c697..e230740 100755
      make ${BUILD_OPTIONS} Image || exit 1
  
      # Copy the built kernel to the build directory
--    cp "${RDIR}/out/arch/arm64/boot/Image" "${RDIR}/build"
-+    cp "${RDIR}/arch/arm64/boot/Image" "${RDIR}/build"
+-    cp "${KERNEL_ROOT}/out/arch/arm64/boot/Image" "${KERNEL_ROOT}/build"
++    cp "${KERNEL_ROOT}/arch/arm64/boot/Image" "${KERNEL_ROOT}/build"
  
      echo -e "\n[INFO]: BUILD FINISHED..!"
  }

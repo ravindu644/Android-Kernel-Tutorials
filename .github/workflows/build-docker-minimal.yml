@@ -46,11 +46,21 @@ jobs:
           - Download the `kernel-builder.zip` file.  
           - Unzip it.  
           - Install Docker if it's not already installed.
-           - In Ubuntu based systems, you can run:
-
-            ```
-            sudo apt install docker.io && sudo usermod -aG docker $USER && sudo reboot
-            ```          
+           - **Ubuntu/Debian based systems:**
+            
+             ```
+             sudo apt install docker.io && sudo usermod -aG docker $USER && sudo reboot
+             ```          
+           - **Fedora/RHEL based systems:**
+             
+             ```
+             sudo dnf -y install dnf-plugins-core
+             sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+             sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+             sudo systemctl enable --now docker
+             sudo usermod -aG docker $USER
+             sudo reboot
+             ```
           - Run `kernel-builder.sh`, which is located inside the unzipped folder to power up the docker container :)          
 
             ```
