@@ -20,7 +20,7 @@ install_dependencies() {
             p7zip p7zip-plugins android-tools erofs-utils \
             ncurses-devel libX11-devel readline-devel mesa-libGL-devel python3-markdown \
             libxml2 libxslt dos2unix kmod openssl elfutils-libelf-devel dwarves \
-            openssl-devel libarchive zstd rsync --skip-unavailable
+            openssl-devel libarchive zstd rsync openssl-devel-engine --skip-unavailable
 
     elif command -v apt &> /dev/null; then
         echo -e "[INFO]: Ubuntu/Debian-based system detected, using apt...\n"
