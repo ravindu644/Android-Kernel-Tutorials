@@ -30,7 +30,7 @@
 ### 🛠 Install required dependencies for compiling kernels
 
 > [!TIP]
-> For the most reliable and hassle-free experience, we recommend using our pre-configured Docker container which provides a stable, tested environment for kernel compilation that works on any OS. Download it from the [releases page](https://github.com/ravindu644/Android-Kernel-Tutorials/releases) and follow the included instructions.
+> For the most reliable and hassle-free experience, we **strongly recommend** using our pre-configured Docker container which provides a stable, tested environment for kernel compilation that works on any OS. Download it from the [releases page](https://github.com/ravindu644/Android-Kernel-Tutorials/releases) and follow the included instructions.
 
 <details>
 <summary><strong>Expand to view how the Docker container looks like</strong></summary>
