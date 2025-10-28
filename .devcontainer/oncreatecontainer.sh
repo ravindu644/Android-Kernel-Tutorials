@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Install all required packages
 apt-get update && apt-get install -y \
     android-sdk-libsparse-utils \
@@ -73,12 +75,12 @@ apt-get update && apt-get install -y \
     wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb && \
     dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb && \
     rm libtinfo5_6.3-2ubuntu0.1_amd64.deb && \
-    apt-get full-upgrade -y
+    apt-get full-upgrade -y && apt-get clean
 
-# Create the user and set up passwordless sudo
-adduser kernel-builder sudo
-echo "kernel-builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/kernel-builder
+# Create the user and set up passwordless sudo (vscode already has sudo access)
+# adduser vscode sudo
+# echo "vscode ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vscode
 
 # setup da kitchen
-mkdir /workspaces/kitchen
+mkdir -p /workspaces/kitchen
 chmod -R 777 /workspaces/kitchen

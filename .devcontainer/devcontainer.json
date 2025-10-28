@@ -1,5 +1,5 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
     "ghcr.io/devcontainers-extra/features/neofetch:1": {},
     "ghcr.io/devcontainers-extra/features/wget-apt-get:1": {},
@@ -11,28 +11,25 @@
       "extensions": [
         // VSCode C/C++ extension
         "ms-vscode.cpptools",
-        
+
         // Makefile Tools
         "ms-vscode.makefile-tools",
-        
+
         // patchwork.kernel.org right from VSCode
         "florent-revest.patchwork",
-        
+
         // Syzlang syntax highlighting
         "florent-revest.vscode-syzlang",
-        
+
         // Syzkaller coverage overlay (helpful?)
         "florent-revest.syzkaller-coverage",
-        
-        // clangd (needs clang server)
-        "llvm-vs-code-extensions.vscode-clangd",
-        
+
         // x86(_64) assembly highlight (not helpful?)
         "13xforever.language-x86-64-assembly",
-        
+
         // DeviceTree Language Support
         "plorefice.devicetree",
-        
+
         // Kconfig syntax highlight
         "luveti.kconfig",
 
@@ -57,12 +54,10 @@
   },
   "remoteEnv": {
     "DEBIAN_FRONTEND": "noninteractive",
-    "KBUILD_BUILD_USER": "builder",
-    "CROSS_COMPILE": "/home/kernel-builder/toolchains/gcc/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-"
+    "KBUILD_BUILD_USER": "builder"
   },
-  "remoteUser": "kernel-builder",
-  "onCreateCommand": "./oncreatecontainer.sh",
-  "postCreateCommand": "./postcreatecontainer.sh",
-  "workspaceFolder": "/workspace/kitchen",
+  "remoteUser": "vscode",
+  "onCreateCommand": "sudo ./.devcontainer/oncreatecontainer.sh",
+  "postCreateCommand": "./.devcontainer/postcreatecontainer.sh",
   "runArgs": ["--privileged"]
 }
