@@ -15,7 +15,7 @@ mkdir -p "/home/kernel-builder/toolchains/neutron-clang" && \
 
 # Init android-partition-tools
 git clone https://github.com/ravindu644/android-partition-tools.git /home/builder/android-partition-tools --depth=1
-echo PATH=$PATH:/home/kernel-builder/android-partition-tools > /home/builder/.bashrc
+echo PATH=$PATH:/home/kernel-builder/android-partition-tools > /home/kernel-builder/.bashrc
 
 # sKETCHY way to initialize boot image editor :3
 (cd "/home/kernel-builder" && \

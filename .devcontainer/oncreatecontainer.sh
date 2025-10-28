@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Install all required packages
 apt-get update && apt-get install -y \
     android-sdk-libsparse-utils \
     bash-completion \
@@ -74,5 +75,10 @@ apt-get update && apt-get install -y \
     rm libtinfo5_6.3-2ubuntu0.1_amd64.deb && \
     apt-get full-upgrade -y
 
-adduser builder sudo
-echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
+# Create the user and set up passwordless sudo
+adduser kernel-builder sudo
+echo "kernel-builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/kernel-builder
+
+# setup da kitchen
+mkdir /workspaces/kitchen
+chmod -R 777 /workspaces/kitchen
