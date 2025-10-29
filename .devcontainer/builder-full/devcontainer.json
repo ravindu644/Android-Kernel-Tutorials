@@ -39,7 +39,13 @@
 
         // Trailing Spaces
         "shardulm94.trailing-spaces"
-      ]
+      ],
+      "settings": {
+        // i am not offended by AI being integrated here
+        // but i think it is better to disable it by default
+        // to reduce annoyance
+        "chat.disableAIFeatures": true
+      }
     },
     "codespaces": {
       "openFiles": [
