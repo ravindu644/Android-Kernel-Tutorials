@@ -1,4 +1,5 @@
 {
+  "name": "Kernel Builder Full",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
     "ghcr.io/devcontainers-extra/features/neofetch:1": {},
@@ -57,7 +58,8 @@
     "KBUILD_BUILD_USER": "builder"
   },
   "remoteUser": "vscode",
-  "onCreateCommand": "sudo ./.devcontainer/oncreatecontainer.sh",
-  "postCreateCommand": "./.devcontainer/postcreatecontainer.sh",
+  "initializeCommand": "./.devcontainer/builder-full/initializecommand.sh",
+  "onCreateCommand": "sudo ./.devcontainer/builder-full/oncreatecontainer.sh",
+  "postCreateCommand": "./.devcontainer/builder-full/postcreatecontainer.sh",
   "runArgs": ["--privileged"]
 }
