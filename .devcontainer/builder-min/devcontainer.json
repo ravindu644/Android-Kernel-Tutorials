@@ -1,5 +1,5 @@
 {
-  "name": "Kernel Builder Full",
+  "name": "Kernel Builder Minimal",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
     "ghcr.io/devcontainers-extra/features/neofetch:1": {},
