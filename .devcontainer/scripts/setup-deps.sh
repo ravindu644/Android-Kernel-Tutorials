@@ -14,5 +14,5 @@ wget -O $PKGDIR http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtin
 dpkg -i $PKGDIR
 rm -f $PKGDIR)
 
-apt full-upgrade
+apt full-upgrade -y
 apt clean
