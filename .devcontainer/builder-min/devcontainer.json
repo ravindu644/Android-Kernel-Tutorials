@@ -1,12 +1,6 @@
 {
   "name": "Kernel Builder Minimal",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-  "features": {
-    "ghcr.io/devcontainers-extra/features/neofetch:1": {},
-    "ghcr.io/devcontainers-extra/features/wget-apt-get:1": {},
-    "ghcr.io/devcontainers-extra/features/tmux-apt-get:1": {},
-    "ghcr.io/devcontainers-extra/features/curl-apt-get:1": {}
-  },
   "customizations": {
     "vscode": {
       "extensions": [
