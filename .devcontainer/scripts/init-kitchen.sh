@@ -4,4 +4,4 @@ set -e
 
 # setup da kitchen
 mkdir -p kitchen
-chmod -R 777 kitchen
+chmod 777 kitchen
