@@ -85,10 +85,6 @@ There are some key features that you will need to know:
   
   3\. Fill terminal screen to above
 
-  4\. Tab pane
-
-  5\. Tab item (click to switch or click X to close)
-
 > [!IMPORTANT]
 > If you have multiple open terminals all terminals will be listed at right side in terminal pane (orange box). Hover to your desired terminal to show kill option
 
@@ -139,20 +135,28 @@ There are some key features that you will need to know:
 Have GitHub Codespaces extension installed (extension ID: `github.codespaces`) and signed in to user with access to your codespace.
 
 - To switch from VSCode web to desktop app:
-  1. Open menu at top left
-  2. Click "Open in VS Code Desktop" button, then VSCode should launch soon
-  3. Wait for it to connect
-  4. Once done continue your work
+
+  1\. Open menu at top left
+
+  2\. Click "Open in VS Code Desktop" button, then VSCode should launch soon
+
+  3\. Wait for it to connect
+
+  4\. Once done continue your work
 
 - Launch Codespace from desktop directly
 
   Look at this image:
   ![alt text](img/usingcodespace-4.png)
-  1. Switch to "Remote Explorer"
-  2. Switch Remote Explorer dropdown to "GitHub Codespaces"
-  3. Pick your desired Codespace and press plug button (3rd arrow) to connect to Codespace. To stop it press stop button beside connect button
+
+  1\. Switch to "Remote Explorer"
+
+  2\. Switch Remote Explorer dropdown to "GitHub Codespaces"
+
+  3\. Pick your desired Codespace and press plug button (3rd arrow) to connect to Codespace. To stop it press stop button beside connect button
 
 ## Managing GitHub Codespaces
 ![alt text](img/managecodespace-1.png)
 
 From here you can do various things to manage your codespaces like starting and stopping codespace, deleting codespace, change its settings like machine type, etc.
+
