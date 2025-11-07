@@ -3,14 +3,9 @@
 > [!NOTE]
 > VSCode = Visual Studio Code
 
-**What you will learn?**
-
-- Basics on managing GitHub Codespaces
-- Using Visual Studio Code Web on GitHub Codespaces
-
 **Requirements**
 
-Very similar to our building kernel guide, but you will also need:
+Very similar to building kernel guide, but you will also need:
 
 - A working internet connection
 - A GitHub Account
@@ -53,7 +48,7 @@ Once codespace setup completed, you will be greeted with this screen below:
 ![alt text](img/vscodewebui.png)
 
 > [!IMPORTANT]
-> We will only go through important features for building our kernel. If you need to learn more about VSCode like editing files please check [their docs](https://code.visualstudio.com/docs) or watch any YouTube guides
+> We will only go through important features for building kernel. If you need to learn more about VSCode like editing files please check [their docs](https://code.visualstudio.com/docs) or watch any YouTube guides
 
 > [!TIP]
 > If you want to quickly open a repo without GitHub Codespaces you can open any GitHub repositories, then replace github.com with github.dev. This way you can learn how to use VSCode Web without any limits although it is very limited compared to Codespaces.
