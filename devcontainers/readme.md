@@ -32,13 +32,12 @@ This guide focuses usage on GitHub Codespaces, but feel free to adapt it to othe
 > Pick configuration according your needs. If you need full configuration pick `Kernel Builder Full` configuration, but if you need minimal configuration pick `Kernel Builder Minimal` configuration.
 
 > [!WARNING]
-> GitHub counts your core time per core, so if you have selected 2 CPUs you will have half total core time, 4 will be a quarter of total core time!
-
-> [!WARNING]
 > GitHub Codespaces has **usage limits**, espesially if you do not use their pay-as-you-go scheme (Free and GH pro user) or has this feature limited. If you often use this feature please monitor your usage!
 >
 > If you hit your usage limits, your instance will be stopped immediately and cannot use it anymore until next billing period!
 > More information and usage limits [here](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces)
+>
+> Also GitHub counts your core time per core, so if you have selected 2 CPUs you will have half total core time, 4 will be a quarter of total core time!
 
 > [!TIP]
 > Usually the closer the region is towards your area you will experience less delays. You can notice delays in terminal
@@ -60,59 +59,75 @@ There are some key features that you will need to know:
 - Navigating files through explorer pane
 
   Look at this image:
+
   ![alt text](img/usingcodespace-1.png)
-  1. Explorer pane
-  2. folder (click to expand/unexpand)
-  3. file (click to open)
-  > [!TIP]
-  > Tired seeing opened files replace by files you want to open? drag file to tab pane beetween tab items or empty tab pane zone to open in new tab
-  4. Tab pane
-  5. Tab item (click to switch or click X to close)
+
+  1\. Explorer pane
+  
+  2\. folder (click to expand/unexpand)
+  
+  3\. file (click to open)
+
+  4\. Tab pane
+  
+  5\. Tab item (click to switch or click X to close)
+
+> [!TIP]
+> Tired seeing opened files replace by files you want to open? drag file to tab pane beetween tab items or empty tab pane zone to open in new tab
 
 - Using terminal
 
   Look at this image:
   ![alt text](img/usingcodespace-2.png)
-  1. New terminal button
-  2. Kill (or close) terminal button
-  3. Fill terminal screen to above
+  1\. New terminal button
+  
+  2\. Kill (or close) terminal button
+  
+  3\. Fill terminal screen to above
 
-  > [!IMPORTANT]
-  > If you have multiple open terminals all terminals will be listed at right side in terminal pane (orange box). Hover to your desired terminal to show kill option
+  4\. Tab pane
 
-  4. Tab pane
-  5. Tab item (click to switch or click X to close)
+  5\. Tab item (click to switch or click X to close)
 
-  > [!TIP]
-  > type `code path/to/file-name` in terminal to open files quickly in VSCode
+> [!IMPORTANT]
+> If you have multiple open terminals all terminals will be listed at right side in terminal pane (orange box). Hover to your desired terminal to show kill option
 
-NOTE: if you accidentally closed terminal, open menu (top left hamburger menu), then click view, then click terminal
+> [!TIP]
+> type `code path/to/file-name` in terminal to open files quickly in VSCode
+
+> [!NOTE]
+> if you accidentally closed terminal, open menu (top left hamburger menu), then click view, then click terminal to open it again
 
 - Uploading files
 
-  1. Click on any empty part in explorer pane to add file to root directory or click folder then right click on the folder
-  2. Click "Upload..." button
-  3. Pick files you want to upload
+  1\. Click on any empty part in explorer pane to add file to root directory or click folder then right click on the folder
+
+  2\. Click "Upload..." button
+
+  3\. Pick files you want to upload
 
 - Downloading files
-  1. Right click any files or folders you want to download
-  2. Click "Download..."
 
-  > [!IMPORTANT]
-  > If you are attempting to download folders, big files and multiple files, you will be prompted to pick a folder. If that is the case, make a new folder for VSCode to to download files since it can access everything inside folder you pick
+  1\. Right click any files or folders you want to download
 
-  > [!TIP]
-  > To download multiple files quickly, click files while holding ctrl (command button on MacOS) button. After all files picked do right click then click download as usual
+  2\. Click "Download..."
+
+> [!IMPORTANT]
+> If you are attempting to download folders, big files and multiple files, you will be prompted to pick a folder. If that is the case, make a new folder for VSCode to to download files since it can access everything inside folder you pick
+
+> [!TIP]
+> To download multiple files quickly, click files while holding ctrl (command button on MacOS) button. After all files picked do right click then click download as usual
 
 - Stopping codespace from VSCode web
   
   Look at this image:
   ![alt text](img/usingcodespace-3.png)
-  1. Open command pane (that big box with search icon at center top)
-  2. type command to stop current codespace: "> Codespaces: Stop Current Codespace"
+  1\. Open command pane (that big box with search icon at center top)
 
-  > [!IMPORTANT]
-  > It is recommended to do this after using Codespace to preserve your usage time for future use
+  2\. type command to stop current codespace: "> Codespaces: Stop Current Codespace"
+
+> [!IMPORTANT]
+> It is recommended to do this after using Codespace to preserve your usage time for future use
 
 ### Using GitHub Codespaces in VSCode desktop app
 
@@ -139,4 +154,5 @@ Have GitHub Codespaces extension installed (extension ID: `github.codespaces`) a
 
 ## Managing GitHub Codespaces
 ![alt text](img/managecodespace-1.png)
+
 From here you can do various things to manage your codespaces like starting and stopping codespace, deleting codespace, change its settings like machine type, etc.
