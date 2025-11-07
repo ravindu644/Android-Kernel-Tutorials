@@ -1,19 +1,21 @@
-# Basics of operating Visual Studio Code Web on GitHub Codespaces
+# Basics of operating Visual Studio Code Web on Developer Container
 
 > [!NOTE]
 > VSCode = Visual Studio Code
+
+## Intro
+
+This guide is still rough
 
 **Requirements**
 
 Very similar to building kernel guide, but you will also need:
 
-- A working internet connection
-- A GitHub Account
 - [A supported web browser](https://code.visualstudio.com/docs/setup/vscode-web#_browser-support) if you use it to interact with VSCode Web
 
 However you will no longer need to own Linux-based computer since you will use GitHub's server as the Linux host, but i also recommend you to use a computer since VSCode Web relies on mouse and keyboard for usability reasons.
 
-This guide should also apply to other IDE services that uses dev container as its environment and VSCode as its IDE like Ona (Gitpod successor but no longer free).
+This guide focuses usage on GitHub Codespaces, but feel free to adapt it to other IDE services that uses dev container as its environment and VSCode as its IDE like Devpod or running dev container locally.
 
 ## Creating new Codespace container from this repo
 
@@ -51,7 +53,7 @@ Once codespace setup completed, you will be greeted with this screen below:
 > We will only go through important features for building kernel. If you need to learn more about VSCode like editing files please check [their docs](https://code.visualstudio.com/docs) or watch any YouTube guides
 
 > [!TIP]
-> If you want to quickly open a repo without GitHub Codespaces you can open any GitHub repositories, then replace github.com with github.dev. This way you can learn how to use VSCode Web without any limits although it is very limited compared to Codespaces.
+> If you want to quickly open a repo without GitHub Codespaces you can open any GitHub repositories, then replace github.com with github.dev. This way you can learn how to use VSCode web without any limits although it is very limited compared to GitHub Codespaces.
 
 There are some key features that you will need to know:
 
@@ -102,7 +104,7 @@ NOTE: if you accidentally closed terminal, open menu (top left hamburger menu), 
   > [!TIP]
   > To download multiple files quickly, click files while holding ctrl (command button on MacOS) button. After all files picked do right click then click download as usual
 
-- Stopping codespace from VSCode Web
+- Stopping codespace from VSCode web
   
   Look at this image:
   ![alt text](img/usingcodespace-3.png)
@@ -112,7 +114,7 @@ NOTE: if you accidentally closed terminal, open menu (top left hamburger menu), 
   > [!IMPORTANT]
   > It is recommended to do this after using Codespace to preserve your usage time for future use
 
-### Using Codespaces in VSCode
+### Using GitHub Codespaces in VSCode desktop app
 
 > [!IMPORTANT]
 > I assume you are pretty familiar with VSCode, particularly about adding and setting up new extension
@@ -121,7 +123,7 @@ NOTE: if you accidentally closed terminal, open menu (top left hamburger menu), 
 
 Have GitHub Codespaces extension installed (extension ID: `github.codespaces`) and signed in to user with access to your codespace.
 
-- To switch from VSCode Web to desktop app:
+- To switch from VSCode web to desktop app:
   1. Open menu at top left
   2. Click "Open in VS Code Desktop" button, then VSCode should launch soon
   3. Wait for it to connect
@@ -135,6 +137,6 @@ Have GitHub Codespaces extension installed (extension ID: `github.codespaces`) a
   2. Switch Remote Explorer dropdown to "GitHub Codespaces"
   3. Pick your desired Codespace and press plug button (3rd arrow) to connect to Codespace. To stop it press stop button beside connect button
 
-## Managing Codespaces
+## Managing GitHub Codespaces
 ![alt text](img/managecodespace-1.png)
-From here you can do various things to manage your Codespaces like starting and stopping codespace, deleting codespaces, change its settings like machine type, etc.
+From here you can do various things to manage your codespaces like starting and stopping codespace, deleting codespace, change its settings like machine type, etc.
