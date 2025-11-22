@@ -70,17 +70,17 @@ openssl-devel libarchive zstd rsync
 <br>
 
 ### Quick Links :
-01. 📁 [Downloading the kernel source code for your device](https://github.com/ravindu644/Android-Kernel-Tutorials#--downloading-the-kernel-source-code-for-your-device)
-02. 🧠 [Understanding the Kernel root](https://github.com/ravindu644/Android-Kernel-Tutorials?tab=readme-ov-file#-understanding-the-kernel-root)
-03. 🧠 [Understanding non-GKI & GKI kernels](https://github.com/ravindu644/Android-Kernel-Tutorials#-understanding-non-gki--gki-kernels)
-04. 👀 [Preparing for the Compilation](https://github.com/ravindu644/Android-Kernel-Tutorials#--preparing-for-the-compilation)
-05. ⚙️ [Customizing the Kernel (Temporary Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-temporary-method)
-06. ⚙️ [Customizing the Kernel (Permanent Method)](https://github.com/ravindu644/Android-Kernel-Tutorials#-customizing-the-kernel-permanent-method)
-07. [⁉️ How to nuke Samsung's anti-root protections?](https://github.com/ravindu644/Android-Kernel-Tutorials#%EF%B8%8F-how-to-nuke-samsungs-anti-root-protections)
-08. 🟢 [Additional Patches](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/main#-additional-patches)
-09. ✅ [Compiling the Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-compiling-the-kernel)
-10. 🟥 [Fixing the Known compiling issues](https://github.com/ravindu644/Android-Kernel-Tutorials#-fixing-the-known-compiling-issues)
-11. 🟡 [Building a Signed Boot Image from the Compiled Kernel](https://github.com/ravindu644/Android-Kernel-Tutorials#-building-a-signed-boot-image-from-the-compiled-kernel)
+01. 📁 [Downloading the kernel source code for your device](#downloading-kernel-source)
+02. 🧠 [Understanding the Kernel root](#understanding-kernel-root)
+03. 🧠 [Understanding non-GKI & GKI kernels](#understanding-non-gki-gki-kernels)
+04. 👀 [Preparing for the Compilation](#preparing-for-compilation)
+05. ⚙️ [Customizing the Kernel (Temporary Method)](#customizing-kernel-temporary-method)
+06. ⚙️ [Customizing the Kernel (Permanent Method)](#customizing-kernel-permanent-method)
+07. [⁉️ How to nuke Samsung's anti-root protections?](#nuke-samsung-anti-root-protections)
+08. 🟢 [Additional Patches](#additional-patches)
+09. ✅ [Compiling the Kernel](#compiling-the-kernel)
+10. 🟥 [Fixing the Known compiling issues](#fixing-known-compiling-issues)
+11. 🟡 [Building a Signed Boot Image from the Compiled Kernel](#building-signed-boot-image)
 
 ---
 
@@ -97,7 +97,7 @@ openssl-devel libarchive zstd rsync
 
 ---
 
-<h2> ✅ Downloading the kernel source code for your device</h2>
+<h2 id="downloading-kernel-source"> ✅ Downloading the kernel source code for your device</h2>
 
 - **⚠️ If your device is Samsung,**
 
@@ -137,7 +137,7 @@ chmod +755 -R /path/to/extracted/kernel/
 
   <img src="./screenshots/13.png">
 
-## ✅ Understanding `non-GKI` & `GKI kernels`
+## <span id="understanding-non-gki-gki-kernels">✅ Understanding `non-GKI` & `GKI kernels`</span>
 
 ### 01. GKI project introduction
 
@@ -187,7 +187,7 @@ chmod +755 -R /path/to/extracted/kernel/
      1. Most Samsung devices with kernel 4.19 use non-GKI implementations with OEM-specific modifications.
      2. True GKI adoption became standard with newer devices shipping Android 11+ with kernel 5.4 or higher.
 
-## ✅ Understanding the ```Kernel root```
+## <span id="understanding-kernel-root">✅ Understanding the ```Kernel root```</span>
 
 <img src="./screenshots/6.png">
 
@@ -199,7 +199,7 @@ chmod +755 -R /path/to/extracted/kernel/
 - **In some GKI Samsung MediaTek kernel sources**, the kernel root is named `kernel-VERSION.PATCHLEVEL`.
   - e.g., `kernel-5.15`
 
-## ✅ Preparing for the Compilation
+## <span id="preparing-for-compilation">✅ Preparing for the Compilation</span>
 
 - There are 2 ways to compile the kernel.  
 
@@ -547,7 +547,7 @@ This command tells the build system to start compiling the kernel immediately us
       - Eg: `warning: ignoring unsupported character '`
 <hr>
 
-## ✅ Customizing the Kernel (Temporary Method)
+## <span id="customizing-kernel-temporary-method">✅ Customizing the Kernel (Temporary Method)</span>
 - Once the *menuconfig* appears, you can navigate through it and customize the Kernel in a graphical way as needed.
 
 - **As an example,** we can customize **the Kernel name, enable new drivers, enable new file systems, disable security features,** and more :)
@@ -610,7 +610,7 @@ This command tells the build system to start compiling the kernel immediately us
 
 - So, we need a permanent method to save our changes, right?  
 
-## ✅ Customizing the Kernel (Permanent Method)
+## <span id="customizing-kernel-permanent-method">✅ Customizing the Kernel (Permanent Method)</span>
 
 - In this method, **we are going to create a separate `custom.config` to store our changes** and **link it to our build script.** 
 
@@ -643,11 +643,11 @@ This command tells the build system to start compiling the kernel immediately us
 
     <img src="./screenshots/20.png">
 
-## ⁉️ How to nuke Samsung's anti-root protections?
+## <span id="nuke-samsung-anti-root-protections">⁉️ How to nuke Samsung's anti-root protections?</span>
 
  - ### [Moved to here](./samsung-rkp/)
 
-## 🟢 Additional Patches
+## <span id="additional-patches">🟢 Additional Patches</span>
 
 ### 01. To fix broken system funcitons like Wi-Fi, touch, sound etc.
 > [!NOTE]
@@ -689,7 +689,7 @@ kernel configuration.
 
   - [Patch](./patches/011.stock_defconfig.patch), [Commit](https://github.com/ravindu644/android_kernel_a047f_eur/commit/d306bd4c4c84a12be5235e31540f40fb9c1a1066)
     
-## ✅ Compiling the Kernel
+## <span id="compiling-the-kernel">✅ Compiling the Kernel</span>
 
 - Once you've customized the kernel as you want, simply **exit menuconfig**.  
 - After exiting, the kernel will start compiling!
@@ -704,13 +704,13 @@ kernel configuration.
 
   <img src="./screenshots/22.png">
 
-## 🟥 Fixing the Known compiling issues
+## <span id="fixing-known-compiling-issues">🟥 Fixing the Known compiling issues</span>
 
 - **If you ever encounter any errors during your kernel compilation,** jump to [fixes](./patches/) and see if your specific issue is mentioned there.
 
 **[Click here to learn about known issues and their fixes](./patches/README.md)**
 
-## 🟡 Building a Signed Boot Image from the Compiled Kernel
+## <span id="building-signed-boot-image">🟡 Building a Signed Boot Image from the Compiled Kernel</span>
 
 - On Android devices, **the `kernel` image is usually located inside the `boot` partition.**
 
