@@ -718,76 +718,96 @@ kernel configuration.
 
 - So, all we have to do is **get the boot image from the stock ROM, unpack it, replace its kernel with our "built" one, repack it, flash it,** and **enjoy :)**
 
-**For the unpacking and repacking process, we are going to use [Android_boot_image_editor](https://github.com/cfig/Android_boot_image_editor) by [@cfig](https://github.com/cfig) :)**
+**For the unpacking and repacking process, we are going to use `magiskboot`, Magisk's built-in boot image unpacker and repacker!**
 
-### 01. Downloading `Android_boot_image_editor`
+### 01. Downloading and extracting the latest Magisk APK
 
-- Download the latest release zip from [here](https://github.com/cfig/Android_boot_image_editor/releases/latest) and unzip it like this:
+- Download the latest Magisk APK from [their GitHub releases](https://github.com/topjohnwu/Magisk/releases/latest) and extract it like this:
 
   <img src="./screenshots/24.png">
 
-**Note:** Make sure to follow the [requirements installation section](https://github.com/ravindu644/Android-Kernel-Tutorials#-install-the-dependencies-for-compiling-kernels) before using the [Android_boot_image_editor](https://github.com/cfig/Android_boot_image_editor)
+### 02. Getting `magiskboot` from the extracted folder & Adding it to the system PATH
 
-### 02. Unpacking the `boot.img`
-
-1. Extract both the `boot` and `vbmeta` images from your stock ROM and place them inside the `boot_editor_vXX_XX` folder
+- The `magiskboot` binary will be located inside the `extracted_magisk_apk/lib/<arch>` folder with the filename `libmagiskboot.so` :
 
   <img src="./screenshots/26.png">
+
+**Rename it to `magiskboot` and install it to your system PATH with this:**
+
+  <img src="./screenshots/27.png">
+
+Quick commands:
+
+```bash
+# Renaming libmagiskboot.so to magiskboot
+mv libmagiskboot.so magiskboot
+
+# Giving magiskboot executable permissions
+chmod +x magiskboot 
+
+# Installing magiskboot to the system PATH
+sudo cp magiskboot /usr/local/bin/
+```
+
+### 03. Unpacking the `boot.img`
+
+1. Extract the `boot` image from your stock ROM and place it inside a new folder
+
+  <img src="./screenshots/28.png">
 
 **✔️ Samsung-only note:**
 
   - **On Samsung devices,** these images are usually located inside the `AP_XXXX.tar.md5` file.
 
-  - All you have to do is rename `AP_XXXX.tar.md5` to `AP_XXXX.tar` to remove the `md5` extension, extract `AP_XXXX.tar`, and grab the `boot.img.lz4` and `vbmeta.img.lz4` files from the extracted folder.
+  - All you have to do is rename `AP_XXXX.tar.md5` to `AP_XXXX.tar` to remove the `md5` extension, extract `AP_XXXX.tar`, and grab the `boot.img.lz4` file from the extracted folder.
 
-  - Then, **decompress these lz4 files using the following commands,** and you will get your `boot.img` and `vbmeta.img`
+  - Then, **decompress this lz4 file using the following command,** and you will get your RAW `boot.img`
 
     ```bash
     lz4 boot.img.lz4
-    lz4 vbmeta.img.lz4
     ```  
     
     <img src="./screenshots/25.png">
 
-2. Now, run following command to unpack the `boot.img` :
-
-- **Keep in mind,** this will take some time on the first run since the tool downloads dependencies during its initial execution.
-
+2. Now, run the following command to unpack the `boot.img`:
 
   ```bash
-  ./gradlew unpack
+  magiskboot unpack boot.img
   ```
 
-  <img src="./screenshots/27.png">
+  <img src="./screenshots/45.png">
 
-#### 🟠 As you can see in the screenshot above, the original `kernel` of the unpacked `boot.img` is located in `build/unzip_boot/kernel`
+#### 🟠 As you can see in the screenshot above, the original `kernel` of the unpacked `boot.img` is located in the same folder where the boot.img is located.
+
+**Note:** Don't delete the original boot.img as it is needed for the repacking process.
 
 ### 03. Repacking the `boot.img`
 
-- Now, all we have to do is **replacing the original `kernel` located inside the `boot_editor_vXX_XX/build/unzip_boot` with our custom kernel.**
+- Now, all we have to do is **replace the original `kernel` with our compiled custom kernel.**
 
 **Example:**
 
 <img src="./screenshots/gif/6.gif">
-<br><br>
+<br>
 
 **What did I do?**
 
-1. Copied the compiled `Image` from the `build` folder of the Kernel Root to `boot_editor_vXX_XX/build/unzip_boot`
+1. Copied the compiled `Image` from the `out/arch/arm64/boot` or `build` folder to the folder where we unpacked our `boot.img` using `magiskboot`
 
 2. Deleted the original `kernel` and renamed `Image` to `kernel` 😎
 
-#### 🟢 Now, run the command below to cook our new `boot.img`, which contains our custom kernel :)
+3. Then repacked the `boot.img` using the below command:
 
-  ```bash
-  ./gradlew pack
-  ```
+
+```bash
+magiskboot repack boot.img
+```
 
   <img src="./screenshots/28.png">
 
-### 🟨 Our new boot image will be located inside the `boot_editor_v15_r1` folder with the name `boot.img.signed`
+### 🟨 Our new boot image will be located inside the same folder where we unpacked the stock `boot.img` with the name `new-boot.img`
 
-- Copy the `boot.img.signed` file to another location and rename it to `boot.img`
+- Copy the `new-boot.img` file to another location and rename it to `boot.img`
 
 - Now, all you have to do is **flash that `boot.img` through fastboot mode** or **Download mode** (Samsung)
 
