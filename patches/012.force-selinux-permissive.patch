@@ -1,68 +1,68 @@
-commit 474373e14ddc911081c33b7b55a9e86843edf223
-Author: Ravindu Deshan <droidcasts@protonmail.com>
-Date:   Sat Mar 29 13:41:48 2025 +0530
+commit fc01aefa53c353dff834fff0cccefcfccbd80414
+Author: ravindu644 <droidcasts@protonmail.com>
+Date:   Sat Nov 29 12:37:37 2025 +0530
 
     selinux: Add togglable selinux boot status
     
     Signed-off-by: Ravindu Deshan <droidcasts@protonmail.com>
 
 diff --git a/security/selinux/Kconfig b/security/selinux/Kconfig
-index 9e921fc72..db4e06704 100755
+index 8297e48a2..4b90de969 100755
 --- a/security/selinux/Kconfig
 +++ b/security/selinux/Kconfig
-@@ -61,6 +61,20 @@ config SECURITY_SELINUX_DEVELOP
- 	  permissive mode (if permitted by the policy) via
- 	  /sys/fs/selinux/enforce.
+@@ -71,6 +71,20 @@ config SECURITY_SELINUX_DEVELOP
+      can interactively toggle the kernel between enforcing mode and
+      permissive mode (if permitted by the policy) via /selinux/enforce.
  
 +config SECURITY_SELINUX_ALWAYS_ENFORCE
-+    	bool "NSA SELinux Always Enforcing"
-+    	depends on SECURITY_SELINUX_DEVELOP
-+    	default y
-+    	help
-+    	  This option will prevent anything from setting SELinux to permissive.
-+    
++   bool "NSA SELinux Always Enforcing"
++   depends on SECURITY_SELINUX_DEVELOP
++   default y
++   help
++       This option will prevent anything from setting SELinux to permissive.
++
 +config SECURITY_SELINUX_ALWAYS_PERMISSIVE
-+    	bool "NSA SELinux Always Permissive"
-+    	depends on SECURITY_SELINUX_DEVELOP
-+    	default n
-+    	help
-+    	  This option will prevent anything from setting SELinux to enforcing. 	  
++   bool "NSA SELinux Always Permissive"
++   depends on SECURITY_SELINUX_DEVELOP
++   default n
++   help
++       This option will prevent anything from setting SELinux to enforcing.
 +
  config SECURITY_SELINUX_AVC_STATS
- 	bool "NSA SELinux AVC Statistics"
- 	depends on SECURITY_SELINUX
+    bool "NSA SELinux AVC Statistics"
+    depends on SECURITY_SELINUX
 diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 36143c29a..39909da0f 100755
+index 0d78337ea..1ce081f81 100755
 --- a/security/selinux/hooks.c
 +++ b/security/selinux/hooks.c
-@@ -116,8 +116,13 @@ static int __init enforcing_setup(char *str)
+@@ -112,8 +112,13 @@ static int __init enforcing_setup(char *str)
  {
- 	unsigned long enforcing;
- 	if (!kstrtoul(str, 0, &enforcing))
-+#ifdef CONFIG_SECURITY_SELINUX_ALWAYS_ENFORCE	
- 		selinux_enforcing_boot = enforcing ? 1 : 0;
- 	return 1;
+    unsigned long enforcing;
+    if (!kstrtoul(str, 0, &enforcing))
++#ifdef CONFIG_SECURITY_SELINUX_ALWAYS_ENFORCE
+        selinux_enforcing_boot = enforcing ? 1 : 0;
+    return 1;
 +#elif defined(CONFIG_SECURITY_SELINUX_ALWAYS_PERMISSIVE)
-+		selinux_enforcing_boot = 0;
-+	return 0;		
++       selinux_enforcing_boot = 0;
++   return 0;
 +#endif
  }
  __setup("enforcing=", enforcing_setup);
  #else
 diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
-index f2f6203e0..25605e5c7 100755
+index f6bc78aba..1431c7849 100755
 --- a/security/selinux/selinuxfs.c
 +++ b/security/selinux/selinuxfs.c
-@@ -162,6 +162,12 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
+@@ -159,6 +159,12 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
  
- 	new_value = !!new_value;
+    new_value = !!new_value;
  
 +#ifdef CONFIG_SECURITY_SELINUX_ALWAYS_ENFORCE
-+    	new_value = 1;
++   new_value = 1;
 +#elif defined(CONFIG_SECURITY_SELINUX_ALWAYS_PERMISSIVE)
-+    	new_value = 0;
-+#endif	
++   new_value = 0;
++#endif
 +
- 	old_value = enforcing_enabled(state);
- 	if (new_value != old_value) {
- 		length = avc_has_perm(&selinux_state,
+    old_value = enforcing_enabled(state);
+    if (new_value != old_value) {
+        length = avc_has_perm(&selinux_state,
