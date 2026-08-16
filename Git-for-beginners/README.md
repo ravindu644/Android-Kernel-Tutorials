@@ -76,7 +76,7 @@ If you have a kernel source on your local PC that you want to upload to a new Gi
 
 1. **Create a New Repository on GitHub**: First, go to GitHub and create a new, empty repository. Do **not** initialize it with a README, license, or `.gitignore` file. You just need the repository URL.
 
-2. **Prepare Your Local Source**: It is critical to start with a **clean source tree**. Before initializing Git, **make sure to use a clean source**, directly extracted from `Kernel.tar.gz` with the [correct permissions applied.](https://github.com/ravindu644/Android-Kernel-Tutorials#02-extract-the-kerneltargz-from-the-source-zip-unarchive-it-using-this-command-and-please-do-not-use-any-apps-to-do-this)
+2. **Prepare Your Local Source**: It is critical to start with a **clean source tree**. Before initializing Git, **make sure to use a clean source**, directly extracted from `Kernel.tar.gz` with the [correct permissions applied.](../README.md#02-extract-the-kerneltargz)
 
 3. **Initialize the Git Repository**: Navigate to the root of your kernel source directory and initialize a new Git repository. Then, add your empty GitHub repository as the remote origin.
 

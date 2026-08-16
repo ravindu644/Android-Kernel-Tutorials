@@ -3,11 +3,11 @@
 >
 > Questions will **only** be considered **if you've read the full documentation** and **done your own research first.**
 
-## A Beginner-Friendly Guide to Compile Your First Android Kernel!
+# A Beginner-Friendly Guide to Compile Your First Android Kernel!
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)
 [![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](#)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](/LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](./LICENSE)
 [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/SamsungTweaks)
 
 **What You'll Learn:**
@@ -76,19 +76,20 @@ sudo dnf install -y --skip-unavailable \
 
 <br>
 
-### Quick Links :
-01. 📁 [Downloading the kernel source code for your device](#downloading-kernel-source)
-02. 🧠 [Understanding the Kernel root](#understanding-kernel-root)
-03. 🧠 [Understanding non-GKI & GKI kernels](#understanding-non-gki-gki-kernels)
-04. 🧰 [Choosing the right compiler](#choosing-the-compiler)
-05. 👀 [Preparing for the Compilation](#preparing-for-compilation)
-06. ⚙️ [Customizing the Kernel (Temporary Method)](#customizing-kernel-temporary-method)
-07. ⚙️ [Customizing the Kernel (Permanent Method)](#customizing-kernel-permanent-method)
-08. [⁉️ How to nuke Samsung's anti-root protections?](#nuke-samsung-anti-root-protections)
-09. 🟢 [Additional Patches](#additional-patches)
-10. ✅ [Compiling the Kernel](#compiling-the-kernel)
-11. 🟥 [Fixing the Known compiling issues](#fixing-known-compiling-issues)
-12. 🟡 [Building a Signed Boot Image from the Compiled Kernel](#building-signed-boot-image)
+### Quick links
+
+01. 📁 [Downloading the kernel source](#-01-downloading-the-kernel-source)
+02. 🧠 [Understanding the kernel root](#-02-understanding-the-kernel-root)
+03. 🧠 [Understanding non-GKI and GKI kernels](#-03-understanding-non-gki-and-gki-kernels)
+04. 🧰 [Choosing the right compiler](#-04-choosing-the-right-compiler)
+05. 👀 [Preparing for the compilation](#-05-preparing-for-the-compilation)
+06. 🔧 [Customizing the kernel, temporary method](#-06-customizing-the-kernel-temporary-method)
+07. 🔧 [Customizing the kernel, permanent method](#-07-customizing-the-kernel-permanent-method)
+08. 🔓 [Nuking Samsung's anti-root protections](#-08-nuking-samsungs-anti-root-protections)
+09. 🟢 [Additional patches](#-09-additional-patches)
+10. ✅ [Compiling the kernel](#-10-compiling-the-kernel)
+11. 🟥 [Fixing known compiling issues](#-11-fixing-known-compiling-issues)
+12. 🟡 [Building a signed boot image](#-12-building-a-signed-boot-image)
 
 ---
 
@@ -99,15 +100,15 @@ sudo dnf install -y --skip-unavailable \
 
 ---
 
-<h2 id="downloading-kernel-source"> ✅ 01. Downloading the kernel source code for your device</h2>
+## 📁 01. Downloading the kernel source
 
 - **⚠️ If your device is Samsung,**
 
-#### 01. Download the kernel source from here: [Samsung Opensource]( https://opensource.samsung.com/main)
+### 01. Download the kernel source from [Samsung Opensource](https://opensource.samsung.com/main)
 
 <img src="./screenshots/1.png">
 
-#### 02. Extract the ```Kernel.tar.gz``` from the source zip, unarchive it using this command and please do not use any apps to do this:
+### 02. Extract the `Kernel.tar.gz`
 
 ```bash
 tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
@@ -136,7 +137,7 @@ sudo chown -R "$(id -un):$(id -gn)" "/path/to/extracted/kernel/" && \
 
   <img src="./screenshots/13.png">
 
-## <span id="understanding-kernel-root">✅ 02. Understanding the ```Kernel root```</span>
+## 🧠 02. Understanding the kernel root
 
 You downloaded a source code archive, but which folder inside it is the actual kernel? That folder is called the **kernel root,** and every command in this guide runs from there.
 
@@ -153,7 +154,7 @@ You downloaded a source code archive, but which folder inside it is the actual k
 > [!TIP]
 > A quick way to confirm you are in the right place: run `make kernelversion` there. If it prints a version number like `5.15.123`, that's your kernel root.
 
-## <span id="understanding-non-gki-gki-kernels">✅ 03. Understanding `non-GKI` & `GKI kernels`</span>
+## 🧠 03. Understanding non-GKI and GKI kernels
 
 ### 01. GKI project introduction
 
@@ -203,7 +204,7 @@ You downloaded a source code archive, but which folder inside it is the actual k
      1. Most Samsung devices with kernel 4.19 use non-GKI implementations with OEM-specific modifications.
      2. True GKI adoption became standard with newer devices shipping Android 11+ with kernel 5.4 or higher.
 
-## <span id="choosing-the-compiler">🧰 04. Choosing the right compiler</span>
+## 🧰 04. Choosing the right compiler
 
 Your phone's kernel was built with a specific compiler. If you build it with something too new or too old, the build fails, or worse, it builds fine and then refuses to boot. So this step comes before anything else.
 
@@ -269,7 +270,7 @@ BUILD_OPTIONS=(
 
 No `CROSS_COMPILE` and no GCC anywhere. Just Clang :)
 
-## <span id="preparing-for-compilation">✅ 05. Preparing for the Compilation</span>
+## 👀 05. Preparing for the compilation
 
 - There are 2 ways to compile the kernel.
 
@@ -286,7 +287,7 @@ This method is here so you understand what a build script does for you. Everythi
 
 ### 01. Download and extract your compiler.
 
-You already know which compiler you need from [step 04](#choosing-the-compiler). Download it and extract it into its own folder, like this:
+You already know which compiler you need from [step 04](#-04-choosing-the-right-compiler). Download it and extract it into its own folder, like this:
 
   ![Makefile screenshot](./screenshots/32.png)
   *Extracted clang*
@@ -421,7 +422,7 @@ make \
 > make ARCH=arm64 LLVM=1 LLVM_IAS=1 your_defconfig
 > ```
 >
-> You don't need the GCC cross compiler for those kernels at all. See [step 04](#choosing-the-compiler) for the reason.
+> You don't need the GCC cross compiler for those kernels at all. See [step 04](#-04-choosing-the-right-compiler) for the reason.
 
 ---
 
@@ -489,7 +490,7 @@ This command tells the build system to start compiling the kernel immediately us
 
 **When it finishes, your kernel image is at `arch/arm64/boot/Image`.**
 
-### Barebone Training is enough!
+### Barebone training is enough
 
 **Let's jump into the easiest and laziest method you can do xD**
 **We'll explore the compilation more deeply in `Method 02`!**
@@ -502,7 +503,7 @@ A build script does everything from Method 1 for you: it installs missing packag
 
 ### 01. Download the script and put it in your kernel root.
 
-Go to [build_scripts](./build_scripts/) and pick the script that matches your kernel version, using the table in [step 04](#choosing-the-compiler). Download it and place it **inside your kernel root**, next to the `Makefile`:
+Go to [build_scripts](./build_scripts/) and pick the script that matches your kernel version, using the table in [step 04](#-04-choosing-the-right-compiler). Download it and place it **inside your kernel root**, next to the `Makefile`:
 
 <img src="./screenshots/7.png">
 
@@ -547,7 +548,7 @@ Here is what each setting does:
 
 **`EXTRA_CONFIGS`** is a list of extra config fragments merged on top of your defconfig.
 
-  - Leave it as `()` for now. You will use it in the [Permanent Method](#customizing-kernel-permanent-method) section:
+  - Leave it as `()` for now. You will use it in the [Permanent Method](#-07-customizing-the-kernel-permanent-method) section:
     ```bash
     EXTRA_CONFIGS=(custom.config)
     ```
@@ -566,13 +567,15 @@ Here is what each setting does:
 
 **`MENUCONFIG`** decides whether the config GUI opens before the build.
 
-  - `1` opens `menuconfig` every time, which is what the [Temporary Method](#customizing-kernel-temporary-method) section uses.
+  - `1` opens `menuconfig` every time, which is what the [Temporary Method](#-06-customizing-the-kernel-temporary-method) section uses.
   - Set it to `0` once you are done experimenting and just want the build to run start to finish.
 
 **`KBUILD_BUILD_USER`** is the "built by" name baked into the kernel. Put your own name there :)
 
 ---
-#### ⚠️ [IMPORTANT] : *If your device is Samsung, it usually uses some device-specific variables in "some" kernels.*
+> [!IMPORTANT]
+> If your device is Samsung, it usually uses some device-specific variables in
+> "some" kernels.
 
 - **As an example,** in the Galaxy S23 FE kernel source code, we can see they used variables called `TARGET_SOC=s5e9925`, `PLATFORM_VERSION=12`, and `ANDROID_MAJOR_VERSION=s`
 
@@ -635,12 +638,12 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
       - Eg: `warning: ignoring unsupported character '`
 <hr>
 
-## <span id="customizing-kernel-temporary-method">✅ 06. Customizing the Kernel (Temporary Method)</span>
+## 🔧 06. Customizing the kernel, temporary method
 - Once the *menuconfig* appears, you can navigate through it and customize the Kernel in a graphical way as needed.
 
 - **As an example,** we can customize **the Kernel name, enable new drivers, enable new file systems, disable security features,** and more :)
 
-#### You can navigate the *menuconfig* using the arrow keys (← → ↑ ↓) on your keyboard and press `y` to enable, `n` to disable or `m` to enable as a module `<M>`.
+You can navigate the *menuconfig* using the arrow keys (← → ↑ ↓) on your keyboard, and press `y` to enable, `n` to disable or `m` to enable as a module `<M>`.
 
 ### 1. Changing the Kernel name.
 
@@ -686,7 +689,9 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 
 <img src="./screenshots/15.png">
 
-### The problem with menuconfig is that you have to do this every time you run the build script.
+### The problem with menuconfig
+
+You have to do this every time you run the build script.
 
 - All the changes you've made using menuconfig are saved in a hidden file called `.config`. It sits inside the `out` folder, or inside the kernel root if you set `USE_OUT_DIR=0`.
 
@@ -698,7 +703,7 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 
 - So, we need a permanent method to save our changes, right?
 
-## <span id="customizing-kernel-permanent-method">✅ 07. Customizing the Kernel (Permanent Method)</span>
+## 🔧 07. Customizing the kernel, permanent method
 
 - In this method, **we are going to create a separate `custom.config` to store our changes** and **tell the build script to use it.**
 
@@ -748,11 +753,11 @@ That's it. Your defconfig is applied first, then `custom.config` is merged on to
 
     <img src="./screenshots/20.png">
 
-## <span id="nuke-samsung-anti-root-protections">⁉️ 08. How to nuke Samsung's anti-root protections?</span>
+## 🔓 08. Nuking Samsung's anti-root protections
 
  - ### [Moved to here](./samsung-rkp/)
 
-## <span id="additional-patches">🟢 09. Additional Patches</span>
+## 🟢 09. Additional patches
 
 These are optional. Apply the ones you need with `patch -p1 < filename.patch` from your kernel root, or open the patch in an editor and make the changes by hand, which I recommend for understanding what you are doing.
 
@@ -824,18 +829,18 @@ kernel configuration.
 
   - [Patch](./patches/017.nuke_dirty_string.patch)
 
-## <span id="compiling-the-kernel">✅ 10. Compiling the Kernel</span>
+## ✅ 10. Compiling the kernel
 
 - Once you've customized the kernel as you want, simply **exit menuconfig**.
 - After exiting, the kernel will start compiling!
 
 <img src="./screenshots/gif/5.gif">
 
-### 💡 If everything goes smoothly like this,
+💡 If everything goes smoothly like this,
 
   <img src="./screenshots/21.png">
 
-### you'll find the built kernel `Image` inside the `build` folder in your kernel root!
+you'll find the built kernel `Image` inside the `build` folder in your kernel root!
 
   <img src="./screenshots/22.png">
 
@@ -844,13 +849,13 @@ The build script copies it there for you at the end. The original also stays whe
 - `out/arch/arm64/boot/` when `USE_OUT_DIR=1`
 - `arch/arm64/boot/` when `USE_OUT_DIR=0`, or when you built by hand with Method 1
 
-## <span id="fixing-known-compiling-issues">🟥 11. Fixing the Known compiling issues</span>
+## 🟥 11. Fixing known compiling issues
 
 - **If you ever encounter any errors during your kernel compilation,** jump to [fixes](./patches/) and see if your specific issue is mentioned there.
 
 **[Click here to learn about known issues and their fixes](./patches/README.md)**
 
-## <span id="building-signed-boot-image">🟡 12. Building a Signed Boot Image from the Compiled Kernel</span>
+## 🟡 12. Building a signed boot image
 
 - On Android devices, **the `kernel` image is usually located inside the `boot` partition.**
 
@@ -917,7 +922,7 @@ sudo cp magiskboot /usr/local/bin/
 
   <img src="./screenshots/45.png">
 
-#### 🟠 As you can see in the screenshot above, the original `kernel` of the unpacked `boot.img` is located in the same folder where the boot.img is located.
+🟠 As you can see in the screenshot above, the original `kernel` of the unpacked `boot.img` is in the same folder as the boot.img.
 
 **Note:** Don't delete the original boot.img as it is needed for the repacking process.
 
@@ -945,7 +950,7 @@ magiskboot repack boot.img
 
   <img src="./screenshots/28.png">
 
-### 🟨 Our new boot image will be located inside the same folder where we unpacked the stock `boot.img` with the name `new-boot.img`
+🟨 Our new boot image lands in the same folder where we unpacked the stock `boot.img`, with the name `new-boot.img`.
 
 - Copy the `new-boot.img` file to another location and rename it to `boot.img`
 
