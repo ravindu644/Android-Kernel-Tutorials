@@ -2,11 +2,11 @@
 # Copyright (c) 2026 ravindu644 <droidcasts@protonmail.com>
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# Linux 6.1+ (GKI 2.0) arm64 kernel build script.
-# Toolchain: Neutron Clang (LLVM only -- no GCC cross compiler needed)
+# Linux 5.15 (GKI 2.0) arm64 kernel build script.
+# Toolchain: clang-r450784e (LLVM only -- no GCC cross compiler needed)
 #
 # Put this in your kernel root, edit the settings below, then run:
-#   chmod +x build_6.1.sh && ./build_6.1.sh
+#   chmod +x build_5.15.sh && ./build_5.15.sh
 
 set -euo pipefail
 
@@ -25,20 +25,20 @@ export KBUILD_BUILD_USER="@ravindu644"
 # ---------------------------------------------------------------------------
 
 KERNEL_ROOT="$(dirname "$(readlink -f "$0")")"
-CLANG="${HOME}/toolchains/neutron-clang"
+CLANG="${HOME}/toolchains/clang-r450784e"
 cd "${KERNEL_ROOT}"
 
 info(){ echo -e "\n[INFO]: $*\n"; }
 die(){ echo -e "\n[ERROR]: $*\n" >&2; exit 1; }
 
-install_neutron(){
-    [ -d "${CLANG}" ] && return 0
-    info "Setting up Neutron Clang..."
-    mkdir -p "${CLANG}" && cd "${CLANG}"
-    { curl -LfO "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman" \
-        && bash antman -S && bash antman --patch=glibc ; } \
-        || { cd "${KERNEL_ROOT}"; rm -rf "${CLANG}"; die "Failed to set up Neutron Clang"; }
-    cd "${KERNEL_ROOT}"
+# fetch <dir> <url> [strip-components] -- does nothing if <dir> already exists
+fetch(){
+    [ -d "$1" ] && return 0
+    info "Downloading $(basename "$1")..."
+    mkdir -p "$1"
+    local z=z; case "$2" in *.xz) z=J;; esac   # tar can't sniff compression off a pipe
+    curl -Lf --progress-bar "$2" | tar -x"$z" -C "$1" --strip-components="${3:-0}" \
+        || { rm -rf "$1"; die "Failed to download $2"; }
 }
 
 RPM_PKGS=(make gcc gcc-c++ bc bison flex pkgconf git curl tar xz zip unzip cpio rsync kmod
@@ -77,12 +77,12 @@ install_deps(){
 install_deps
 [ -f .gitmodules ] && git submodule update --init --recursive
 
-install_neutron
+fetch "${CLANG}" "https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r450784e.tar.gz"
 export PATH="${CLANG}/bin:${PATH}"
 export LD_LIBRARY_PATH="${CLANG}/lib:${CLANG}/lib64:${LD_LIBRARY_PATH:-}"
 
 # LLVM=1 points every tool (clang, ld.lld, llvm-ar, ...) at the toolchain above.
-# 6.x picks its own --target, so no CROSS_COMPILE and no GCC are involved.
+# 5.15+ picks its own --target, so no CROSS_COMPILE and no GCC are involved.
 BUILD_OPTIONS=(
     -j"$(nproc)"
     ARCH=arm64

@@ -1,99 +1,118 @@
 #!/bin/bash
+# Copyright (c) 2026 ravindu644 <droidcasts@protonmail.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# Linux 4.19 arm64 kernel build script.
+# Toolchain: clang-r353983c + ARM GNU 14.2 (this era still needs a real GCC cross compiler)
+#
+# Put this in your kernel root, edit the settings below, then run:
+#   chmod +x build_4.19.sh && ./build_4.19.sh
 
-echo -e "\n[INFO]: BUILD STARTED..!\n"
+set -euo pipefail
 
-#init submodules
-git submodule init && git submodule update
-
-export KERNEL_ROOT="$(pwd)"
-export ARCH=arm64
+# ---------------------------------------------------------------------------
+#  SETTINGS -- the only part you normally need to touch
+# ---------------------------------------------------------------------------
+DEFCONFIG="your_defconfig"     # name from arch/arm64/configs (also: vendor/foo_defconfig)
+EXTRA_CONFIGS=()               # fragments merged on top, e.g. (custom.config)
+KERNEL_IMAGE="Image"           # Image | Image.gz | Image.gz-dtb  (MediaTek needs Image.gz)
+USE_OUT_DIR=1                  # 0 = build in-tree; most Samsung Exynos trees need 0
+MENUCONFIG=1                   # 0 = skip the menuconfig GUI
 export KBUILD_BUILD_USER="@ravindu644"
 
-# Function to detect OS and install dependencies
-install_dependencies() {
-    echo -e "\n[INFO]: Detecting OS and installing dependencies...\n"
+# Some OEM trees need extra variables -- check README_Kernel.txt or build_kernel.sh:
+# export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
+# ---------------------------------------------------------------------------
 
-    if command -v dnf &> /dev/null; then
-        echo -e "[INFO]: Fedora/RHEL-based system detected, using dnf...\n"
-        sudo dnf group install "c-development" "development-tools" && \
-        sudo dnf install -y dtc lz4 xz zlib-devel java-latest-openjdk-devel python3 \
-            p7zip p7zip-plugins android-tools erofs-utils \
-            ncurses-devel libX11-devel readline-devel mesa-libGL-devel python3-markdown \
-            libxml2 libxslt dos2unix kmod openssl elfutils-libelf-devel dwarves \
-            openssl-devel libarchive zstd rsync openssl-devel-engine --skip-unavailable
+KERNEL_ROOT="$(dirname "$(readlink -f "$0")")"
+CLANG="${HOME}/toolchains/clang-r353983c"
+GCC="${HOME}/toolchains/arm-gnu-14.2"
+cd "${KERNEL_ROOT}"
 
-    elif command -v apt &> /dev/null; then
-        echo -e "[INFO]: Ubuntu/Debian-based system detected, using apt...\n"
-        sudo apt update && sudo apt install -y git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full android-sdk-libsparse-utils erofs-utils \
-            default-jdk git gnupg flex bison gperf build-essential zip curl libc6-dev libncurses-dev libx11-dev libreadline-dev libgl1 libgl1-mesa-dev \
-            python3 make sudo gcc g++ bc grep tofrodos python3-markdown libxml2-utils xsltproc zlib1g-dev python-is-python3 libc6-dev libtinfo6 \
-            make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd rsync --fix-missing && wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb && sudo dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb
+info(){ echo -e "\n[INFO]: $*\n"; }
+die(){ echo -e "\n[ERROR]: $*\n" >&2; exit 1; }
 
-    else
-        echo -e "[ERROR]: Neither dnf nor apt package manager found. Please install dependencies manually.\n"
-        exit 1
-    fi
-
-    touch .requirements
+# fetch <dir> <url> [strip-components] -- does nothing if <dir> already exists
+fetch(){
+    [ -d "$1" ] && return 0
+    info "Downloading $(basename "$1")..."
+    mkdir -p "$1"
+    local z=z; case "$2" in *.xz) z=J;; esac   # tar can't sniff compression off a pipe
+    curl -Lf --progress-bar "$2" | tar -x"$z" -C "$1" --strip-components="${3:-0}" \
+        || { rm -rf "$1"; die "Failed to download $2"; }
 }
 
-# Install the requirements for building the kernel when running the script for the first time
-if [ ! -f ".requirements" ]; then
-    install_dependencies
-fi
-mkdir -p "${KERNEL_ROOT}/out" "${KERNEL_ROOT}/build" "${HOME}/toolchains"
+RPM_PKGS=(make gcc gcc-c++ bc bison flex pkgconf git curl tar xz zip unzip cpio rsync kmod
+          perl python3 openssl openssl-devel openssl-devel-engine elfutils-libelf-devel dwarves
+          ncurses-devel zlib-devel libyaml-devel lz4 zstd dtc)
+DEB_PKGS=(build-essential bc bison flex pkg-config git curl tar xz-utils zip unzip cpio rsync
+          kmod perl python3 python-is-python3 libssl-dev libelf-dev pahole libncurses-dev
+          zlib1g-dev libyaml-dev lz4 zstd device-tree-compiler)
 
-# init clang-r353983c
-if [ ! -d "${HOME}/toolchains/clang-r353983c" ]; then
-    echo -e "\n[INFO] Cloning clang-r353983c...\n"
-    mkdir -p "${HOME}/toolchains/clang-r353983c" && cd "${HOME}/toolchains/clang-r353983c"
-    curl -LO "https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r353983c.tar.gz"
-    tar -xf clang-r353983c.tar.gz && rm clang-r353983c.tar.gz
-    cd "${KERNEL_ROOT}"
-fi
+install_deps(){
+    local missing=() available=() p
+    if command -v rpm &>/dev/null; then
+        # --whatprovides, not -q: some names are virtual now (zlib-devel -> zlib-ng-compat-devel)
+        for p in "${RPM_PKGS[@]}"; do
+            rpm -q --whatprovides "$p" &>/dev/null || missing+=("$p")
+        done
+        [ "${#missing[@]}" = 0 ] && return 0
+        info "Installing: ${missing[*]}"
+        sudo dnf install -y --skip-unavailable "${missing[@]}" || die "dnf failed"
+    elif command -v dpkg &>/dev/null; then
+        for p in "${DEB_PKGS[@]}"; do
+            [ "$(dpkg-query -W -f='${db:Status-Status}' "$p" 2>/dev/null)" = installed ] || missing+=("$p")
+        done
+        [ "${#missing[@]}" = 0 ] && return 0
+        # drop whatever this release no longer ships (keeps apt from failing on the whole list)
+        for p in "${missing[@]}"; do apt-cache show "$p" &>/dev/null && available+=("$p"); done
+        [ "${#available[@]}" = 0 ] && return 0
+        info "Installing: ${available[*]}"
+        sudo apt update && sudo apt install -y "${available[@]}" || die "apt failed"
+    else
+        info "Unknown package manager -- install the kernel build dependencies yourself."
+    fi
+}
 
-# init arm gnu toolchain
-if [ ! -d "${HOME}/toolchains/gcc" ]; then
-    echo -e "\n[INFO] Cloning ARM GNU Toolchain\n"
-    mkdir -p "${HOME}/toolchains/gcc" && cd "${HOME}/toolchains/gcc"
-    curl -LO "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz"
-    tar -xf arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz
-    cd "${KERNEL_ROOT}"
-fi
+[ -f Makefile ] && [ -d arch/arm64 ] || die "Run this from the kernel source root."
+install_deps
+[ -f .gitmodules ] && git submodule update --init --recursive
 
-# Export toolchain paths
-export PATH="${HOME}/toolchains/clang-r353983c/bin:${PATH}"
-export LD_LIBRARY_PATH="${HOME}/toolchains/clang-r353983c/lib64:${LD_LIBRARY_PATH}"
+fetch "${CLANG}" "https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r353983c.tar.gz"
+fetch "${GCC}" "https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz" 1
 
-# Set cross-compile environment variables
-export BUILD_CROSS_COMPILE="${HOME}/toolchains/gcc/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-"
-export BUILD_CC="${HOME}/toolchains/clang-r353983c/bin/clang"
+export PATH="${CLANG}/bin:${GCC}/bin:${PATH}"
+export LD_LIBRARY_PATH="${CLANG}/lib:${CLANG}/lib64:${LD_LIBRARY_PATH:-}"
 
-# Build options for the kernel
-export BUILD_OPTIONS=(
-    -C "${KERNEL_ROOT}"
-    O="${KERNEL_ROOT}/out"
+BUILD_OPTIONS=(
     -j"$(nproc)"
     ARCH=arm64
-    CROSS_COMPILE="${BUILD_CROSS_COMPILE}"
-    CC="${BUILD_CC}"
+    CC=clang
+    CROSS_COMPILE=aarch64-none-linux-gnu-
     CLANG_TRIPLE=aarch64-linux-gnu-
 )
 
+if [ "${USE_OUT_DIR}" = 1 ]; then
+    BUILD_OPTIONS+=(O="${KERNEL_ROOT}/out")
+    BOOT_DIR="${KERNEL_ROOT}/out/arch/arm64/boot"
+else
+    BOOT_DIR="${KERNEL_ROOT}/arch/arm64/boot"
+fi
+
 build_kernel(){
-    # Make default configuration.
-    # Replace 'your_defconfig' with the name of your kernel's defconfig
-    make "${BUILD_OPTIONS[@]}" your_defconfig
+    info "Kernel $(make kernelversion) | defconfig: ${DEFCONFIG}"
 
-    # Configure the kernel (GUI)
-    make "${BUILD_OPTIONS[@]}" menuconfig
+    make "${BUILD_OPTIONS[@]}" "${DEFCONFIG}" "${EXTRA_CONFIGS[@]}" || die "Failed to write .config"
 
-    # Build the kernel
-    make "${BUILD_OPTIONS[@]}" Image || exit 1
+    if [ "${MENUCONFIG}" = 1 ]; then
+        make "${BUILD_OPTIONS[@]}" menuconfig
+    fi
 
-    # Copy the built kernel to the build directory
-    cp "${KERNEL_ROOT}/out/arch/arm64/boot/Image" "${KERNEL_ROOT}/build"
+    make "${BUILD_OPTIONS[@]}" "${KERNEL_IMAGE}" || die "Build failed"
 
-    echo -e "\n[INFO]: BUILD FINISHED..!"
+    mkdir -p "${KERNEL_ROOT}/build"
+    cp "${BOOT_DIR}/${KERNEL_IMAGE}" "${KERNEL_ROOT}/build/"
+    info "Done -> build/${KERNEL_IMAGE}"
 }
+
 build_kernel
