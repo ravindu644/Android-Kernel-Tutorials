@@ -1,28 +1,29 @@
-### Common Errors When Compiling Older Kernels (4.4, 4.9, 4.14)
+# 🟥 Common errors when compiling older kernels (4.4, 4.9, 4.14)
 
-#### Feel free to contribute to this documentation by explaining the issue and linking the commit that helped you fix it.
+[← Back to the main guide](../README.md)
+
+Feel free to contribute to this documentation by explaining the issue and
+linking the commit that helped you fix it.
 
 > [!NOTE]
-> How to apply a patch file?
+> **How to apply a patch file?**
 >
-> `patch -p1 < filename.patch`
+> ```bash
+> patch -p1 < filename.patch
+> ```
 >
-> However, **I recommend opening the patch file in a code editor and manually editing your files for better understanding.**
->
-> - Not all patch files can be applied using the command above.
-
-
-<br>
+> Not all patch files can be applied that way. I recommend opening the patch in a
+> code editor and editing your files by hand, so you understand what changed.
 
 ---
-- **If the errors you are facing are related to `-Werror`, aka treating warnings as errors,** [you can use this patch](../patches/009.fix-Werror.patch) to disable treating warnings as errors, **even though it's not a good practice :)**
+
+- **If the errors you are facing are related to `-Werror`, aka treating warnings as errors,** [you can use this patch](./009.fix-Werror.patch) to disable treating warnings as errors, **even though it's not a good practice :)**
 
 ---
-<br>
 
 1. Fix: `../scripts/gcc-version.sh: line 25: aarch64-linux-gnu-gcc: command not found`
 
-    - [Patch](../patches/002.fix_aarch64-linux-gnu-gcc-command-not-found.patch), [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/c489c13c60b258dfdb4bb49711e691002cfcc8e3)
+    - [Patch](./002.fix_aarch64-linux-gnu-gcc-command-not-found.patch), [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/c489c13c60b258dfdb4bb49711e691002cfcc8e3)
 
 2. Fix: `-fstack-protector-strong not supported by compiler`
 
@@ -30,7 +31,7 @@
 
     - Be warned that using this patch may make your device vulnerable.
 
-    - [Patch](../patches/003.fix_fstack-protector-strong-not-supported-by-compiler.patch), [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/8bb6d7bde85a90ef18b7605c55b2c1f6e0b7cdcb)
+    - [Patch](./003.fix_fstack-protector-strong-not-supported-by-compiler.patch), [Commit](https://github.com/ravindu644/kernel_samsung_a01/commit/8bb6d7bde85a90ef18b7605c55b2c1f6e0b7cdcb)
 
 3. Fix: `multiple definition of 'yylloc'`
 
@@ -90,3 +91,7 @@
         ```bash
         export KERNEL_ROOT="(pwd)"
         ```
+
+---
+
+[← Back to the main guide](../README.md)
