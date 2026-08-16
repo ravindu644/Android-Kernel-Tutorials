@@ -1,0 +1,39 @@
+// Markdown rules for this repo. The writing style guide is in CONTRIBUTING.md.
+// Run it yourself before opening a PR:  npx markdownlint-cli2 --fix "**/*.md"
+{
+  "config": {
+    "default": true,
+
+    // --- off, we break these on purpose ---
+    "MD013": false, // line length: the guides are long-form prose, we don't wrap
+    "MD041": false, // first line must be a heading: the README opens with a CAUTION
+    "MD026": false, // trailing punctuation in headings: "Quick Links :" and friends
+    "MD059": false, // "click here" links: too many to rewrite without touching prose
+    "MD033": {
+      // inline HTML: <details> for the dependency blocks, <img> only where a
+      // width is needed
+      "allowed_elements": ["details", "summary", "img"]
+    },
+
+    // --- on, pinned to the house style ---
+    "MD003": { "style": "atx" }, // # headings, never the ==== underline kind
+    "MD004": { "style": "dash" }, // - bullets, never *
+    "MD007": { "indent": 2 },
+    "MD009": { "br_spaces": 0 }, // no two-trailing-spaces line breaks
+    "MD010": { "code_blocks": false }, // tabs are fine inside a code fence
+    "MD012": { "maximum": 1 },
+    "MD024": { "siblings_only": true }, // repeated "Notes" under different parents is fine
+    "MD029": { "style": "one_or_ordered" },
+    "MD035": { "style": "---" },
+    "MD046": { "style": "fenced" },
+    "MD048": { "style": "backtick" },
+    "MD049": { "style": "asterisk" },
+    "MD050": { "style": "asterisk" },
+    "MD055": { "style": "leading_and_trailing" }
+  },
+  "globs": ["**/*.md"],
+  "ignores": [
+    "special-tools/LKM_Tools/**", // git submodule, not ours to lint
+    "node_modules/**"
+  ]
+}

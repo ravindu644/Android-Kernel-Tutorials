@@ -1,0 +1,13 @@
+# Keep line endings sane no matter who edits, including the GitHub web editor.
+*.md   text eol=lf
+*.sh   text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+
+# Patches are applied verbatim, never touch them.
+*.patch -text
+
+# Don't try to diff binaries.
+*.png  binary
+*.jpg  binary
+*.gif  binary
