@@ -806,6 +806,8 @@ These are optional. Apply the ones you need with `patch -p1 < filename.patch` fr
 
 ### 02. Fix: `There's an internal problem with your device.` issue.
 
+![Screenshot of the Android System dialog saying there is an internal problem with your device](./screenshots/29.jpg)
+
 **The reason:**
 
   ```text
