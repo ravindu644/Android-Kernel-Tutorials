@@ -9,6 +9,7 @@
     "MD041": false, // first line must be a heading: the README opens with a CAUTION
     "MD026": false, // trailing punctuation in headings: "Quick Links :" and friends
     "MD059": false, // "click here" links: too many to rewrite without touching prose
+    "MD028": false, // fires on any two GitHub alerts in a row, which is legal GFM
     "MD033": {
       // inline HTML: <details> for the dependency blocks, <img> only where a
       // width is needed

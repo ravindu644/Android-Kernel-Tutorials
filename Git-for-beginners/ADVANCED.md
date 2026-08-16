@@ -5,6 +5,8 @@
 
 # Complete Git Guide for Android Kernel Development
 
+[← Back to the Git basics](./README.md) | [← Back to the main guide](../README.md)
+
 ## What is Git?
 
 Git is a **version control system** - think of it as a sophisticated "save game" system for your kernel source code. Just like you save your progress in a video game at different checkpoints, Git lets you save snapshots of your kernel at different stages. If a kernel patch breaks something, you can always go back to a previous working state.
@@ -12,6 +14,7 @@ Git is a **version control system** - think of it as a sophisticated "save game"
 ### Why Do We Need Git for Kernel Development?
 
 Android kernel development involves:
+
 - Applying patches from different sources (OEM, community, upstream)
 - Experimenting with new features without breaking your working kernel
 - Tracking exactly what changes cause specific behaviors
@@ -24,27 +27,35 @@ Git solves all these problems and more.
 ## Core Concepts You Must Understand
 
 ### 1. Repository (Repo)
+
 A repository is your kernel source folder that Git is watching. It contains:
+
 - Your kernel source files (`arch/`, `drivers/`, `kernel/`, etc.)
 - A hidden `.git` folder that stores all the version history
 - Configuration files like `.gitignore`
 
 ### 2. Commits
+
 A commit is like taking a snapshot of your entire kernel source at a specific moment. Each commit has:
+
 - A unique ID (called a hash) like `a1b2c3d4...`
 - A message describing what changed (e.g., "arm64: dts: Add support for new display panel")
 - A timestamp and author information
 - The exact state of all kernel files at that moment
 
 ### 3. Branches
+
 Think of branches like parallel versions of your kernel:
+
 - The main branch (usually `main` or based on Android version like `android-4.19`) is your stable kernel
 - Feature branches are where you experiment with new patches or drivers
 - Device-specific branches for different phone models
 - You can switch between branches instantly
 
 ### 4. Remote Repository
+
 This is a copy of your kernel repository stored on GitHub/GitLab. Common remotes in kernel development:
+
 - `origin`: Your personal kernel repository
 - `upstream`: The original OEM kernel source
 - `caf`: CodeAurora Forum (Qualcomm) kernel sources
@@ -68,7 +79,8 @@ git config --global diff.context 5
 
 ### Starting with Android Kernel Source
 
-**Method 1: Clone an existing kernel**
+#### Method 1: Clone an existing kernel
+
 ```bash
 # Clone your device's kernel source
 git clone https://github.com/vendor/device_kernel_source.git
@@ -79,7 +91,8 @@ git remote add caf https://source.codeaurora.org/quic/la/kernel/msm
 git remote add upstream https://github.com/original_oem/kernel_source.git
 ```
 
-**Method 2: Initialize a new kernel repository**
+#### Method 2: Initialize a new kernel repository
+
 ```bash
 # Extract your kernel source from manufacturer's package
 tar -xzf kernel_source.tar.gz
@@ -95,6 +108,7 @@ git remote add origin https://github.com/yourusername/your_kernel.git
 ### The Kernel Developer's Daily Workflow
 
 #### 1. Check Your Current Status
+
 ```bash
 # See what files you've modified
 git status
@@ -106,6 +120,7 @@ git status
 ```
 
 #### 2. Stage Your Kernel Changes
+
 ```bash
 # Stage specific files
 git add drivers/gpu/drm/msm/dsi/dsi_panel.c
@@ -121,6 +136,7 @@ git add -A && git add . -f
 **The `-f` flag is crucial for kernels** because `.gitignore` files often exclude firmware directories that you actually need to track.
 
 #### 3. Commit Your Changes
+
 ```bash
 # Commit with proper kernel-style message
 git commit -m "arm64: dts: Add support for new touch panel
@@ -131,6 +147,7 @@ git commit -m "arm64: dts: Add support for new touch panel
 ```
 
 **Good kernel commit messages:**
+
 - ✅ "drivers: input: Fix null pointer dereference in touchscreen driver"
 - ✅ "arm64: defconfig: Enable new camera sensor driver"
 - ✅ "mm: Fix memory leak in page allocation"
@@ -138,6 +155,7 @@ git commit -m "arm64: dts: Add support for new touch panel
 - ❌ "update driver" (which driver? what update?)
 
 #### 4. Push to Your Repository
+
 ```bash
 # Push to your GitHub repository
 git push origin main
@@ -172,6 +190,7 @@ git branch -d test-feature
 ```
 
 **Common Kernel Branch Naming:**
+
 - `android-[version]`: Android version bases
 - `device-[codename]`: Device-specific modifications
 - `feature-[name]`: New features or drivers
@@ -224,6 +243,7 @@ git cherry-pick a1b2c3d4
 ```
 
 **Common Cherry-pick Scenarios:**
+
 ```bash
 # Get security patches from CAF
 git fetch caf
@@ -262,6 +282,7 @@ git stash clear
 ```
 
 **Kernel Stash Use Cases:**
+
 ```bash
 # You're debugging a driver but need to switch branches for urgent fix
 git stash push -m "debugging touchscreen driver"
@@ -314,6 +335,7 @@ git rebase -i commit-hash
 ```
 
 This opens an editor showing:
+
 ```bash
 pick a1b2c3d drivers: input: Add new touchscreen driver
 pick e4f5g6h drivers: input: Fix initialization bug  
@@ -421,6 +443,7 @@ git commit
 
 1. Extract clean kernel source with proper permissions
 2. Initialize repository:
+
 ```bash
 cd kernel_source
 git init -b main
@@ -441,6 +464,7 @@ git push -u origin main
 ### Kernel-Specific .gitignore
 
 Create `.gitignore` for kernel development:
+
 ```bash
 # Build outputs
 *.o
@@ -473,6 +497,7 @@ arch/*/boot/zImage
 ### Advanced Kernel Git Workflows
 
 **Maintaining Multiple Device Versions:**
+
 ```bash
 # Create device-specific branches
 git checkout -b device-oneplus6
@@ -485,6 +510,7 @@ git checkout -b common-base
 ```
 
 **Working with Vendor Tags:**
+
 ```bash
 # Create tags for releases
 git tag -a v1.0-stable -m "Stable release for device"
@@ -498,6 +524,7 @@ git checkout v1.0-stable
 ```
 
 **Managing Multiple Remotes:**
+
 ```bash
 # Add various kernel sources
 git remote add caf https://source.codeaurora.org/quic/la/kernel/msm  
@@ -514,12 +541,14 @@ git remote -v
 ## Kernel Development Best Practices
 
 ### 1. Commit Structure
+
 - One logical change per commit
 - Driver changes separate from configuration changes
 - Documentation updates in separate commits
 - Follow Linux kernel commit message format
 
 ### 2. Branch Strategy
+
 ```bash
 # Keep main branch stable and working
 # Use feature branches for all changes
@@ -530,12 +559,14 @@ git merge --no-ff feature-new-camera-driver
 ```
 
 ### 3. Testing Before Commits
+
 - Always compile-test your changes
 - Test boot and basic functionality
 - Run any available test suites
 - Document testing in commit messages
 
 ### 4. Cherry-pick Carefully
+
 - Always test cherry-picked commits
 - Check for dependencies between commits
 - Resolve conflicts properly
@@ -544,6 +575,7 @@ git merge --no-ff feature-new-camera-driver
 ## Handling Common Kernel Git Scenarios
 
 ### Scenario 1: Applying Security Patches
+
 ```bash
 # Get latest security patches from CAF
 git fetch caf  
@@ -552,6 +584,7 @@ git cherry-pick security-patch-hash
 ```
 
 ### Scenario 2: Porting to New Android Version
+
 ```bash
 # Create new branch for Android version
 git checkout -b android-12-port
@@ -563,6 +596,7 @@ git cherry-pick feature1 feature2 feature3
 ```
 
 ### Scenario 3: Debugging with Git
+
 ```bash
 # Find when problem was introduced
 git bisect start
@@ -612,11 +646,13 @@ git revert commit-hash                 # Safely undo a commit
 ## Troubleshooting Common Issues
 
 ### "Your branch is ahead of origin by X commits"
+
 ```bash
 git push origin current-branch
 ```
 
 ### "Your branch and origin have diverged"
+
 ```bash
 git pull origin current-branch
 # Resolve any conflicts, then:
@@ -624,6 +660,7 @@ git push origin current-branch
 ```
 
 ### "Cherry-pick failed due to conflicts"
+
 ```bash
 # Fix conflicts in files
 git add conflicted-files
@@ -631,6 +668,7 @@ git cherry-pick --continue
 ```
 
 ### "Accidentally committed to wrong branch"
+
 ```bash
 # Move commits to correct branch
 git checkout correct-branch
@@ -640,3 +678,7 @@ git reset --hard HEAD~1  # Remove commit from wrong branch
 ```
 
 Remember: Kernel development with Git requires patience and practice. Start with simple changes, always test your modifications, and don't hesitate to ask the community for help. Git's powerful history and branching features make it perfect for managing complex kernel codebases across multiple devices and Android versions.
+
+---
+
+[← Back to the Git basics](./README.md) | [← Back to the main guide](../README.md)

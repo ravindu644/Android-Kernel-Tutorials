@@ -1,8 +1,9 @@
 # Toolchains I've Used to Compile Kernels for Various Devices
 
 ### How to unpack ?:
- - Unpack a tar.xz file: `tar -xvf filename.tar.xz`
- - Unpack a tar.gz file: `tar -xvf filename.tar.gz`
+
+- Unpack a tar.xz file: `tar -xvf filename.tar.xz`
+- Unpack a tar.gz file: `tar -xvf filename.tar.gz`
 
 #### 1. **Linux 4.9:**
 
@@ -69,4 +70,4 @@
 
 - Starting from March 21, 2025, all my build scripts use the ARM GNU toolchain as the `CROSS_COMPILE`
 
-    - Reference: [here](https://github.com/ravindu644/android_kernel_a042f/blob/a04e/build_kernel.sh)
+  - Reference: [here](https://github.com/ravindu644/android_kernel_a042f/blob/a04e/build_kernel.sh)
