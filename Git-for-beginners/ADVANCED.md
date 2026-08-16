@@ -173,7 +173,7 @@ git branch -d test-feature
 
 **Common Kernel Branch Naming:**
 - `android-[version]`: Android version bases
-- `device-[codename]`: Device-specific modifications  
+- `device-[codename]`: Device-specific modifications
 - `feature-[name]`: New features or drivers
 - `fix-[issue]`: Bug fixes
 - `upstream-[version]`: Tracking upstream versions
@@ -515,7 +515,7 @@ git remote -v
 
 ### 1. Commit Structure
 - One logical change per commit
-- Driver changes separate from configuration changes  
+- Driver changes separate from configuration changes
 - Documentation updates in separate commits
 - Follow Linux kernel commit message format
 
@@ -551,7 +551,7 @@ git log --oneline --grep="CVE" caf/main
 git cherry-pick security-patch-hash
 ```
 
-### Scenario 2: Porting to New Android Version  
+### Scenario 2: Porting to New Android Version
 ```bash
 # Create new branch for Android version
 git checkout -b android-12-port

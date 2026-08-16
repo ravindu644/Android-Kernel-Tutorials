@@ -1,6 +1,6 @@
 > [!CAUTION]
 > **By using this guide, you accept all risks -** including potential device bricking, failed boots, or other issues. **We take no responsibility for any damage.**
-> 
+>
 > Questions will **only** be considered **if you've read the full documentation** and **done your own research first.**
 
 ## A Beginner-Friendly Guide to Compile Your First Android Kernel!
@@ -10,24 +10,24 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](/LICENSE)
 [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)](https://t.me/SamsungTweaks)
 
-**What You'll Learn:**  
+**What You'll Learn:**
 
 - Understanding the kernel root & choosing the right compilers for compilation
 - Compiling a kernel by hand, and then the easy way with a build script
 - Customizing the kernel and applying kernel patches.
-- Remove Samsung's anti-root protections.  
+- Remove Samsung's anti-root protections.
 - Creating a signed boot image from the compiled kernel
 
 **Requirements:**
-- A working 🧠  
-- Patience  
-- A x86_64 (AMD64) Linux-based PC/Server (Debian-based recommended)  
-- Basic knowledge of Linux commands and Bash scripting  
-- Basic knowledge of version control (Git)  
-  - This is good practice when building a kernel. Imagine you edit some files and realize you've messed up the source - this one single command `git reset --hard` can help you revert all the uncommitted changes you made. How cool is that :)  
+- A working 🧠
+- Patience
+- A x86_64 (AMD64) Linux-based PC/Server (Debian-based recommended)
+- Basic knowledge of Linux commands and Bash scripting
+- Basic knowledge of version control (Git)
+  - This is good practice when building a kernel. Imagine you edit some files and realize you've messed up the source - this one single command `git reset --hard` can help you revert all the uncommitted changes you made. How cool is that :)
 
   - Go [learn some Git from here](./Git-for-beginners/) **before** you start learning kernel compilation!
-	
+
 ### 🛠 Install required dependencies for compiling kernels
 
 > [!TIP]
@@ -192,7 +192,7 @@ You downloaded a source code archive, but which folder inside it is the actual k
 - **GKI = Generic Kernel Image**: A unified kernel framework introduced by Google to standardize the kernel across Android devices.
 - **SoC = System on Chip**
 - **ACK = Android Common Kernel**: An Android's linux LTS kernel branch, modified to accommodate Android needs.
-- OEMs like Samsung may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken SD Card and broken Audio. 
+- OEMs like Samsung may still modify GKI 2.0 kernels to accommodate their needs, and can cause some issues like broken SD Card and broken Audio.
   - **So, use their GKI kernel source instead if possible.**
 
 - For 4.19 kernels, they are predominantly non-GKI implementations, as true GKI was not officially introduced until kernel 5.4 with Android 11.
@@ -219,7 +219,7 @@ make kernelversion
 
 You can also read it straight from the `Makefile` at the top of the kernel root:
 
-  ![Makefile screenshot](./screenshots/31.png)  
+  ![Makefile screenshot](./screenshots/31.png)
   *Kernel version = `VERSION.PATCHLEVEL.SUBLEVEL`*
 
 Only the first two numbers matter here. `4.14.113` is a **4.14** kernel, `5.15.123` is a **5.15** kernel.
@@ -271,10 +271,10 @@ No `CROSS_COMPILE` and no GCC anywhere. Just Clang :)
 
 ## <span id="preparing-for-compilation">✅ 05. Preparing for the Compilation</span>
 
-- There are 2 ways to compile the kernel.  
+- There are 2 ways to compile the kernel.
 
-1. **Without** a build script.  
-2. **With** a build script.  
+1. **Without** a build script.
+2. **With** a build script.
 
 If you are a beginner, I recommend trying to build the kernel without a build script first. Once you understand the logic, you can then use a build script to make your life easier :)
 
@@ -288,10 +288,10 @@ This method is here so you understand what a build script does for you. Everythi
 
 You already know which compiler you need from [step 04](#choosing-the-compiler). Download it and extract it into its own folder, like this:
 
-  ![Makefile screenshot](./screenshots/32.png)  
+  ![Makefile screenshot](./screenshots/32.png)
   *Extracted clang*
 
-  ![Makefile screenshot](./screenshots/33.png)  
+  ![Makefile screenshot](./screenshots/33.png)
   *Extracted cross compiler (only needed for 4.9 up to 5.4)*
 
 In my case the kernel is **4.14.113**, so I use [clang-r383902b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r383902b.tar.gz) and [arm-gnu-toolchain-14.2.rel1](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz).
@@ -299,34 +299,35 @@ In my case the kernel is **4.14.113**, so I use [clang-r383902b](https://github.
 ---
 ### 02. Exporting the compiler locations to the PATH
 
-- Even though we downloaded the right compilers, our system (Host OS) will not automatically know which compiler to use for building our kernel.  
+- Even though we downloaded the right compilers, our system (Host OS) will not automatically know which compiler to use for building our kernel.
 
-- By default, it will use the system's compilers, which might be incompatible with older kernels.  
-  → In such a case, the build will fail instantly.  
+- By default, it will use the system's compilers, which might be incompatible with older kernels.
+  - In such a case, the build will fail instantly.
 
-- So, our task is to wire up the downloaded compilers to our system's `PATH`.  
-  We must tell the system: "use the `clang` binary from here, not your own clang!"  
+- So, our task is to wire up the downloaded compilers to our system's `PATH`.
+  We must tell the system: "use the `clang` binary from here, not your own clang!"
 
 ---
 
 #### 💡 What is `PATH`?
-`PATH` is an environment variable in Linux/Unix that stores a list of directories.  
-When you type a command (like `clang` or `gcc`), the system looks through the directories in `PATH` **from left to right** to find the first matching executable.  
+`PATH` is an environment variable in Linux/Unix that stores a list of directories.
+
+When you type a command (like `clang` or `gcc`), the system looks through the directories in `PATH` **from left to right** to find the first matching executable.
 
 By adding your downloaded compiler's folder to **the begining of the** `PATH`, you make sure the build system picks **your compiler** instead of the system default.
 
 ---
 
-- To check what your `PATH` variable looks like, you can type `echo $PATH` in the terminal:  
+- To check what your `PATH` variable looks like, you can type `echo $PATH` in the terminal:
 
-  ![PATH screenshot](./screenshots/34.png)  
+  ![PATH screenshot](./screenshots/34.png)
   - Our goal is to add our compilers' locations to the left side of `/usr/local/sbin` :)
 
-- In the extracted compiler folders, the binary files (executables) are usually located inside the `bin` folder, like this:  
+- In the extracted compiler folders, the binary files (executables) are usually located inside the `bin` folder, like this:
 
   ![Bin folder screenshot](./screenshots/35.png)
 
-- Copy the full path to that `bin` folder and export those locations to the `PATH` like this:  
+- Copy the full path to that `bin` folder and export those locations to the `PATH` like this:
 
   ```bash
   export PATH="/path/to/first/compiler/bin:/path/to/second/compiler/bin:$PATH"
@@ -351,7 +352,7 @@ By adding your downloaded compiler's folder to **the begining of the** `PATH`, y
 
 ### 03. Compiling the kernel with `make`
 
-- Keep in mind that the `PATH` variable we exported in Step 02 is **only valid in the currently opened terminal.**  
+- Keep in mind that the `PATH` variable we exported in Step 02 is **only valid in the currently opened terminal.**
 
   **So, don't close it** - use that terminal window to navigate the kernel source and run commands for further compilation.
 
@@ -373,7 +374,7 @@ By adding your downloaded compiler's folder to **the begining of the** `PATH`, y
   - **Also,** I have multiple defconfigs made for my **specific purposes**, named: `common.config`, `ksu.config`, and `nethunter.config`.
   - You can also create your own customized defconfigs for specific changes (more on that later)!
 
-- Now, we need to tell our compilers to "use these defconfigs to build the kernel"!  
+- Now, we need to tell our compilers to "use these defconfigs to build the kernel"!
 - To do that, simply run the following command:
 
 ```bash
@@ -400,7 +401,7 @@ make \
 
     - You can get this value by opening your GCC's `bin` folder. All the binaries have the same prefix!
 
-    ![Bin folder screenshot](./screenshots/39.png)  
+    ![Bin folder screenshot](./screenshots/39.png)
     *See the highlighted part. `aarch64-none-linux-gnu-` is the common prefix for all the binaries, and it is the value for the `CROSS_COMPILE` variable.*
 
 4. **CLANG_TRIPLE=aarch64-linux-gnu-** → Tells Clang exactly which target architecture, OS, and ABI to compile for.
@@ -438,7 +439,7 @@ make \
 
 ---
 
-- Before compiling the kernel, if you want to edit the contents of the `.config` in a GUI way, you can use the `menuconfig` tool.  
+- Before compiling the kernel, if you want to edit the contents of the `.config` in a GUI way, you can use the `menuconfig` tool.
 
 - To launch `menuconfig`, type the same beginning of the command you used to create the `.config` (i.e., the `CC` and `CROSS_COMPILE` parts), but at the end, instead of defconfig names, use `menuconfig` like this:
 
@@ -451,7 +452,7 @@ make \
   menuconfig
 ```
 
-  ![Bin folder screenshot](./screenshots/43.png)  
+  ![Bin folder screenshot](./screenshots/43.png)
   *It will open something like this. Feel free to edit it according to your needs.*
 
 **Use the arrow keys to navigate through `menuconfig`. Once you are done editing, exit `menuconfig` to proceed with building the kernel.**
@@ -460,9 +461,9 @@ make \
 
 ---
 
-- Now, we have successfully created the final configuration file (`.config`) and, if needed, customized it using `menuconfig`.  
+- Now, we have successfully created the final configuration file (`.config`) and, if needed, customized it using `menuconfig`.
 
-- The only thing left to do is compile the kernel!  
+- The only thing left to do is compile the kernel!
 
 - To compile, run the same command as before with the same beginning (the `ARCH`, `CC`, and `CROSS_COMPILE` parts), but this time **do not specify any defconfig or menuconfig at the end**. Like this:
 
@@ -484,11 +485,11 @@ This command tells the build system to start compiling the kernel immediately us
 
 **Once you run the above command, the build system will start compiling the kernel in the same kernel root directory:**
 
-  ![Bin folder screenshot](./screenshots/44.png)  
+  ![Bin folder screenshot](./screenshots/44.png)
 
 **When it finishes, your kernel image is at `arch/arm64/boot/Image`.**
 
-### Barebone Training is enough! 
+### Barebone Training is enough!
 
 **Let's jump into the easiest and laziest method you can do xD**
 **We'll explore the compilation more deeply in `Method 02`!**
@@ -695,13 +696,13 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 
   <img src="./screenshots/17.png">
 
-- So, we need a permanent method to save our changes, right?  
+- So, we need a permanent method to save our changes, right?
 
 ## <span id="customizing-kernel-permanent-method">✅ 07. Customizing the Kernel (Permanent Method)</span>
 
-- In this method, **we are going to create a separate `custom.config` to store our changes** and **tell the build script to use it.** 
+- In this method, **we are going to create a separate `custom.config` to store our changes** and **tell the build script to use it.**
 
-- After that, when we run the build script, **it will first use your OEM defconfig to generate the `.config` file, then merge the changes from our `custom.config` into `.config` again.** 
+- After that, when we run the build script, **it will first use your OEM defconfig to generate the `.config` file, then merge the changes from our `custom.config` into `.config` again.**
 
 ### 01. Create the file
 
@@ -825,7 +826,7 @@ kernel configuration.
 
 ## <span id="compiling-the-kernel">✅ 10. Compiling the Kernel</span>
 
-- Once you've customized the kernel as you want, simply **exit menuconfig**.  
+- Once you've customized the kernel as you want, simply **exit menuconfig**.
 - After exiting, the kernel will start compiling!
 
 <img src="./screenshots/gif/5.gif">
@@ -904,8 +905,8 @@ sudo cp magiskboot /usr/local/bin/
 
     ```bash
     lz4 boot.img.lz4
-    ```  
-    
+    ```
+
     <img src="./screenshots/25.png">
 
 2. Now, run the following command to unpack the `boot.img`:
@@ -950,9 +951,9 @@ magiskboot repack boot.img
 
 - Now, all you have to do is **flash that `boot.img` through fastboot mode** or **Download mode** (Samsung)
 
-**✔️ Samsung-only note:**  
+**✔️ Samsung-only note:**
 
-- You can create an ODIN-flashable `tar` file using the command below:  
+- You can create an ODIN-flashable `tar` file using the command below:
 
   ```bash
   tar -cvf "Custom-Kernel.tar" boot.img

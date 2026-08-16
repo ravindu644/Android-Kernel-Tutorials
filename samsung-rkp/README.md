@@ -4,7 +4,7 @@
 
 - I don't want to upload GIFs or images of the `menuconfig` since the method may vary depending on your kernel version.
 
-- However, you can add all of these possible configs to your `custom.config` to completely disable Samsung's hypervisor, which in turn disables Knox-based protections.  
+- However, you can add all of these possible configs to your `custom.config` to completely disable Samsung's hypervisor, which in turn disables Knox-based protections.
 
 ---
 
@@ -42,7 +42,7 @@ CONFIG_FIVE=n
      - "ROP Prevention"
      - "JOPP and ROPP"
 
-**Additional Notes:**  
+**Additional Notes:**
 
    - If the above configs are missing in "Kernel Features," check "Boot options."
    - **Android 14 & some Android 13 sources:** These options are under "---> Hypervisor" (Disable all).

@@ -63,13 +63,13 @@ There are some key features that you will need to know:
   ![alt text](img/usingcodespace-1.png)
 
   1\. Explorer pane
-  
+
   2\. folder (click to expand/unexpand)
-  
+
   3\. file (click to open)
 
   4\. Tab pane
-  
+
   5\. Tab item (click to switch or click X to close)
 
 > [!TIP]
@@ -80,9 +80,9 @@ There are some key features that you will need to know:
   Look at this image:
   ![alt text](img/usingcodespace-2.png)
   1\. New terminal button
-  
+
   2\. Kill (or close) terminal button
-  
+
   3\. Fill terminal screen to above
 
 > [!IMPORTANT]
@@ -115,7 +115,7 @@ There are some key features that you will need to know:
 > To download multiple files quickly, click files while holding ctrl (command button on MacOS) button. After all files picked do right click then click download as usual
 
 - Stopping codespace from VSCode web
-  
+
   Look at this image:
   ![alt text](img/usingcodespace-3.png)
   1\. Open command pane (that big box with search icon at center top)
@@ -159,4 +159,3 @@ Have GitHub Codespaces extension installed (extension ID: `github.codespaces`) a
 ![alt text](img/managecodespace-1.png)
 
 From here you can do various things to manage your codespaces like starting and stopping codespace, deleting codespace, change its settings like machine type, etc.
-

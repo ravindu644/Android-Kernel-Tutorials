@@ -2,11 +2,11 @@
 
 #### Feel free to contribute to this documentation by explaining the issue and linking the commit that helped you fix it.
 
-> [!NOTE]  
-> How to apply a patch file?  
->  
-> `patch -p1 < filename.patch`  
->  
+> [!NOTE]
+> How to apply a patch file?
+>
+> `patch -p1 < filename.patch`
+>
 > However, **I recommend opening the patch file in a code editor and manually editing your files for better understanding.**
 >
 > - Not all patch files can be applied using the command above.
@@ -49,7 +49,7 @@
 6. Fix: `fatal error: 'linux/state_notifier.h' file not found`
 
     - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/75a7c07c13868f051ee1501347fb220c9aa0ef95), [Patch](./026.state_notifier.h_not_found.patch)
-    
+
 7. Fix: `./include/linux/ologk.h:5:10: fatal error: 'olog.pb.h' file not found`
 
     - [Commit](https://github.com/ravindu644/samsung_exynos9820_stock/commit/abbbbfe0b0e85853ac59e8661de1da57cbf2466a), [Patch](./021.ologk.patch)
@@ -86,7 +86,7 @@
 
     - [Patch](./015.fix_gen_kheaders.sh_cpio_not_found.patch), [Commit](https://github.com/ravindu644/android_kernel_a166p/commit/ce3c8ebf03124ce6a35038f8404a6a61a9cbc296)
     - You must export the Kernel root like this if you are not using my build scripts:
-    
+
         ```bash
         export KERNEL_ROOT="(pwd)"
         ```

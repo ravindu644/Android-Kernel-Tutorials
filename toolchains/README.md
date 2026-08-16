@@ -4,7 +4,7 @@
  - Unpack a tar.xz file: `tar -xvf filename.tar.xz`
  - Unpack a tar.gz file: `tar -xvf filename.tar.gz`
 
-#### 1. **Linux 4.9:** 
+#### 1. **Linux 4.9:**
 
 1. Tested on 4.9.227-309: [proton-12](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/proton-12.tar.gz), [linaro-aarch64-7.5](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/linaro-aarch64-7.5.tar.xz)
 
@@ -63,7 +63,7 @@
 
 - Usage: [here](https://github.com/ravindu644/android_kernel_m145f_common/blob/c3a3a4ab9df28005200fa516f1a8ed9913bf50d6/build.sh#L27)
 
-#### **Additional Notes:** 
+#### **Additional Notes:**
 
 - In MediaTek Kernels, you must use [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz) toolchain alongside a proper Clang compiler to make the kernel boot :)
 

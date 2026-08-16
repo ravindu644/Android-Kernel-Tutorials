@@ -4,5 +4,5 @@
 > Common command/known command:
 >
 > `chmod +x tools/bazel && tools/bazel build --config=fast //common:kernel_aarch64_dist`
-> 
+>
 > Please read Google's build instructions or OEM's instructions if exist.
