@@ -58,12 +58,12 @@ make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd r
 <summary><strong>🟦 Fedora/Red Hat-based distributions (Fedora, CentOS, RHEL, etc.)</strong></summary>
 
 ```bash
-sudo dnf group install "c-development" "development-tools" && \
-sudo dnf install -y git dtc lz4 xz zlib-devel java-17-openjdk-devel python3 \
-p7zip p7zip-plugins android-tools erofs-utils java-latest-openjdk-devel \
-ncurses-devel libX11-devel readline-devel mesa-libGL-devel python3-markdown \
-libxml2 libxslt dos2unix kmod openssl elfutils-libelf-devel dwarves \
-openssl-devel libarchive zstd rsync
+sudo dnf5 install -y gcc gcc-c++ make automake autoconf binutils patch \
+bison flex gettext pkgconf git dtc lz4 xz zlib-devel java-17-openjdk-devel \
+python3 p7zip p7zip-plugins android-tools erofs-utils ncurses-devel \
+libX11-devel readline-devel mesa-libGL-devel python3-markdown libxml2 \
+libxslt dos2unix kmod openssl elfutils-libelf-devel dwarves openssl-devel \
+libarchive zstd rsync
 ```
 </details>
 
