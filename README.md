@@ -13,6 +13,7 @@
 **What You'll Learn:**  
 
 - Understanding the kernel root & choosing the right compilers for compilation
+- Compiling a kernel by hand, and then the easy way with a build script
 - Customizing the kernel and applying kernel patches.
 - Remove Samsung's anti-root protections.  
 - Creating a signed boot image from the compiled kernel
@@ -55,7 +56,7 @@ sudo apt update && sudo apt install -y \
 
 > [!NOTE]
 > Ubuntu 24.04+ no longer ships `libtinfo5`, which the old Snapdragon LLVM toolchain (Linux 5.4 / qGKI) needs.
-> Don't hunt for the `.deb` - the build scripts detect this and alias the system `libtinfo.so.6` for you.
+> Don't hunt for the `.deb`, the build scripts detect this and point that toolchain at your system `libtinfo.so.6` instead.
 </details>
 
 <details>
@@ -70,20 +71,24 @@ sudo dnf install -y --skip-unavailable \
 ```
 </details>
 
+> [!NOTE]
+> If you use a build script from this repo, **you can skip this step.** The script checks these packages every time it runs and installs only the ones you are missing.
+
 <br>
 
 ### Quick Links :
 01. 📁 [Downloading the kernel source code for your device](#downloading-kernel-source)
 02. 🧠 [Understanding the Kernel root](#understanding-kernel-root)
 03. 🧠 [Understanding non-GKI & GKI kernels](#understanding-non-gki-gki-kernels)
-04. 👀 [Preparing for the Compilation](#preparing-for-compilation)
-05. ⚙️ [Customizing the Kernel (Temporary Method)](#customizing-kernel-temporary-method)
-06. ⚙️ [Customizing the Kernel (Permanent Method)](#customizing-kernel-permanent-method)
-07. [⁉️ How to nuke Samsung's anti-root protections?](#nuke-samsung-anti-root-protections)
-08. 🟢 [Additional Patches](#additional-patches)
-09. ✅ [Compiling the Kernel](#compiling-the-kernel)
-10. 🟥 [Fixing the Known compiling issues](#fixing-known-compiling-issues)
-11. 🟡 [Building a Signed Boot Image from the Compiled Kernel](#building-signed-boot-image)
+04. 🧰 [Choosing the right compiler](#choosing-the-compiler)
+05. 👀 [Preparing for the Compilation](#preparing-for-compilation)
+06. ⚙️ [Customizing the Kernel (Temporary Method)](#customizing-kernel-temporary-method)
+07. ⚙️ [Customizing the Kernel (Permanent Method)](#customizing-kernel-permanent-method)
+08. [⁉️ How to nuke Samsung's anti-root protections?](#nuke-samsung-anti-root-protections)
+09. 🟢 [Additional Patches](#additional-patches)
+10. ✅ [Compiling the Kernel](#compiling-the-kernel)
+11. 🟥 [Fixing the Known compiling issues](#fixing-known-compiling-issues)
+12. 🟡 [Building a Signed Boot Image from the Compiled Kernel](#building-signed-boot-image)
 
 ---
 
@@ -94,7 +99,7 @@ sudo dnf install -y --skip-unavailable \
 
 ---
 
-<h2 id="downloading-kernel-source"> ✅ Downloading the kernel source code for your device</h2>
+<h2 id="downloading-kernel-source"> ✅ 01. Downloading the kernel source code for your device</h2>
 
 - **⚠️ If your device is Samsung,**
 
@@ -131,7 +136,24 @@ sudo chown -R "$(id -un):$(id -gn)" "/path/to/extracted/kernel/" && \
 
   <img src="./screenshots/13.png">
 
-## <span id="understanding-non-gki-gki-kernels">✅ Understanding `non-GKI` & `GKI kernels`</span>
+## <span id="understanding-kernel-root">✅ 02. Understanding the ```Kernel root```</span>
+
+You downloaded a source code archive, but which folder inside it is the actual kernel? That folder is called the **kernel root,** and every command in this guide runs from there.
+
+<img src="./screenshots/6.png">
+
+- As you can see in the above screenshot, it's the Linux kernel source code.
+- It must have those folders, **highlighted in blue in the terminal.**
+- **In traditional GKI kernels,** the kernel root is located in a folder named "common".
+
+- **In GKI Samsung Qualcomm kernel sources**, you should use the `common` kernel instead of `msm-kernel` for compilation.
+- **In some GKI Samsung MediaTek kernel sources**, the kernel root is named `kernel-VERSION.PATCHLEVEL`.
+  - e.g., `kernel-5.15`
+
+> [!TIP]
+> A quick way to confirm you are in the right place: run `make kernelversion` there. If it prints a version number like `5.15.123`, that's your kernel root.
+
+## <span id="understanding-non-gki-gki-kernels">✅ 03. Understanding `non-GKI` & `GKI kernels`</span>
 
 ### 01. GKI project introduction
 
@@ -153,14 +175,14 @@ sudo chown -R "$(id -un):$(id -gn)" "/path/to/extracted/kernel/" && \
    - These kernels are **device-specific** because its often heavily modified to accommodate SoCs and OEMs needs.
    - Starting to get deprecated in ACK, since `linux-4.19.y` branch already reaching EoL (End of Life) state, with last Linux 4.19.325
 
-3. **GKI 1.0**:
+2. **GKI 1.0**:
    - Android's first generation of the Generic Kernel Image, starting with kernel version **5.4**.
    - This first generation of GKI only have android11-5.4 and android12-5.4 branch and Google announced that GKI 1.0 is deprecated.
    - The first generation of GKI is not yet matured as second generation of GKI, as its failed to reach GKI project goals.
    - These kernels are considered as **device-specific**, but more commonized, depends on how OEMs and SoCs Manufacturer treat them.
    - SoC Manufacturers often modify GKI 1.0 kernel to add their SoC features. From this modifications, the term **Mediatek GKI (mGKI)** and **Qualcomm GKI (qGKI)** exist.
 
-4. **GKI 2.0**:
+3. **GKI 2.0**:
    - Android's second generation of the Generic Kernel Image, starting with kernel version **5.10**.
    - In this second generation, GKI project starting to get matured properly.
    - This kernel is considered as "universal", since you can boot a GKI kernels that builded with Google's GKI kernel source on **some** devices, if correct and match.
@@ -181,19 +203,73 @@ sudo chown -R "$(id -un):$(id -gn)" "/path/to/extracted/kernel/" && \
      1. Most Samsung devices with kernel 4.19 use non-GKI implementations with OEM-specific modifications.
      2. True GKI adoption became standard with newer devices shipping Android 11+ with kernel 5.4 or higher.
 
-## <span id="understanding-kernel-root">✅ Understanding the ```Kernel root```</span>
+## <span id="choosing-the-compiler">🧰 04. Choosing the right compiler</span>
 
-<img src="./screenshots/6.png">
+Your phone's kernel was built with a specific compiler. If you build it with something too new or too old, the build fails, or worse, it builds fine and then refuses to boot. So this step comes before anything else.
 
-- As you can see in the above screenshot, it's the Linux kernel source code.
-- It must have those folders, **highlighted in blue in the terminal.**
-- **In traditional GKI kernels,** the kernel root is located in a folder named "common".
+### 01. Check your kernel version
 
-- **In GKI Samsung Qualcomm kernel sources**, you should use the `common` kernel instead of `msm-kernel` for compilation.
-- **In some GKI Samsung MediaTek kernel sources**, the kernel root is named `kernel-VERSION.PATCHLEVEL`.
-  - e.g., `kernel-5.15`
+Run this inside your kernel root:
 
-## <span id="preparing-for-compilation">✅ Preparing for the Compilation</span>
+```bash
+make kernelversion
+```
+
+<img src="./screenshots/5.png">
+
+You can also read it straight from the `Makefile` at the top of the kernel root:
+
+  ![Makefile screenshot](./screenshots/31.png)  
+  *Kernel version = `VERSION.PATCHLEVEL.SUBLEVEL`*
+
+Only the first two numbers matter here. `4.14.113` is a **4.14** kernel, `5.15.123` is a **5.15** kernel.
+
+### 02. Pick the compiler for that version
+
+Here is the short version of the table. Full details and download links are [here](./toolchains/), based on my own experience.
+
+| Kernel version | Build script | Toolchain it uses |
+|---|---|---|
+| 4.9 | `build_4.9.sh` | Proton Clang 12 + Linaro GCC 7.5 |
+| 4.14 (OEM/stock source) | `build_4.14.sh` | clang-r383902b + ARM GNU |
+| 4.14 (AOSP/LineageOS source) | `build_4.14_aosp.sh` | Neutron Clang |
+| 4.19 | `build_4.19.sh` | clang-r353983c + ARM GNU |
+| 5.4 (Qualcomm, aka qGKI) | `build_5.4.sh` or `build_qGKI.sh` | Snapdragon LLVM + ARM GNU |
+| 5.10 | `build_5.10.sh` | clang-r416183b |
+| 5.15 | `build_5.15.sh` | clang-r450784e |
+| 6.1 and newer | `build_6.1.sh` | Neutron Clang |
+
+`build_5.4.sh` and `build_qGKI.sh` are the same script under two names, because qGKI kernels are 5.4 kernels.
+
+> [!NOTE]
+> **You don't have to download any of these toolchains by hand.** If you use a build script, it downloads the right one into `~/toolchains` on the first run. This table is here so you know what your script is doing.
+
+### 03. Clang only, or Clang plus a GCC cross compiler?
+
+This trips up a lot of beginners, so here it is in plain words.
+
+- **Linux 4.9 up to 5.4:** you need **both** a Clang and a GCC cross compiler. The kernel's build system of that era still calls GCC tools like `aarch64-linux-gnu-ld` and `aarch64-linux-gnu-as` to assemble and link, even when Clang compiles the C code.
+
+- **Linux 5.10 and newer:** you only need **Clang**. Passing `LLVM=1` tells the kernel to use the LLVM versions of every tool (`clang`, `ld.lld`, `llvm-ar`, `llvm-nm`, `llvm-objcopy`, `llvm-strip`), so no GCC cross compiler is downloaded or used at all.
+
+`LLVM_IAS=1` goes with it. It tells Clang to assemble the code itself instead of calling an external assembler. On 5.15 and newer this is already the default, so you will see it passed mostly for 5.10.
+
+If you look inside the newer build scripts, this is the whole compiler setup:
+
+```bash
+BUILD_OPTIONS=(
+    -j"$(nproc)"
+    ARCH=arm64
+    LLVM=1
+    LLVM_IAS=1
+    HOSTCC=gcc
+    HOSTCXX=g++
+)
+```
+
+No `CROSS_COMPILE` and no GCC anywhere. Just Clang :)
+
+## <span id="preparing-for-compilation">✅ 05. Preparing for the Compilation</span>
 
 - There are 2 ways to compile the kernel.  
 
@@ -206,39 +282,30 @@ If you are a beginner, I recommend trying to build the kernel without a build sc
 
 ## 🟠 Method 1: Without a build script.
 
-### 01. Choosing the right compiler.
+This method is here so you understand what a build script does for you. Everything below is done by hand.
 
-- Before compiling the kernel, we must determine the compatible compilers to use for building our kernel.
+### 01. Download and extract your compiler.
 
-- You can open your `Makefile` to check your kernel version.  
-
-  ![Makefile screenshot](./screenshots/31.png)  
-  *Kernel version = `VERSION.PATCHLEVEL.SUBLEVEL`*
-
-- In my case, the kernel version is **4.14.113**.
-
-- You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
-
-- In my case, they are: [clang-r383902b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r383902b.tar.gz), [arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz)
-
-- Download the correct compiler(s) for your kernel version from there, and extract them into a new folder(s) like this:
+You already know which compiler you need from [step 04](#choosing-the-compiler). Download it and extract it into its own folder, like this:
 
   ![Makefile screenshot](./screenshots/32.png)  
   *Extracted clang*
 
   ![Makefile screenshot](./screenshots/33.png)  
-  *Extracted cross compiler*
+  *Extracted cross compiler (only needed for 4.9 up to 5.4)*
+
+In my case the kernel is **4.14.113**, so I use [clang-r383902b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r383902b.tar.gz) and [arm-gnu-toolchain-14.2.rel1](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz).
 
 ---
 ### 02. Exporting the compiler locations to the PATH
 
 - Even though we downloaded the right compilers, our system (Host OS) will not automatically know which compiler to use for building our kernel.  
 
-- By default, it will use the system’s compilers, which might be incompatible with older kernels.  
+- By default, it will use the system's compilers, which might be incompatible with older kernels.  
   → In such a case, the build will fail instantly.  
 
-- So, our task is to wire up the downloaded compilers to our system’s `PATH`.  
-  We must tell the system: “use the `clang` binary from here, not your own clang!”  
+- So, our task is to wire up the downloaded compilers to our system's `PATH`.  
+  We must tell the system: "use the `clang` binary from here, not your own clang!"  
 
 ---
 
@@ -246,7 +313,7 @@ If you are a beginner, I recommend trying to build the kernel without a build sc
 `PATH` is an environment variable in Linux/Unix that stores a list of directories.  
 When you type a command (like `clang` or `gcc`), the system looks through the directories in `PATH` **from left to right** to find the first matching executable.  
 
-By adding your downloaded compiler’s folder to **the begining of the** `PATH`, you make sure the build system picks **your compiler** instead of the system default.
+By adding your downloaded compiler's folder to **the begining of the** `PATH`, you make sure the build system picks **your compiler** instead of the system default.
 
 ---
 
@@ -339,12 +406,21 @@ make \
 4. **CLANG_TRIPLE=aarch64-linux-gnu-** → Tells Clang exactly which target architecture, OS, and ABI to compile for.
 
     - Ensures the kernel build system can enable features and flags specific to ARM64 Linux.
-    - This does **not** require a literal binary named `aarch64-linux-gnu-` in your path — Clang uses it internally as a target specification.
+    - This does **not** require a literal binary named `aarch64-linux-gnu-` in your path. Clang uses it internally as a target specification.
     - You can also use `aarch64-none-linux-gnu-` as the triple; the vendor field (`none`) is usually ignored by Clang.
 
 5. **your_defconfig ...** → These are the configuration files (`defconfigs`) that define which kernel features, drivers, and options to include in the build.
 
-**This is the absolute barebone of the `make` command for compiling the Android kernel. Don't try to remove any part of this code!**
+**This is the barebone `make` command for a 4.9 up to 5.4 kernel. Don't remove any part of it!**
+
+> [!IMPORTANT]
+> **Building a 5.10 or newer kernel?** Drop `CROSS_COMPILE` and `CLANG_TRIPLE`, and use `LLVM=1 LLVM_IAS=1` instead:
+>
+> ```bash
+> make ARCH=arm64 LLVM=1 LLVM_IAS=1 your_defconfig
+> ```
+>
+> You don't need the GCC cross compiler for those kernels at all. See [step 04](#choosing-the-compiler) for the reason.
 
 ---
 
@@ -410,6 +486,8 @@ This command tells the build system to start compiling the kernel immediately us
 
   ![Bin folder screenshot](./screenshots/44.png)  
 
+**When it finishes, your kernel image is at `arch/arm64/boot/Image`.**
+
 ### Barebone Training is enough! 
 
 **Let's jump into the easiest and laziest method you can do xD**
@@ -419,56 +497,78 @@ This command tells the build system to start compiling the kernel immediately us
 
 ## 🟠 Method 2: With a build script.
 
-### 01. After downloading or cloning the Kernel Source, we should have a build script to compile our kernel.
+A build script does everything from Method 1 for you: it installs missing packages, downloads the right compiler, exports the `PATH`, runs `make` with the correct options, and copies the finished kernel somewhere easy to find.
 
-- Before creating a build script, we must determine the compatible compilers we will use to build our kernel.
+### 01. Download the script and put it in your kernel root.
 
-- Run ```make kernelversion``` inside the kernel root to check your kernel version.
-
-<img src="./screenshots/5.png">
-
-- In my case, the kernel version is **5.4,** with qualcomm chipset, which is [qGKI](https://github.com/ravindu644/Android-Kernel-Tutorials#-understanding-non-gki--gki-kernels).
-
-- You can find full information about **choosing the correct compiler for your kernel version** [here](./toolchains/) (based on my experience, btw).
-
-- Keep in mind that **you don't need to manually download any of these toolchains** since my build scripts handle everything for you :)  
-
-- Next, go to [build_scripts](./build_scripts/), choose the appropriate script, download it, and place it inside your kernel's root directory.
+Go to [build_scripts](./build_scripts/) and pick the script that matches your kernel version, using the table in [step 04](#choosing-the-compiler). Download it and place it **inside your kernel root**, next to the `Makefile`:
 
 <img src="./screenshots/7.png">
 
+> [!NOTE]
+> The script must sit in the kernel root. If you run it from anywhere else it stops immediately with `Run this from the kernel source root.` instead of failing halfway through a build.
+
 <hr>
 
-### 02. Edit the Build script:
+### 02. Edit the SETTINGS block.
 
-**Open the build script in a text editor and make these changes:**
-
-- Replace `your_defconfig` to your current defconfig which is located in `arch/arm64/configs`
-
-- In GKI 2.0 kernels, it's normally `gki_defconfig`
-
-- But just in case, make sure to check `arch/arm64/configs` or `arch/arm64/configs/vendor`
-
-- If your defconfig is located in the `arch/arm64/configs` directory, just replace `your_defconfig` with the name of your defconfig.
-
-- If your defconfig is located in the `arch/arm64/configs/vendor` directory, replace `your_defconfig` like this:
-  
-  - `vendor/name_of_the_defconfig`
-  - Example patch: [here](./patches/005.edit-defconfig.patch)
-
-  <img src="./screenshots/12.png">
-
-**❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, set `USE_OUT_DIR` to `0` in your build script like this:**
+Open the script in a text editor. The top of every script looks like this, and **it is the only part you normally need to touch:**
 
 ```bash
 # ---------------------------------------------------------------------------
 #  SETTINGS -- the only part you normally need to touch
 # ---------------------------------------------------------------------------
-DEFCONFIG="exynos9820_defconfig"     # name from arch/arm64/configs (also: vendor/foo_defconfig)
+DEFCONFIG="gki_defconfig"      # name from arch/arm64/configs (also: vendor/foo_defconfig)
 EXTRA_CONFIGS=()               # fragments merged on top, e.g. (custom.config)
 KERNEL_IMAGE="Image"           # Image | Image.gz | Image.gz-dtb  (MediaTek needs Image.gz)
-USE_OUT_DIR=0                  # 0 = build in-tree; most Samsung Exynos trees need 0
+USE_OUT_DIR=1                  # 0 = build in-tree; most Samsung Exynos trees need 0
+MENUCONFIG=1                   # 0 = skip the menuconfig GUI
+export KBUILD_BUILD_USER="@ravindu644"
+
+# Some OEM trees need extra variables -- check README_Kernel.txt or build_kernel.sh:
+# export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
+# ---------------------------------------------------------------------------
 ```
+
+Here is what each setting does:
+
+**`DEFCONFIG`** is the only one you *must* change.
+
+  - Set it to your device's defconfig, which lives in `arch/arm64/configs`.
+  - On GKI 2.0 kernels it is normally `gki_defconfig`.
+  - Not sure which one is yours? Look inside `arch/arm64/configs` and `arch/arm64/configs/vendor`.
+  - If your defconfig is inside the `vendor` folder, include that folder name too:
+    ```bash
+    DEFCONFIG="vendor/name_of_the_defconfig"
+    ```
+
+    <img src="./screenshots/12.png">
+
+**`EXTRA_CONFIGS`** is a list of extra config fragments merged on top of your defconfig.
+
+  - Leave it as `()` for now. You will use it in the [Permanent Method](#customizing-kernel-permanent-method) section:
+    ```bash
+    EXTRA_CONFIGS=(custom.config)
+    ```
+  - You can list more than one: `EXTRA_CONFIGS=(custom.config ksu.config)`
+
+**`KERNEL_IMAGE`** is which kernel image to build.
+
+  - `Image` is the raw one and works for most devices.
+  - 🔴 **MediaTek devices usually cannot boot a raw `Image`,** so set it to `Image.gz` there.
+  - Some older trees want `Image.gz-dtb`.
+
+**`USE_OUT_DIR`** decides where the build happens.
+
+  - `1` builds into a separate `out` folder, which keeps your source clean.
+  - ❗ **Samsung Exynos trees usually cannot build into a separate folder,** so set it to `0` there. The build then happens inside the kernel root itself.
+
+**`MENUCONFIG`** decides whether the config GUI opens before the build.
+
+  - `1` opens `menuconfig` every time, which is what the [Temporary Method](#customizing-kernel-temporary-method) section uses.
+  - Set it to `0` once you are done experimenting and just want the build to run start to finish.
+
+**`KBUILD_BUILD_USER`** is the "built by" name baked into the kernel. Put your own name there :)
 
 ---
 #### ⚠️ [IMPORTANT] : *If your device is Samsung, it usually uses some device-specific variables in "some" kernels.*
@@ -481,22 +581,15 @@ USE_OUT_DIR=0                  # 0 = build in-tree; most Samsung Exynos trees ne
 
   <img src="./screenshots/16.png">
 
-**In your build script, you can modify this part to define such variables like this:**
+To add them, uncomment the `export` line at the bottom of the SETTINGS block and put your own values there:
 
 ```bash
-# Some OEM trees need extra variables -- check README_Kernel.txt or build_kernel.sh:
 export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 ```
 
 **Note:** Just don't overthink it, even if they use values like 12 and S for Platform and Android versions, even if you have a higher Android version.
 
----
-
-🔴 **If your device has a MediaTek chipset, usually it doesn't support booting a RAW kernel `Image`. Therefore, you should build a gzip-compressed kernel `Image.gz` instead.**  
-
-- [Here's the required patch for it](./patches/014.build_gzip_compressed_kernel.patch)
-
----
+<hr>
 
 ### 03. Edit the Makefile.
 
@@ -517,26 +610,31 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 
 <img src="./screenshots/8.png">
 
-- When you run the script for the first time, it will begin to install all the necessary dependencies and start downloading the required toolchains, depending on your kernel version.
+### What happens when you run it
 
-- Make sure not to interrupt the first run. If it gets interrupted somehow, delete the `toolchains` folder from "~/" and try again: ```rm -rf ~/toolchains```
+1. **It checks your packages.** It asks your package manager which of the required packages are missing and installs only those. Nothing is installed if you already have everything, so this is quick on every run after the first.
 
-<img src="./screenshots/9.png">
+2. **It downloads your toolchain** into `~/toolchains`, but only if it isn't there yet. This is the slow part of the first run, and it only happens once.
 
-### After the initial run is completed, the kernel should start building, 
+    <img src="./screenshots/9.png">
 
-<img src="./screenshots/11.png">
+3. **It builds your `.config`** from the `DEFCONFIG` you set, plus anything in `EXTRA_CONFIGS`.
 
-### and the "menuconfig" should appear.
+    <img src="./screenshots/11.png">
 
-<img src="./screenshots/10.png">
+4. **`menuconfig` opens** so you can make changes by hand, unless you set `MENUCONFIG=0`. Close it and the compile starts.
+
+    <img src="./screenshots/10.png">
+
+> [!TIP]
+> **If the toolchain download fails or you interrupt it, just run the script again.** A failed download deletes its own folder, so the next run starts clean. You do not need to remove `~/toolchains` by hand.
 
 - **Additional notes:**
     - You can completely ignore anything displayed as `warning:`
       - Eg: `warning: ignoring unsupported character '`
 <hr>
 
-## <span id="customizing-kernel-temporary-method">✅ Customizing the Kernel (Temporary Method)</span>
+## <span id="customizing-kernel-temporary-method">✅ 06. Customizing the Kernel (Temporary Method)</span>
 - Once the *menuconfig* appears, you can navigate through it and customize the Kernel in a graphical way as needed.
 
 - **As an example,** we can customize **the Kernel name, enable new drivers, enable new file systems, disable security features,** and more :)
@@ -565,7 +663,7 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 
 - **CPU governors control how the processor adjusts it's speed.**
 -  You can choose between performance-focused governors (like "performance" for max speed) or battery-saving ones (like "powersave").
--  Please note that this may impact your SoC’s lifespan if the device overheats while handling performance-intensive tasks.
+-  Please note that this may impact your SoC's lifespan if the device overheats while handling performance-intensive tasks.
 
 **Enabling more CPU Governors:**
 
@@ -589,7 +687,7 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 
 ### The problem with menuconfig is that you have to do this every time you run the build script.
 
-- All the changes you've made using menuconfig are saved in a temporary hidden file called `.config` inside the `out` directory.
+- All the changes you've made using menuconfig are saved in a hidden file called `.config`. It sits inside the `out` folder, or inside the kernel root if you set `USE_OUT_DIR=0`.
 
   <img src="./screenshots/18.png">
 
@@ -599,13 +697,30 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 
 - So, we need a permanent method to save our changes, right?  
 
-## <span id="customizing-kernel-permanent-method">✅ Customizing the Kernel (Permanent Method)</span>
+## <span id="customizing-kernel-permanent-method">✅ 07. Customizing the Kernel (Permanent Method)</span>
 
-- In this method, **we are going to create a separate `custom.config` to store our changes** and **link it to our build script.** 
+- In this method, **we are going to create a separate `custom.config` to store our changes** and **tell the build script to use it.** 
 
 - After that, when we run the build script, **it will first use your OEM defconfig to generate the `.config` file, then merge the changes from our `custom.config` into `.config` again.** 
 
-**Refer to these examples to get a basic idea:** [patch](./patches/008.add-custom-defconfig-support.patch), [commit](https://github.com/ravindu644/android_kernel_m145f_common/commit/c427dbebed22c5bb314b4c94c711deffe671b14c)
+### 01. Create the file
+
+Create `custom.config` inside `arch/arm64/configs`, next to your defconfig.
+
+### 02. Tell the script about it
+
+Add it to `EXTRA_CONFIGS` in the SETTINGS block:
+
+```bash
+DEFCONFIG="your_defconfig"
+EXTRA_CONFIGS=(custom.config)
+```
+
+That's it. Your defconfig is applied first, then `custom.config` is merged on top, so anything you put in `custom.config` wins.
+
+> [!NOTE]
+> Doing this by hand instead? The same thing works with plain `make`, just list the fragment after your defconfig:
+> `make ARCH=arm64 LLVM=1 your_defconfig custom.config`
 
 ---
 
@@ -624,7 +739,7 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
   - Run the build script and wait until `menuconfig` appears.
   - Navigate to the option/feature you want to enable.
   - Press `shift + ?` on your keyboard, and an explanation about the option/feature will appear.
-  - You’ll see the name of the **kernel configuration option** in the top-left corner of the menuconfig.
+  - You'll see the name of the **kernel configuration option** in the top-left corner of the menuconfig.
 
     <img src="./screenshots/19.png">
 
@@ -632,11 +747,13 @@ export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
 
     <img src="./screenshots/20.png">
 
-## <span id="nuke-samsung-anti-root-protections">⁉️ How to nuke Samsung's anti-root protections?</span>
+## <span id="nuke-samsung-anti-root-protections">⁉️ 08. How to nuke Samsung's anti-root protections?</span>
 
  - ### [Moved to here](./samsung-rkp/)
 
-## <span id="additional-patches">🟢 Additional Patches</span>
+## <span id="additional-patches">🟢 09. Additional Patches</span>
+
+These are optional. Apply the ones you need with `patch -p1 < filename.patch` from your kernel root, or open the patch in an editor and make the changes by hand, which I recommend for understanding what you are doing.
 
 ### 01. To fix broken system funcitons like Wi-Fi, touch, sound etc.
 > [!NOTE]
@@ -677,8 +794,36 @@ kernel configuration.
 - Then, use the patch below to fool Android into thinking that the defconfig was not changed:
 
   - [Patch](./patches/011.stock_defconfig.patch), [Commit](https://github.com/ravindu644/android_kernel_a047f_eur/commit/d306bd4c4c84a12be5235e31540f40fb9c1a1066)
-    
-## <span id="compiling-the-kernel">✅ Compiling the Kernel</span>
+
+  ---
+
+### 03. Booting with SELinux set to permissive
+
+- Handy while you are debugging, because a lot of "it boots but nothing works" problems are just SELinux denials.
+
+- Two patches are involved. The first one adds the toggle to the kernel, the second one turns it on in your defconfig:
+
+  - [Kernel side](./patches/012.force-selinux-permissive.patch), [defconfig side](./patches/013.force-selinux-permissive-defconfig.patch)
+
+- **Don't ship a permissive kernel to normal users.** It removes a real security layer of Android.
+
+  ---
+
+### 04. Wiring up KernelSU hooks
+
+- If you want to add KernelSU support to a kernel that doesn't have the required hooks, this patch adds them manually.
+
+  - [Patch](./patches/016.KernelSU-Hooks.patch)
+
+  ---
+
+### 05. Removing the `-dirty` string from the kernel version
+
+- When you edit the source without committing, the kernel appends `-dirty` to its version string. This patch removes it and appends your own localversion instead.
+
+  - [Patch](./patches/017.nuke_dirty_string.patch)
+
+## <span id="compiling-the-kernel">✅ 10. Compiling the Kernel</span>
 
 - Once you've customized the kernel as you want, simply **exit menuconfig**.  
 - After exiting, the kernel will start compiling!
@@ -689,17 +834,22 @@ kernel configuration.
 
   <img src="./screenshots/21.png">
 
-### you’ll find the built kernel `Image` inside the `build` folder in your kernel root!
+### you'll find the built kernel `Image` inside the `build` folder in your kernel root!
 
   <img src="./screenshots/22.png">
 
-## <span id="fixing-known-compiling-issues">🟥 Fixing the Known compiling issues</span>
+The build script copies it there for you at the end. The original also stays where `make` put it:
+
+- `out/arch/arm64/boot/` when `USE_OUT_DIR=1`
+- `arch/arm64/boot/` when `USE_OUT_DIR=0`, or when you built by hand with Method 1
+
+## <span id="fixing-known-compiling-issues">🟥 11. Fixing the Known compiling issues</span>
 
 - **If you ever encounter any errors during your kernel compilation,** jump to [fixes](./patches/) and see if your specific issue is mentioned there.
 
 **[Click here to learn about known issues and their fixes](./patches/README.md)**
 
-## <span id="building-signed-boot-image">🟡 Building a Signed Boot Image from the Compiled Kernel</span>
+## <span id="building-signed-boot-image">🟡 12. Building a Signed Boot Image from the Compiled Kernel</span>
 
 - On Android devices, **the `kernel` image is usually located inside the `boot` partition.**
 
@@ -770,7 +920,7 @@ sudo cp magiskboot /usr/local/bin/
 
 **Note:** Don't delete the original boot.img as it is needed for the repacking process.
 
-### 03. Repacking the `boot.img`
+### 04. Repacking the `boot.img`
 
 - Now, all we have to do is **replace the original `kernel` with our compiled custom kernel.**
 
@@ -781,7 +931,7 @@ sudo cp magiskboot /usr/local/bin/
 
 **What did I do?**
 
-1. Copied the compiled `Image` from the `out/arch/arm64/boot` or `build` folder to the folder where we unpacked our `boot.img` using `magiskboot`
+1. Copied the compiled `Image` from the `build` folder to the folder where we unpacked our `boot.img` using `magiskboot`
 
 2. Deleted the original `kernel` and renamed `Image` to `kernel` 😎
 

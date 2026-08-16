@@ -68,7 +68,11 @@
 
 11. Fix: ```yamltree.c:(.text+0xa41): undefined reference to `yaml_emitter_initialize'```
 
+    - This happens because older `scripts/dtc/Makefile` files look for `/usr/include/yaml.h` with a hardcoded path. On modern distros the header is somewhere else, so the check guesses wrong.
+
     - [Commit](https://github.com/rsuntkOrgs/kernel_samsung_a03/commit/6addccd5a82d4dc1c31faee50175358cb3f347f5), [Patch](./023.undefined_reference_to_`yaml_emitter_initialize'.patch)
+
+    - There is also an upstream fix that uses `pkg-config` to find libyaml properly instead of guessing: [Patch](./006.dtc_Use-pkg-config-to-locate-libyaml.patch)
 
 12. Fix: `as: unrecognized option '-EL'`
 
