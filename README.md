@@ -439,26 +439,6 @@ This command tells the build system to start compiling the kernel immediately us
 
 <hr>
 
-> [!CAUTION]
->
-> These GKI build scripts only compile the kernel `Image` from source. They **may NOT include**:
-> - OEM out-of-tree drivers (e.g., Samsung's `sec_*`, EFUSE triggers, TrustZone handlers)
-> - Vendor-specific modules built only via official OEM build systems.
->
-> Flashing this `Image` as your **first custom binary** after unlocking the bootloader can **permanently hard brick** your device — especially on **Samsung MediaTek GKI 2.0+** models.
->
-> Why? Because missing security drivers may prevent proper EFUSE handling, and the system may treat your flash as a tamper violation, leading to irreversible brick.
->
-> I’ve already bricked a phone this way — so **take this seriously.**
->
-> If you still want to proceed and learn how to build a *safe* and *bootable* GKI kernel, especially for Samsung MTK devices, refer to my **SM-A166P repo**:
->
-> 👉 https://github.com/ravindu644/android_kernel_a166p
->
-> **TLDR:** **DO NOT FLASH GKI `Image` ALONE WITHOUT VENDOR DRIVERS — ESPECIALLY ON SAMSUNG MTK DEVICES**
-
-<hr>
-
 ### 02. Edit the Build script:
 
 **Open the build script in a text editor and make these changes:**
