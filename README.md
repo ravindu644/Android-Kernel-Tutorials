@@ -47,23 +47,26 @@ But, if you don't want to use the Docker container, here are the commands to ins
 <summary><strong>🟧 Ubuntu/Debian-based distributions (Ubuntu, Linux Mint, Debian, etc.)</strong></summary>
 
 ```bash
-sudo apt update && sudo apt install -y git device-tree-compiler lz4 xz-utils zlib1g-dev openjdk-17-jdk gcc g++ python3 python-is-python3 p7zip-full android-sdk-libsparse-utils erofs-utils \
-default-jdk git gnupg flex bison gperf build-essential zip curl libc6-dev libncurses-dev libx11-dev libreadline-dev libgl1 libgl1-mesa-dev \
-python3 make sudo gcc g++ bc grep tofrodos python3-markdown libxml2-utils xsltproc zlib1g-dev python-is-python3 libc6-dev libtinfo6 \
-make repo cpio kmod openssl libelf-dev pahole libssl-dev libarchive-tools zstd rsync --fix-missing && wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb && sudo dpkg -i libtinfo5_6.3-2ubuntu0.1_amd64.deb
+sudo apt update && sudo apt install -y \
+	build-essential bc bison flex patch pkg-config git curl tar xz-utils zip unzip \
+	cpio rsync kmod perl python3 python-is-python3 libssl-dev libelf-dev pahole \
+	libncurses-dev zlib1g-dev libyaml-dev lz4 zstd device-tree-compiler adb fastboot
 ```
+
+> [!NOTE]
+> Ubuntu 24.04+ no longer ships `libtinfo5`, which the old Snapdragon LLVM toolchain (Linux 5.4 / qGKI) needs.
+> Don't hunt for the `.deb` - the build scripts detect this and alias the system `libtinfo.so.6` for you.
 </details>
 
 <details>
 <summary><strong>🟦 Fedora/Red Hat-based distributions (Fedora, CentOS, RHEL, etc.)</strong></summary>
 
 ```bash
-sudo dnf5 install -y gcc gcc-c++ make automake autoconf binutils patch \
-bison flex gettext pkgconf git dtc lz4 xz zlib-devel java-17-openjdk-devel \
-python3 p7zip p7zip-plugins android-tools erofs-utils ncurses-devel \
-libX11-devel readline-devel mesa-libGL-devel python3-markdown libxml2 \
-libxslt dos2unix kmod openssl elfutils-libelf-devel dwarves openssl-devel \
-libarchive zstd rsync
+sudo dnf install -y --skip-unavailable \
+	make gcc gcc-c++ bc bison flex patch pkgconf git curl tar xz zip unzip \
+	cpio rsync kmod perl python3 openssl openssl-devel openssl-devel-engine \
+	elfutils-libelf-devel dwarves ncurses-devel ncurses-compat-libs \
+	zlib-devel libyaml-devel lz4 zstd dtc android-tools
 ```
 </details>
 
