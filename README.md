@@ -471,7 +471,12 @@ This command tells the build system to start compiling the kernel immediately us
 
   <img src="./screenshots/16.png">
 
-**Refer to this example patch to properly integrate such variables into our build script:** [here](./patches/007.Define-OEM-Variables.patch)
+**In your build script, you can modify this part to define such variables like this:**
+
+```bash
+# Some OEM trees need extra variables -- check README_Kernel.txt or build_kernel.sh:
+export TARGET_SOC=s5e9925 PLATFORM_VERSION=12 ANDROID_MAJOR_VERSION=s
+```
 
 **Note:** Just don't overthink it, even if they use values like 12 and S for Platform and Android versions, even if you have a higher Android version.
 
