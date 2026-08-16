@@ -458,7 +458,17 @@ This command tells the build system to start compiling the kernel immediately us
 
   <img src="./screenshots/12.png">
 
-**❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, [edit your build script like this](./patches/001.nuke_out.patch)**  
+**❗If your device is Samsung Exynos, it doesn't support compiling the kernel in a separated 'out' directory. So, set `USE_OUT_DIR` to `0` in your build script like this:**
+
+```bash
+# ---------------------------------------------------------------------------
+#  SETTINGS -- the only part you normally need to touch
+# ---------------------------------------------------------------------------
+DEFCONFIG="exynos9820_defconfig"     # name from arch/arm64/configs (also: vendor/foo_defconfig)
+EXTRA_CONFIGS=()               # fragments merged on top, e.g. (custom.config)
+KERNEL_IMAGE="Image"           # Image | Image.gz | Image.gz-dtb  (MediaTek needs Image.gz)
+USE_OUT_DIR=0                  # 0 = build in-tree; most Samsung Exynos trees need 0
+```
 
 ---
 #### ⚠️ [IMPORTANT] : *If your device is Samsung, it usually uses some device-specific variables in "some" kernels.*
