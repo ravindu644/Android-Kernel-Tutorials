@@ -23,7 +23,7 @@
 - A x86_64 (AMD64) Linux-based PC/Server (Debian-based recommended)  
 - Basic knowledge of Linux commands and Bash scripting  
 - Basic knowledge of version control (Git)  
-  - This is good practice when building a kernel. Imagine you edit some files and realize you've messed up the source - this one single command `git stash` can help you revert all the uncommitted changes you made. How cool is that :)  
+  - This is good practice when building a kernel. Imagine you edit some files and realize you've messed up the source - this one single command `git reset --hard` can help you revert all the uncommitted changes you made. How cool is that :)  
 
   - Go [learn some Git from here](./Git-for-beginners/) **before** you start learning kernel compilation!
 	
@@ -88,12 +88,6 @@ openssl-devel libarchive zstd rsync
 > If you are not a beginner and want to build a GKI 2.0 kernel from the official Google sources, jump to the [gki-2.0](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/gki-2.0) branch.
 >
 > Credit to [@TheWildJames](https://github.com/TheWildJames) for the awesome tutorial!
->
-> To-do:
->
-> - Write a separate guide about using Samsung/Google's official GKI Build Systems (1.0 / 2.0+) to build an automated kernel with customization support.
->
-> - Write a guide on wiring up and injecting the 500+ built Loadable Kernel Modules (.ko drivers) into `vendor_boot` and `vendor_dlkm` images, without causing conflicts or device crashes.
 
 ---
 
@@ -113,12 +107,13 @@ tar -xvf Kernel.tar.gz && rm Kernel.tar.gz
 
 <img src="./screenshots/2.png">
 
-**Note:** It's a good idea to give the entire kernel directory 755 permission to remove those read-only error from files and folders. This prevents issues when editing files and upstreaming the kernel.
+**Note:** It's good practice to fix the permissions on the extracted kernel tree before you start working on it - take ownership of the directory and clear the read-only attributes on the files and folders. Otherwise you'll hit problems editing files and upstreaming the kernel later.
 
-**Run this command to fix it:**
+**Run this to fix it:**
 
 ```
-chmod +755 -R /path/to/extracted/kernel/
+sudo chown -R "$(id -un):$(id -gn)" "/path/to/extracted/kernel/" && \
+  chmod -R u+rwX "/path/to/extracted/kernel/"
 ```
 
 **Before:**
@@ -126,10 +121,6 @@ chmod +755 -R /path/to/extracted/kernel/
 
 **After:**
 <img src="./screenshots/4.png">
-
-**The following video demonstrates all the steps mentioned above:** 
-
-[🎥 Extracting Samsung's Kernel.tar.gz & granting required permissions](https://www.youtube.com/watch?v=QLymPkTpC2Y)
 
 <hr>
 
