@@ -23,6 +23,8 @@
 - A working 🧠
 - Patience
 - A x86_64 (AMD64) Linux-based PC/Server (Debian-based recommended)
+  - No Linux machine? You can build in the cloud instead, see
+    [Building with GitHub Codespaces](./devcontainers/)
 - Basic knowledge of Linux commands and Bash scripting
 - Basic knowledge of version control (Git)
   - This is good practice when building a kernel. Imagine you edit some files and realize you've messed up the source - this one single command `git reset --hard` can help you revert all the uncommitted changes you made. How cool is that :)
@@ -33,6 +35,8 @@
 
 > [!TIP]
 > For the most reliable and hassle-free experience, we **strongly recommend** using our pre-configured Docker container which provides a stable, tested environment for kernel compilation that works on any OS. Download it from the [releases page](https://github.com/ravindu644/Android-Kernel-Tutorials/releases) and follow the included instructions.
+>
+> Want to build the image yourself instead of downloading it? See [docker/](./docker/).
 
 <details>
 <summary>Expand to view how the Docker container looks like</summary>
@@ -95,6 +99,10 @@ sudo dnf install -y --skip-unavailable \
 
 > [!NOTE]
 > If you are not a beginner and want to build a GKI 2.0 kernel from the official Google sources, jump to the [gki-2.0](https://github.com/ravindu644/Android-Kernel-Tutorials/tree/gki-2.0) branch.
+>
+>
+> Some of those sources (`android14-5.15`, `android14-6.1`, `android15-6.6`) need
+> Bazel rather than plain `make`. See [Building GKI 2.0 kernels with Bazel](./additional-guides/bazel.md).
 >
 > Credit to [@TheWildJames](https://github.com/TheWildJames) for the awesome tutorial!
 
@@ -509,7 +517,7 @@ A build script does everything from Method 1 for you: it installs missing packag
 
 ### 01. Download the script and put it in your kernel root.
 
-Go to [build_scripts](./build_scripts/) and pick the script that matches your kernel version, using the table in [step 04](#-04-choosing-the-right-compiler). Download it and place it **inside your kernel root**, next to the `Makefile`:
+Go to [build_scripts](./build_scripts/) and pick the script that matches your kernel version, using the table in [step 04](#-04-choosing-the-right-compiler) or the one on that page. Download it and place it **inside your kernel root**, next to the `Makefile`:
 
 ![Screenshot of the build script sitting in the kernel root next to the Makefile](./screenshots/7.png)
 
@@ -863,6 +871,11 @@ The build script copies it there for you at the end. The original also stays whe
 
 - `out/arch/arm64/boot/` when `USE_OUT_DIR=1`
 - `arch/arm64/boot/` when `USE_OUT_DIR=0`, or when you built by hand with Method 1
+
+> [!TIP]
+> Did your build produce kernel modules (`.ko` files) as well? Those need to go
+> into the stock `vendor_boot.img` or `vendor_dlkm.img`, which is a separate job.
+> See [how to install custom kernel modules](./special-tools/).
 
 ## 🟥 11. Fixing known compiling issues
 
