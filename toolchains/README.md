@@ -20,15 +20,22 @@ tar -xvf filename.tar.xz   # or filename.tar.gz
 
 This is the thing that confuses people the most, so, short answer:
 
-| Kernel version | What you need |
+| Your source | What you need |
 | --- | --- |
-| 4.9 up to 5.4 | Clang **and** a GCC cross compiler |
+| 4.9 up to 5.4, stock or OEM | Clang **and** a GCC cross compiler |
+| 4.9 up to 5.4, AOSP or LineageOS | Usually Clang only, with `LLVM=1` |
 | 5.10 and newer | Clang only, with `LLVM=1` |
 
-On the older kernels the build system still calls GCC tools like
+On the old stock trees the build system still calls GCC tools like
 `aarch64-linux-gnu-ld` to assemble and link, even though Clang compiles the C
 code. From 5.10 onward `LLVM=1` points every tool at the LLVM equivalent, so no
 GCC cross compiler is downloaded or used at all.
+
+The middle row is the one people miss. AOSP and LineageOS backport the newer LLVM
+support into their old trees, so a 4.14 LineageOS kernel usually builds with Clang
+alone even though a 4.14 stock kernel from the same era does not. That is why
+there are two scripts for 4.14. If `LLVM=1` fails on your tree, it was not
+patched, so use the stock script instead.
 
 ## 1. Linux 4.9
 
@@ -62,6 +69,8 @@ and [arm-gnu-toolchain-14.2.rel1](https://github.com/ravindu644/Android-Kernel-T
 
 - Tested on Linux 4.14.355.
 - Clang only. These trees carry the newer LLVM support, so no GCC is needed.
+- Nothing special about this one, it is just what I had set up at the time. Any
+  reasonably recent Clang should build these trees.
 - Usage: [build.sh from android_kernel_aosp_exynos9820](https://github.com/ravindu644/android_kernel_aosp_exynos9820/blob/36bb690483a22463d2d77e0431a1f19663c5a53e/build.sh#L46)
 
 **Samsung with Knox:**
@@ -130,10 +139,16 @@ and [arm-gnu-toolchain-14.2.rel1](https://github.com/ravindu644/Android-Kernel-T
 ## 7. Linux 6.1 and newer (other GKI 2.0 kernels)
 
 **What `build_6.1.sh` uses:**
-[neutron-clang](https://github.com/Neutron-Toolchains/antman)
+[clang-r510928](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r510928.tar.gz)
 
-- Clang only.
-- Usage: [build.sh from android_kernel_m145f_common](https://github.com/ravindu644/android_kernel_m145f_common/blob/c3a3a4ab9df28005200fa516f1a8ed9913bf50d6/build.sh#L27)
+- Clang only, no `CROSS_COMPILE`.
+- This same toolchain builds 5.15 too, so if you only want to keep one Clang
+  around for the modern kernels, keep this one.
+
+> [!NOTE]
+> There is no rule that says you must use a particular Clang here. Any recent
+> AOSP Clang works on 6.1 and newer, and so do the community builds. I use the
+> AOSP ones because Google builds them for exactly these kernels.
 
 ## Additional notes
 

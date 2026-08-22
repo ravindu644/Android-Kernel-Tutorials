@@ -244,12 +244,12 @@ Here is the short version of the table. Full details and download links are [her
 | --- | --- | --- |
 | 4.9 | `build_4.9.sh` | Proton Clang 12 + Linaro GCC 7.5 |
 | 4.14 (OEM/stock source) | `build_4.14.sh` | clang-r383902b + ARM GNU |
-| 4.14 (AOSP/LineageOS source) | `build_4.14_aosp.sh` | Neutron Clang |
+| 4.14 (AOSP/LineageOS source) | `build_4.14_aosp.sh` | Neutron Clang (any recent Clang works) |
 | 4.19 | `build_4.19.sh` | clang-r353983c + ARM GNU |
 | 5.4 (Qualcomm, aka qGKI) | `build_5.4.sh` or `build_qGKI.sh` | Snapdragon LLVM + ARM GNU |
 | 5.10 | `build_5.10.sh` | clang-r416183b |
 | 5.15 | `build_5.15.sh` | clang-r450784e |
-| 6.1 and newer | `build_6.1.sh` | Neutron Clang |
+| 6.1 and newer | `build_6.1.sh` | clang-r510928 |
 
 `build_5.4.sh` and `build_qGKI.sh` are the same script under two names, because qGKI kernels are 5.4 kernels.
 
@@ -260,7 +260,9 @@ Here is the short version of the table. Full details and download links are [her
 
 This trips up a lot of beginners, so here it is in plain words.
 
-- **Linux 4.9 up to 5.4:** you need **both** a Clang and a GCC cross compiler. The kernel's build system of that era still calls GCC tools like `aarch64-linux-gnu-ld` and `aarch64-linux-gnu-as` to assemble and link, even when Clang compiles the C code.
+- **Linux 4.9 up to 5.4, stock or OEM source:** you need **both** a Clang and a GCC cross compiler. The kernel's build system of that era still calls GCC tools like `aarch64-linux-gnu-ld` and `aarch64-linux-gnu-as` to assemble and link, even when Clang compiles the C code.
+
+- **Linux 4.9 up to 5.4, AOSP or LineageOS source:** usually **Clang only**. This is the part people miss. AOSP and LineageOS backport the newer LLVM support into their old trees, so a 4.14 LineageOS kernel normally builds with `LLVM=1` even though the 4.14 stock kernel for the same phone does not. That is why there are two scripts for 4.14.
 
 - **Linux 5.10 and newer:** you only need **Clang**. Passing `LLVM=1` tells the kernel to use the LLVM versions of every tool (`clang`, `ld.lld`, `llvm-ar`, `llvm-nm`, `llvm-objcopy`, `llvm-strip`), so no GCC cross compiler is downloaded or used at all.
 
@@ -304,7 +306,7 @@ You already know which compiler you need from [step 04](#-04-choosing-the-right-
   *Extracted clang*
 
   ![Screenshot of an extracted GCC cross compiler folder](./screenshots/33.png)
-  *Extracted cross compiler (only needed for 4.9 up to 5.4)*
+  *Extracted cross compiler (only needed for stock 4.9 up to 5.4 trees)*
 
 In my case the kernel is **4.14.113**, so I use [clang-r383902b](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/clang-r383902b.tar.gz) and [arm-gnu-toolchain-14.2.rel1](https://github.com/ravindu644/Android-Kernel-Tutorials/releases/download/toolchains/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-linux-gnu.tar.xz).
 
@@ -427,10 +429,10 @@ make \
 
 5. **your_defconfig ...** → These are the configuration files (`defconfigs`) that define which kernel features, drivers, and options to include in the build.
 
-**This is the barebone `make` command for a 4.9 up to 5.4 kernel. Don't remove any part of it!**
+**This is the barebone `make` command for a stock 4.9 up to 5.4 kernel. Don't remove any part of it!**
 
 > [!IMPORTANT]
-> **Building a 5.10 or newer kernel?** Drop `CROSS_COMPILE` and `CLANG_TRIPLE`, and use `LLVM=1 LLVM_IAS=1` instead:
+> **Building a 5.10 or newer kernel, or an AOSP/LineageOS tree of any version?** Drop `CROSS_COMPILE` and `CLANG_TRIPLE`, and use `LLVM=1 LLVM_IAS=1` instead:
 >
 > ```bash
 > make ARCH=arm64 LLVM=1 LLVM_IAS=1 your_defconfig
