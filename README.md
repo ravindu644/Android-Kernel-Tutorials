@@ -785,16 +785,15 @@ This one has its own page: **[how to remove Samsung's RKP](./samsung-rkp/)**.
 
 These are optional. Apply the ones you need with `patch -p1 < filename.patch` from your kernel root, or open the patch in an editor and make the changes by hand, which I recommend for understanding what you are doing.
 
-### 01. To fix broken system funcitons like Wi-Fi, touch, sound etc.
->
-> [!NOTE]
-> Bypassing this usually not a good practice, because something like this is used as **last effort,**
->
-> when there's no open source linux driver found. (e.g Proprietary drivers)
->
-> But, for newbies or kernel developer that wanna ship their Loadable Kernel Module, **this is okay.**
+### 01. To fix broken system functions like Wi-Fi, touch, sound etc.
 
----
+> [!CAUTION]
+> **This one is a last effort, not a default.** The CRC check it disables is
+> there for a real reason, and turning it off can get you memory corruption or a
+> kernel panic instead of a clean refusal to boot. Only reach for it when the
+> module you need is closed source (proprietary vendor drivers) and you have no
+> way to rebuild it. If you can rebuild the module against your kernel, do that
+> instead.
 
 - On some devices, **compiling a custom kernel can break system-level functionalities like Wi-Fi, touch, sound, and even cause the system to not boot.**
 
@@ -802,7 +801,56 @@ These are optional. Apply the ones you need with `patch -p1 < filename.patch` fr
 
 - To fix this issue, [use this patch](./patches/010.Disable-CRC-Checks.patch) to force the kernel to load those modules.
 
-  **Even if you don't have such an issue, using this patch is still a good practice.**
+<details>
+<summary>Read this before you use it: what the CRC check is actually protecting</summary>
+
+Imagine there are two structs, one of which is used by vendor modules:
+
+```c
+struct a {
+    int varA;
+    double varB;
+};
+
+struct b {
+    int varX;  // 32-bit
+    long varY; // 64-bit
+    long varZ; // 64-bit
+};
+```
+
+Let's say `struct b` is used by vendor modules. The vendor modules expect the variables to be at specific memory offsets. Conceptually, it looks like this:
+
+```text
+&b        = varX
+&b + 0x20 = varY
+&b + 0x60 = varZ
+```
+
+A CRC (Cyclic Redundancy Check) functions similarly to the hashing algorithms we use to verify file integrity. In this context, the CRC basically encodes the size, order, and data types of the variables within a struct.
+
+Now, let's say I enable an option in the defconfig that adds a new variable, `varC`, to `struct b` between `varX` and `varY`:
+
+```c
+struct b {
+    int varX;  // 32-bit
+    int varC;  // 32-bit
+    long varY; // 64-bit
+    long varZ; // 64-bit
+};
+```
+
+If the vendor modules are not recompiled against this new change, they will still use the memory offsets of the old struct. The module will basically expect `varY` to be located at the old offset (`0x20`). However, due to the addition of `varC`, `varY` has now shifted to a new offset (e.g. `0x40`).
+
+If CRC checks weren't present, the modules would read from or write to the wrong memory addresses. This can have dangerous consequences, such as memory corruption or kernel panics. To prevent this, the kernel checks the CRC of the struct. A mismatch implies that the modules were not built according to the latest changes, meaning the ABI is broken or the KMI is unstable.
+
+When this mismatch occurs, the device refuses to load the modules. Since the Generic Kernel Image (GKI) project aims to reduce fragmentation by building core code like display and GPU drivers as modules, the failure to load these critical modules results in a bootloop.
+
+**Now, what if a struct requires changes to fix critical bugs in the kernel? Wouldn't that also break the ABI?**
+
+Yes, definitely. To prevent this, Google uses **ABI padding**. These are essentially dummy variables (reserved space) placed inside the struct. When a fix is needed, these dummy variables are replaced with the new variables. Because we are simply "replacing" a placeholder rather than changing the relative positions of the surrounding variables, the structural layout remains unchanged. As a result, the CRC, and therefore the ABI, remains perfectly stable :)
+
+</details>
 
   ---
 
